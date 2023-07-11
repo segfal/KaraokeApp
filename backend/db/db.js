@@ -10,6 +10,7 @@ const db = new Sequelize(`${process.env.DB_NAME}`, `${'postgres'}`, `${process.e
     dialectOptions: {
       socketPath: `${process.env.INSTANCE}`
     },
+    logging: false
 });
 
 module.exports = db;

@@ -9,6 +9,7 @@ const app = express(); // instance to express module
 app.use(cors());
 app.use(express.json())
 
+app.use("/api", require("./api"));
 
 
 // Potential sync, place db.sync({force: true }) to nuke data
