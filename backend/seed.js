@@ -26,7 +26,10 @@ const seedUsers = [
 
 const seedRooms = [
     {
-        admin: User.findByPk(1),
+        title: "Cool karaoke room",
+    },
+    {
+        title: "Not cool karaoke room",
     }
 ]
 
@@ -36,6 +39,9 @@ const seedVideos = [
     },
     {
         link: "https://www.youtube.com/watch?v=q7xdulZjasw",
+    },
+    {
+        link: "https://www.youtube.com/watch?v=1a5SWpp9Wfg",
     }
 ]
 
