@@ -18,7 +18,6 @@ const User = db.define("user", {
     type : DataTypes.STRING,
     allowNull: true
   },
-  
   profilePic: { 
     type: DataTypes.STRING, // will change to Files using a profilePic database
     allowNull: true,
@@ -33,4 +32,4 @@ const User = db.define("user", {
   },
 });
 
-module.exports = {User};
+module.exports = { User };

@@ -8,7 +8,7 @@ const Video = db.define('video', {
   },
   isFinished: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    allowNull: true,
   },
 });
 
