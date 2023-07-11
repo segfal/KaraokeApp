@@ -1,4 +1,6 @@
 const { User } = require("./db/models/user");
+const { Room } = require("./db/models/room");
+const { Video } = require("./db/models/video");
 const db = require("./db/index");
 
 const seedUsers = [
@@ -10,8 +12,8 @@ const seedUsers = [
         profilePic: null,
         email: "johndoe@gmail.com",
         role: "admin"
-    }
-    ,{
+    },
+    {
         userName: "janesmith",
         password: null,
         firstName: "Jane",
@@ -22,9 +24,26 @@ const seedUsers = [
     }
 ]
 
+const seedRooms = [
+    {
+        admin: User.findByPk(1),
+    }
+]
+
+const seedVideos = [
+    {
+        link: "https://www.youtube.com/watch?v=OpRqT1PhPdE",
+    },
+    {
+        link: "https://www.youtube.com/watch?v=q7xdulZjasw",
+    }
+]
+
 const seed = async () => {
     await db.sync({force: true});
     await User.bulkCreate(seedUsers);
+    await Room.bulkCreate(seedRooms);
+    await Video.bulkCreate(seedVideos);
 };
 
 seed().then(() => process.exit());
