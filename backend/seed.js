@@ -46,12 +46,15 @@ const seedRooms = [
 const seedVideos = [
     {
         link: "https://www.youtube.com/watch?v=OpRqT1PhPdE",
+        title: "title"
     },
     {
         link: "https://www.youtube.com/watch?v=q7xdulZjasw",
+        title: "title"
     },
     {
         link: "https://www.youtube.com/watch?v=1a5SWpp9Wfg",
+        title: "title"
     }
 ]
 
