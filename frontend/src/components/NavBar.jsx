@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 // Logo and user profile is also supposed to display
+
+
 const Navbar = () => {
   return (
       <nav className="navigation">
@@ -11,6 +13,7 @@ const Navbar = () => {
               HOME
             </Link>
           </li>
+
           <li>
             <Link to="/karaoke"> KARAOKE</Link>
           </li>

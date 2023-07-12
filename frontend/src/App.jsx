@@ -5,8 +5,14 @@ import Home from './components/Home';
 import './App.css'
 import Room from './components/Karaoke/Room/Room';
 
+/*
+Later on add user auth to affect those routes
+
+If you are not signed up as a user then clicking on "KARAOKE" would redirect you to 
+a signup page. Protected routes etc.
+*/
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <Router>
