@@ -1,0 +1,13 @@
+const RoomActionTypes = {
+    SET_CURRENT_ROOM: 'SET_CURRENT_ROOM',
+    FETCH_ROOM: 'FETCH_ROOM',
+    GET_PARTICIPANTS: 'GET_PARTICIPANTS',
+    GET_MUSIC: 'GET_MUSIC',
+    GET_ROOM_ID: 'GET_ROOM_ID',
+    IS_ADMIN: 'IS_ADMIN',
+    IS_SINGER: 'IS_SINGER',
+    IS_VIEWER: 'IS_VIEWER'
+}
+
+
+export default RoomActionTypes;
