@@ -7,7 +7,7 @@ const { Video } = require("../db/models");
 router.post("/addmusic/:keyword", async (req, res, next) => {
     try {
         const keyword = await req.params.keyword;
-        const searchResult = await youtubesearchapi.GetListByKeyword(keyword);
+        const searchResult = await youtubesearchapi.GetListByKeyword(keyword + " karaoke");
         const videoId = searchResult.items[1].id;
         const videoLink = `https://www.youtube.com/watch?v=${videoId}`;
         const newVideo = await Video.create({"link": videoLink});
