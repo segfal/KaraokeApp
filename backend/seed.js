@@ -11,10 +11,7 @@ const seedUsers = [
         lastName: "Doe",
         profilePic: null,
         email: "johndoe@gmail.com",
-        role: "admin",
-        
-
-        
+        role: "admin"   
     },
     {
         userName: "janesmith",
@@ -24,7 +21,7 @@ const seedUsers = [
         profilePic: null,
         email: "janesmith@gmail.com",
         role: "viewer",
-        
+
     },
     {
         userName: "joesmith222",

@@ -4,20 +4,31 @@ const { Video } = require("./video");
 
 
 
-Room.belongsTo(User, {
-    as: "adminRoom",
-    foreignKey: "adminId"
-}); //participants
 Room.hasMany(User, {
-    as: "user",
-    foreignKey: "userId"
+    as: "user"
 })
-Room.belongsToMany(User, {through: "participants"})
-User.belongsToMany(Room, {through: "participants"})
+
 User.belongsTo(Room, {
-    as: "room",
-    foreignKey: "roomId"
+    as: "room"
 })
+
+Room.belongsTo(User, {
+    as: "admin"
+})
+// Room.belongsTo(User, {
+//     as: "adminRoom",
+//     foreignKey: "adminId"
+// }); //participants
+// Room.hasMany(User, {
+//     as: "user",
+//     foreignKey: "userId"
+// })
+// Room.belongsToMany(User, {through: "participants"})
+// User.belongsToMany(Room, {through: "participants"})
+// User.belongsTo(Room, {
+//     as: "room",
+//     foreignKey: "roomId"
+// })
 // Room.belongsTo(User, {
 //     as: "participantsRoom",
 //     foreignKey: "participantId"
