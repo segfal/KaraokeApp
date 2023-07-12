@@ -6,6 +6,10 @@ const Video = db.define('video', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   isFinished: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
