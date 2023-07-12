@@ -5,7 +5,7 @@ const { Room } = require("../db/models");
 // Get all Rooms
 router.get("/", async (req, res, next) => {
   try {
-    const allRooms = await Room.findAll({include: "user"});
+    const allRooms = await Room.findAll({include: ["participants", "queue"]});
     allRooms
       ? res.status(200).json(allRooms)
       : res.status(404).json("No rooms"); 

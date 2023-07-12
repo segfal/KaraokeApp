@@ -4,7 +4,7 @@ const { Video } = require("./video");
 
 // Room Participants
 Room.hasMany(User, {
-    as: "user"
+    as: "participants"
 })
 
 // User's Current Room
