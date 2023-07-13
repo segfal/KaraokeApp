@@ -46,15 +46,15 @@ const seedRooms = [
 const seedVideos = [
     {
         link: "https://www.youtube.com/watch?v=OpRqT1PhPdE",
-        title: "title"
+        title: "Uptown Funk ft. Bruno Mars - Mark Ronson Karaoke 【No Guide Melody】 Instrumental"
     },
     {
         link: "https://www.youtube.com/watch?v=q7xdulZjasw",
-        title: "title"
+        title: "FIFTY FIFTY - Cupid (Twin Ver.) (Karaoke Version)"
     },
     {
         link: "https://www.youtube.com/watch?v=1a5SWpp9Wfg",
-        title: "title"
+        title: "Justin Bieber ft. Ludacris - Baby (Karaoke Version)"
     }
 ]
 
