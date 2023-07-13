@@ -57,11 +57,24 @@ export const isSinger = (payload) => {
 
 
 export const isViewer = (payload) => {
+
     return {
         type: RoomActionTypes.IS_VIEWER,
         payload
     }
 }
+
+
+export const setCurrentRoomThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 
 
 
