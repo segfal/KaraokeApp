@@ -111,6 +111,19 @@ export const getMusicThunk = (roomId) => {
 
 
 
+export const getRoomIdThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+
 
 
 
