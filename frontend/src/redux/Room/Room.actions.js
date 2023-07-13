@@ -57,11 +57,110 @@ export const isSinger = (payload) => {
 
 
 export const isViewer = (payload) => {
+
     return {
         type: RoomActionTypes.IS_VIEWER,
         payload
     }
 }
+
+
+export const setCurrentRoomThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const fetchRoomThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const getParticipantsThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+export const getMusicThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+export const getRoomIdThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+export const isAdminThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const isSingerThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const isViewerThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+
+
+
+
 
 
 

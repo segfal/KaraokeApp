@@ -13,7 +13,7 @@ const UserReducer = (state = initialUserState, action) => {
             
             default:
                 return state;
-        } 
+        }
 
     } catch (error) {
         console.log(error);

@@ -52,3 +52,68 @@ export const deleteId = (payload) => ({
 });
 
 
+export const getUserThunk = (id) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+export const updateUserThunk = (id, user) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export const deleteUserThunk = (id) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const updateRoleThunk = (id, role) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const getRoleThunk = (id) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const getIdThunk = (id) => {
+    return async (dispatch) => {
+        try {
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+

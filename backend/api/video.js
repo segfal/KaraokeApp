@@ -23,6 +23,7 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
     let searchResults = searchArray.data.items;
     let isEmbeddable = false;
     try {
+
         // Get all info of each individual search result then check if it is embeddable. if embeddable, post to database
         for (let i = 0; i < searchResults.length; i++) {
             console.log("SEARCH RES--- ", searchResults);
@@ -47,6 +48,7 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
                 return;
             }
         }
+
     } catch (error) {
         next(error);
     }
@@ -57,7 +59,7 @@ router.get("/", async (req, res, next) => {
         const allVideos = await Video.findAll();
         allVideos
             ? res.status(200).json(allVideos)
-            : res.status(404).send("No campuses found");
+            : res.status(404).send("No videos found");
     } catch (error) {
         next(error);
     }

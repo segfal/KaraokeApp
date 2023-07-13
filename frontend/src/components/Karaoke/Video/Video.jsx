@@ -3,6 +3,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const Video = () => {
+  /*Instead of displaying the stuff from the getVideoThunk, a getAllVideosThunk should be used instead to retrieve all videos and display 
+  them through a thunk. The iframe should be handled within the queue.
+
+  * The getAllVideosThunk would be handled in the Room component
+  */
   const video = useSelector((state) => state.video.video);
   console.log(video);
   return (
@@ -19,6 +24,7 @@ const Video = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
+
     </div>
   );
 };
