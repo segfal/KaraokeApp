@@ -123,6 +123,17 @@ export const getRoomIdThunk = (roomId) => {
 
 
 
+export const isAdminThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
 
 
 
