@@ -11,7 +11,7 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
         console.log(searchResult)
         const videoId = searchResult.items[1].id;
         const videoTitle = searchResult.items[1].title;
-        const videoLink = `https://www.youtube.com/watch?v=${videoId}?autoplay=1`;
+        const videoLink = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
         const newVideo = await Video.create({"link": videoLink, "title": videoTitle});
         res.send(newVideo);
     } catch (error) {
@@ -24,7 +24,7 @@ router.get("/", async (req, res, next) => {
         const allVideos = await Video.findAll();
         allVideos
             ? res.status(200).json(allVideos)
-            : res.status(404).send("No campuses found");
+            : res.status(404).send("No videos found");
     } catch (error) {
         next(error);
     }
