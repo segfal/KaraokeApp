@@ -99,6 +99,17 @@ export const getParticipantsThunk = (roomId) => {
 
 
 
+export const getMusicThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
 
 
 
