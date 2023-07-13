@@ -52,3 +52,12 @@ export const deleteId = (payload) => ({
 });
 
 
+export const getUserThunk = (id) => async (dispatch) => {
+    try {
+        
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+

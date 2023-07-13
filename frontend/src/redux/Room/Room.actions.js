@@ -134,6 +134,32 @@ export const isAdminThunk = (roomId) => {
 }
 
 
+export const isSingerThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+export const isViewerThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
+
+
+
 
 
 
