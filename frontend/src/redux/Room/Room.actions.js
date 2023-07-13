@@ -87,6 +87,18 @@ export const fetchRoomThunk = (roomId) => {
 }
 
 
+export const getParticipantsThunk = (roomId) => {
+    return async (dispatch) => {
+        try {
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+
+
 
 
 
