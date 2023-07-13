@@ -3,67 +3,50 @@ const youtubesearchapi = require("youtube-search-api");
 const router = express.Router();
 const { Video } = require("../db/models");
 const axios = require("axios");
-
-const youtubeSearch = async (page, count) => {
-    console.log("youtube search function");
-    if (count > 10) return;
-    console.log("count");
-    if (youtubesearchapi.NextPage(page) === undefined || page.data === undefined){
-        return;
-    } else {
-        let isEmbeddable = false;
-        for (let j = 0; j < page.items.length && !isEmbeddable; j++) {
-            let response = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
-                params: {
-                    part: 'status',
-                    id: page.items[j].id,
-                    key: 'AIzaSyDV6uSSUBO9-ppfYycMcmFys1zvYRGgINw' // API key
-                }
-            })
-            isEmbeddable = response.data.items[j].status.embeddable;
-            console.log("DATA ITEMS----- ", data.items)
-        }
-        if (!isEmbeddable) {
-            nextPage = await youtubesearchapi.NextPage(page);
-            count++;
-            youtubeSearch(nextPage, count);
-        } else {
-            const videoId = page.items[i].id;
-            const videoTitle = page.items[i].title;
-            const videoLink = `https://www.youtube.com/watch?v=${videoId}?autoplay=1`;
-            const newVideo = await Video.create({"link": videoLink, "title": videoTitle});
-            res.send(newVideo);
-        } 
-    }
-}
+const dotenv = require("dotenv").config();
 
 router.post("/addmusic/:keyword", async (req, res, next) => {
+    const keyword = await req.params.keyword + " karaoke";
+    const apiKey = process.env.API_KEY;
+    //get search result from youtube api
+    let searchArray = await axios.get(
+        'https://www.googleapis.com/youtube/v3/search', 
+        {
+            params: {
+                part: 'snippet',
+                maxResults: 25,
+                q: keyword,
+                key: apiKey
+            }
+        }
+    )
+    let searchResults = searchArray.data.items;
+    let isEmbeddable = false;
     try {
-        const keyword = await req.params.keyword;
-        firstPage = await youtubesearchapi.GetListByKeyword(keyword + " karaoke");
-        let count = 0;
-        youtubeSearch(firstPage,0)
-        // let isEmbeddable = false;
-        // for (let i = 0; i < searchResult.items.length && !isEmbeddable; i++) {
-        //     axios.get('https://www.googleapis.com/youtube/v3/videos', {
-        //         params: {
-        //             part: 'status',
-        //             id: searchResult.items[i].id,
-        //             key: 'AIzaSyDV6uSSUBO9-ppfYycMcmFys1zvYRGgINw' // API key
-        //         }
-        //     })
-        //     .then(response => {
-        //         console.log("----RESPONSE----" + response);
-        //         console.log("----ITEMS-----" + response.data);
-
-        //         // isEmbeddable = response.data.items[i].status.embeddable;
-        //         isEmbeddable = response.data.items[i];
-        //         console.log(isEmbeddable); // This will print 'true' if the video is embeddable, 'false' otherwise.
-        //     })
-        //     .catch(error => {
-        //         console.log('Error: ' + error);
-        //     });
-        // }
+        // Get all info of each individual search result then check if it is embeddable. if embeddable, post to database
+        for (let i = 0; i < searchResults.length; i++) {
+            console.log("SEARCH RES--- ", searchResults);
+            let response = await axios.get('https://www.googleapis.com/youtube/v3/videos',
+            {
+                params: {
+                    part: 'status',
+                    id: searchResults[i].id.videoId,
+                    key: apiKey
+                }
+            })
+            console.log("RESPONSE DATA ------ ", response.data);
+            isEmbeddable = response.data.items[0].status.embeddable;
+            if (isEmbeddable) {
+                const videoId = response.data.items[0].id;
+                const videoLink = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                console.log("EMBED RES---- ", searchResults[i]);
+                const videoTitle = searchResults[i].snippet.title;
+                console.log(videoTitle);
+                const newVideo = await Video.create({"link": videoLink, "title": videoTitle});
+                res.send(newVideo);
+                return;
+            }
+        }
     } catch (error) {
         next(error);
     }

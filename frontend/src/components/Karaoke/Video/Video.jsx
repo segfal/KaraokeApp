@@ -19,8 +19,6 @@ const Video = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
-      <object width="420" height="315" data={video}/>
-
     </div>
   );
 };
