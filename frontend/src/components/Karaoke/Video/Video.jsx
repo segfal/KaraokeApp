@@ -1,23 +1,31 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
 import { SocketContext } from "../../../context";
+import { syncVideoThunk } from "../../../redux/Video/Video.action";
+
 // import io from 'socket.io-client';
 
 // const socket = io('http://localhost:4000');
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
+  // const dispatch = useDispatch();
   const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
+  // console.log("Socket in video component", socket)
   
   const roomId = socket.id;
   console.log(video);
   const [playing, setPlaying] = useState(true);
 
+  useEffect(()=> {
+    dispatch(syncVideoThunk(socket));
+  }, [])
   const pauseVideo = () => {
     console.log("pause");
-    console.log("PAUSe: ",{roomId});
+    console.log("PAUSE: ",{roomId});
     socket.emit("on_pause", {roomId});
   };
 
@@ -34,6 +42,9 @@ const Video = () => {
   const resumeAll = () => {
     setPlaying(true);
   };
+
+    
+
 
   useEffect(() => {
     console.log("USE EFFECT IS RUNNING")
@@ -56,6 +67,11 @@ const Video = () => {
     };
   }, []);
 
+  // useEffect(()=> {
+  //   console.log("DISPATCHING SYNCVIDEOTHUNK")
+  //   dispatch(syncVideoThunk());
+  // }, )
+
   return (
     <div className="video-responsive">
       <ReactPlayer
@@ -69,15 +85,16 @@ const Video = () => {
         onEnded={() => {
           "Hello World";
         }}
-        autoplay={false}
+        autoPlay={false}
       />
-      <button size="small">
+      <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
         ) : (
           <button onClick={resumeVideo}>Resume</button>
         )}
-      </button>
+        <button>Sync</button>
+      </div>
     </div>
   );
 };
