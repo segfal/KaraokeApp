@@ -2,15 +2,17 @@ const admin = require('firebase-admin');
 const { Sequelize } = require('sequelize');
 const {dotenv} = require('dotenv').config();
 
-const db = new Sequelize(`${process.env.DB_NAME}`, `${'postgres'}`, `${process.env.DB_PASSWORD}`, {
-    dialect: 'postgres',
-    dialectModule: require('pg'),
-    host: `${process.env.INSTANCE}`,
-    timestamps: false,
-    dialectOptions: {
-      socketPath: `${process.env.INSTANCE}`
-    },
-    logging: false
+const db = new Sequelize(process.env.INSTANCE, {
+  dialectModule: require('pg'),
+  dialect: 'postgres',
+  //ssl true
+  dialectOptions: {
+      ssl: {
+          require: true,
+          rejectUnauthorized: false
+      }
+  },
+  logging: false
 });
 
 module.exports = db;

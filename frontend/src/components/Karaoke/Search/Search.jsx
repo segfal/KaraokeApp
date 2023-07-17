@@ -1,13 +1,16 @@
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { getVideoThunk } from '../../../redux/Video/Video.action';
-
-
+import Video from "../Video/Video";  
+import { SocketContext } from '../../../context';
 import "./search.css";
 
-const Search = () => {
+const Search = ({roomId}) => {
   const [ keyword, setKeyword ] = useState("");
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
+  const [link, setLink] = useState('');
+  const [links, setLinks] = useState([]);
 
   const handleInput = (event) => {
     setKeyword(event.target.value);
@@ -16,6 +19,24 @@ const Search = () => {
   const handleSearch = async (event) => {
     dispatch(getVideoThunk(keyword));
   }
+
+    // search component
+    // video links - 
+    // useEffect(() => {
+    //   socket.on('link', (link) => {
+    //     setLinks((links) => [...links, link]);
+    //   });
+  
+    //   return () => {
+    //     socket.off('link');
+    //   };
+    // }, []);
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      socket.emit('chatMessage', { room, message });
+      setLinks('');
+    };
 
   return (
     <div className="col-md-8">
@@ -27,9 +48,26 @@ const Search = () => {
           </svg>
         </button>
       </div>
+      <div>
+      <Video roomId={roomId}/>
+        {/* {links.map((msg, index) => (
+          <Video link={link} room={room} socket={socket}/>
+        ))} */}
+      </div>
+      {/* <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Enter message"
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+        />
+        <button type="submit">Send</button>
+      </form> */}
     </div>
   )
 
 }
 
 export default Search;
+
+

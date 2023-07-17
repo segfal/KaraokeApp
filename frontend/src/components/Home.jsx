@@ -1,8 +1,49 @@
-import React from 'react'
+import React,{useContext,useState,useEffect} from 'react'
+import { Navigate, redirect, useNavigate , Link} from 'react-router-dom';
+import { SocketContext } from '../context';
+// import io from 'socket.io-client';
+
+
+// const socket = io('http://localhost:4000');
 
 const Home = () => {
+  const socket = useContext(SocketContext);
+  // const [room, setRoom] = useState('');
+
+  // const navigate = useNavigate();
+  // const handleJoinRoom = () => {
+  //   socket.emit('joinRoom', room);
+  // };
+
+  const handleCreateRoom = () => {
+    socket.emit('createRoom', socket.id);
+    console.log("CREATE ROOM: ", socket.id);
+    console.log("CR SOCKET: ", socket)
+    // navigate(`/karaoke/${socket.id}`);
+  }
+  
   return (
-    <h1>Home</h1>
+    <div>
+      <h1>Home</h1>
+      <Link to={`/karaoke/${socket.id}`}>
+      <button onClick={handleCreateRoom}>Create Room</button>
+      </Link>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter room name"
+          // value={room}
+          // onChange={(event) => setRoom(event.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Enter your name"
+          // value={room}
+          // onChange={(event) => setRoom(event.target.value)}
+        />
+        {/* <button onClick={handleJoinRoom}>Join Room</button> */}
+      </div>
+    </div>
   )
 }
 

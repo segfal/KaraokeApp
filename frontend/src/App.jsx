@@ -5,6 +5,7 @@ import Navbar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import Room from './components/Karaoke/Room/Room';
+import {SocketProvider} from "./context";
 
 
 /*
@@ -14,20 +15,18 @@ If you are not signed up as a user then clicking on "KARAOKE" would redirect you
 a signup page. Protected routes etc.
 */
 function App() {
-
-
   return (
-    <Router>
+    <SocketProvider>
+      <Router>
       <>
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/karaoke" element={<Room/>}/>
+        <Route path="/karaoke/:id" element={<Room/>}/>
       </Routes>
-      
       </>
-
     </Router>
+    </SocketProvider>
     
   )
 }
