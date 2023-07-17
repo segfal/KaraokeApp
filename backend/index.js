@@ -19,9 +19,9 @@ app.use('/api', require('./api'));
 io.on('connection', (socket) => {
   // Create room
   console.log("SOCKET", socket.id);
-  socket.on('createRoom', (room) => {
-    socket.join(room);
-    console.log(`User joined room: ${room}`);
+  socket.on('createRoom', (roomId) => {
+    socket.join(roomId);
+    console.log(`User joined room: ${roomId}`);
   });
 
 
@@ -35,13 +35,14 @@ io.on('connection', (socket) => {
 
   // Handle video controls
   socket.on('on_resume', (data) => {
-    console.log("data: ", data)
-    io.to(data.room).emit('resume', data);
+    console.log("data for resume: ", data.roomId)
+    io.to(data.roomId).emit('resume', data);
   });
 
   socket.on('on_pause', (data) => {
-    console.log(data)
-    io.to(data.room).emit('pause', data);
+    console.log("data for pause: ", data.roomId)
+    
+    io.to(data.roomId).emit('pause', data.roomId);
   }
 );
 

@@ -1,28 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
+// import io from 'socket.io-client';
 
-const Video = ({ link, room, socket }) => {
+// const socket = io('http://localhost:4000');
+
+const Video = ({socket, roomId}) => {
+  const video = useSelector((state) => state.video.video);
+  console.log(video);
   const [playing, setPlaying] = useState(true);
-  const test = "test";
+
   const pauseVideo = () => {
     console.log("pause");
-    socket.emit("on_pause", {room});
+    console.log("PAUSe: ",{roomId});
+    socket.emit("on_pause", {roomId});
   };
 
   const pauseAll = () => {
     setPlaying(false);
   };
+
   const resumeVideo = () => {
     console.log("resume");
-    socket.emit("on_resume", {room});
+    console.log("RESUME: ", {roomId});
+    socket.emit("on_resume", {roomId});
   };
 
   const resumeAll = () => {
     setPlaying(true);
   };
+
   useEffect(() => {
+    console.log("USE EFFECT IS RUNNING")
     socket.on("pause", () => {
+      console.log("Listening for pause")
       pauseAll();
     });
     return () => {
@@ -31,6 +43,7 @@ const Video = ({ link, room, socket }) => {
   }, []);
 
   useEffect(() => {
+    console.log("USE EFFECT IS RUNNING")
     socket.on("resume", () => {
       resumeAll();
     });
@@ -42,7 +55,7 @@ const Video = ({ link, room, socket }) => {
   return (
     <div className="video-responsive">
       <ReactPlayer
-        url={link}
+        url={video}
         playing={playing}
         controls={true}
         width="853px"
@@ -54,7 +67,6 @@ const Video = ({ link, room, socket }) => {
         }}
         autoplay={false}
       />
-
       <button size="small">
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>

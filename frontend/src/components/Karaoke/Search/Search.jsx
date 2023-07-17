@@ -1,9 +1,10 @@
 import { React, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getVideoThunk } from '../../../redux/Video/Video.action';
+import Video from "../Video/Video";  
 import "./search.css";
 
-const Search = () => {
+const Search = ({socket, roomId}) => {
   const [ keyword, setKeyword ] = useState("");
   const dispatch = useDispatch();
   const [link, setLink] = useState('');
@@ -15,7 +16,6 @@ const Search = () => {
 
   const handleSearch = async (event) => {
     dispatch(getVideoThunk(keyword));
-    console.log(getVideoThunk(keyword));
   }
 
     // search component
@@ -47,7 +47,7 @@ const Search = () => {
         </button>
       </div>
       <div>
-        {/* <Video room={room} link={link} socket={socket}/> */}
+      <Video socket={socket} roomId={roomId}/>
         {/* {links.map((msg, index) => (
           <Video link={link} room={room} socket={socket}/>
         ))} */}

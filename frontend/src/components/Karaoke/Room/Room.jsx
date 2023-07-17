@@ -12,15 +12,16 @@ const socket = io('http://localhost:4000');
 // Future: search bar and queue option
 const Room = () => {
   const location = useLocation();
-  const roomId = location.state; // socket.id
+  const socket = location.state;
+  const roomId = location.state.id; // socket.id
   // const [room, setRoom] = useState('');
-
+  
   return (
     <div>
       <h1>Room</h1>
       <h2>Room ID: {roomId}</h2>
       {/* <ShareButton/> */}
-      <Search/>
+      <Search socket={socket} roomId={roomId}/>
       {/* <Queue/> */}
       
       {/* <Participants/>  */}
