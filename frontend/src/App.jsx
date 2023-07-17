@@ -14,21 +14,16 @@ If you are not signed up as a user then clicking on "KARAOKE" would redirect you
 a signup page. Protected routes etc.
 */
 function App() {
-
-
   return (
     <Router>
       <>
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home/>}/>
-        <Route path="/karaoke" element={<Room/>}/>
+        <Route path="/karaoke/:id" element={<Room/>}/>
       </Routes>
-      
       </>
-
     </Router>
-    
   )
 }
 
