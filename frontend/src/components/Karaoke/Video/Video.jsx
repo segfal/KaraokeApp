@@ -1,13 +1,17 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
+import { SocketContext } from "../../../context";
 // import io from 'socket.io-client';
 
 // const socket = io('http://localhost:4000');
 
-const Video = ({socket, roomId}) => {
+const Video = () => {
   const video = useSelector((state) => state.video.video);
+  const socket = useContext(SocketContext);
+  
+  const roomId = socket.id;
   console.log(video);
   const [playing, setPlaying] = useState(true);
 

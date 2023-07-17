@@ -1,12 +1,14 @@
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { getVideoThunk } from '../../../redux/Video/Video.action';
 import Video from "../Video/Video";  
+import { SocketContext } from '../../../context';
 import "./search.css";
 
-const Search = ({socket, roomId}) => {
+const Search = ({roomId}) => {
   const [ keyword, setKeyword ] = useState("");
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   const [link, setLink] = useState('');
   const [links, setLinks] = useState([]);
 
@@ -47,7 +49,7 @@ const Search = ({socket, roomId}) => {
         </button>
       </div>
       <div>
-      <Video socket={socket} roomId={roomId}/>
+      <Video roomId={roomId}/>
         {/* {links.map((msg, index) => (
           <Video link={link} room={room} socket={socket}/>
         ))} */}

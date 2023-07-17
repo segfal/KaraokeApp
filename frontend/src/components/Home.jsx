@@ -1,11 +1,13 @@
-import React,{useState,useEffect} from 'react'
+import React,{useContext,useState,useEffect} from 'react'
 import { Navigate, redirect, useNavigate , Link} from 'react-router-dom';
-import io from 'socket.io-client';
+import { SocketContext } from '../context';
+// import io from 'socket.io-client';
 
 
-const socket = io('http://localhost:4000');
+// const socket = io('http://localhost:4000');
 
 const Home = () => {
+  const socket = useContext(SocketContext);
   // const [room, setRoom] = useState('');
 
   // const navigate = useNavigate();
@@ -23,7 +25,7 @@ const Home = () => {
   return (
     <div>
       <h1>Home</h1>
-      <Link to={`/karaoke/${socket.id}`} state={socket}>
+      <Link to={`/karaoke/${socket.id}`}>
       <button onClick={handleCreateRoom}>Create Room</button>
       </Link>
       <div>

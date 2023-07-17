@@ -5,6 +5,7 @@ import Navbar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import Room from './components/Karaoke/Room/Room';
+import {SocketProvider} from "./context";
 
 
 /*
@@ -15,7 +16,8 @@ a signup page. Protected routes etc.
 */
 function App() {
   return (
-    <Router>
+    <SocketProvider>
+      <Router>
       <>
       <Navbar/>
       <Routes>
@@ -24,6 +26,8 @@ function App() {
       </Routes>
       </>
     </Router>
+    </SocketProvider>
+    
   )
 }
 
