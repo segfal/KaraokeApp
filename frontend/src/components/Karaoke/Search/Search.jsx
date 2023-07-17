@@ -17,7 +17,7 @@ const Search = ({roomId}) => {
   }
 
   const handleSearch = async (event) => {
-    dispatch(getVideoThunk(keyword));
+    dispatch(getVideoThunk(keyword,socket,roomId));
   }
 
     // search component

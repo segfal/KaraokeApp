@@ -21,14 +21,23 @@ io.on('connection', (socket) => {
   console.log("SOCKET", socket.id);
   socket.on('createRoom', (roomId) => {
     socket.join(roomId);
-    console.log(`User joined room: ${roomId}`);
+    console.log(`User created room: ${roomId}`);
   });
+
+  // Join room
+  socket.on('joinRoom', (data) => {
+    socket.join(data.room);
+    ///join room
+    console.log(`User joined room: ${data.room}`);
+    
+    
+  })
 
 
   // Handle links
   socket.on('link', (data) => {
-    console.log("data: ", data)
-    console.log("socket.room: ", socket.rooms)
+    //console.log("data: ", data)
+    //console.log("socket.room: ", socket.rooms)
 
     io.to(data.room).emit('link', data.link);
   });
@@ -45,6 +54,12 @@ io.on('connection', (socket) => {
     io.to(data.roomId).emit('pause', data.roomId);
   }
 );
+  socket.on('get_video' , (data) => {
+    console.log("data for get_video: ", data)
+    io.to(data.roomId).emit('get_video', data.roomId);
+    // const currentRoom = Object.keys(io.sockets.adapter.sids[socket.id]).filter(item => item!=socket.id);
+  }
+  );
 
 
 });
