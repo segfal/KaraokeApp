@@ -14,16 +14,18 @@ import { SocketContext } from '../../../context'
 const Room = () => {
   const socket = useContext(SocketContext);
   const location = useLocation();
-  const roomId = socket.id;
+  // const roomId = socket.id;
+  // const room = location.state;
+  const room = location.state?location.state:socket.id;
   // const roomId = location.state; // socket.id
   // const [room, setRoom] = useState('');
   
   return (
     <div>
       <h1>Room</h1>
-      <h2>Room ID: {roomId}</h2>
+      <h2>Room ID: {room}</h2>
       {/* <ShareButton/> */}
-      <Search/>
+      <Search roomId={room}/>
       {/* <Queue/> */}
       
       {/* <Participants/>  */}

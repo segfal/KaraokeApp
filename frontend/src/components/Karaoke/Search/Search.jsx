@@ -1,6 +1,6 @@
 import { React, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { getVideoThunk } from '../../../redux/Video/Video.action';
+import { getVideoThunk, syncVideoThunk } from '../../../redux/Video/Video.action';
 import Video from "../Video/Video";  
 import { SocketContext } from '../../../context';
 import "./search.css";
@@ -17,7 +17,8 @@ const Search = ({roomId}) => {
   }
 
   const handleSearch = async (event) => {
-    dispatch(getVideoThunk(keyword));
+    dispatch(getVideoThunk(keyword,socket,roomId));
+
   }
 
     // search component

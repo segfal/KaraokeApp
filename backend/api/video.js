@@ -26,7 +26,7 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
 
         // Get all info of each individual search result then check if it is embeddable. if embeddable, post to database
         for (let i = 0; i < searchResults.length; i++) {
-            console.log("SEARCH RES--- ", searchResults);
+            // console.log("SEARCH RES--- ", searchResults);
             let response = await axios.get('https://www.googleapis.com/youtube/v3/videos',
             {
                 params: {
@@ -35,14 +35,14 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
                     key: apiKey
                 }
             })
-            console.log("RESPONSE DATA ------ ", response.data);
+            // console.log("RESPONSE DATA ------ ", response.data);
             isEmbeddable = response.data.items[0].status.embeddable;
             if (isEmbeddable) {
                 const videoId = response.data.items[0].id;
                 const videoLink = `https://www.youtube.com/embed/${videoId}`;
-                console.log("EMBED RES---- ", searchResults[i]);
+                // console.log("EMBED RES---- ", searchResults[i]);
                 const videoTitle = searchResults[i].snippet.title;
-                console.log(videoTitle);
+                // console.log(videoTitle);
                 const newVideo = await Video.create({"link": videoLink, "title": videoTitle});
                 res.send(newVideo);
                 return;

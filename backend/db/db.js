@@ -1,8 +1,8 @@
 const admin = require('firebase-admin');
 const { Sequelize } = require('sequelize');
-const {dotenv} = require('dotenv').config();
+require('dotenv').config();
 
-const db = new Sequelize(process.env.INSTANCE, {
+const db = new Sequelize(process.env.OTHER, {
   dialectModule: require('pg'),
   dialect: 'postgres',
   //ssl true

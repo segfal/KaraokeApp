@@ -8,40 +8,51 @@ import { SocketContext } from '../context';
 
 const Home = () => {
   const socket = useContext(SocketContext);
-  // const [room, setRoom] = useState('');
+  // const [roomId, setRoomId] = useState(socket.id);
+  const [room, setRoom] = useState('');
+  const [user, setUser] = useState('');
 
-  // const navigate = useNavigate();
-  // const handleJoinRoom = () => {
-  //   socket.emit('joinRoom', room);
-  // };
+  const navigate = useNavigate();
+  const handleJoinRoom = () => {
+    socket.emit('joinRoom', {room,user});
+    // navigate(`/karaoke/${room}`);
+  };
 
   const handleCreateRoom = () => {
     socket.emit('createRoom', socket.id);
+    // setRoomId(socket.id);
     console.log("CREATE ROOM: ", socket.id);
     console.log("CR SOCKET: ", socket)
-    // navigate(`/karaoke/${socket.id}`);
+    navigate(`/karaoke/${socket.id}`);
   }
+
+
+  
   
   return (
     <div>
       <h1>Home</h1>
-      <Link to={`/karaoke/${socket.id}`}>
+      {/* <Link to={`/karaoke/${roomId}`}> */}
+      {console.log("SOCKET ID: ", socket.id)}
+
       <button onClick={handleCreateRoom}>Create Room</button>
-      </Link>
+      {/* </Link> */}
       <div>
         <input
           type="text"
-          placeholder="Enter room name"
-          // value={room}
-          // onChange={(event) => setRoom(event.target.value)}
+          placeholder="Enter room ID"
+          value={room}
+          onChange={(event) => setRoom(event.target.value)}
         />
         <input
           type="text"
           placeholder="Enter your name"
-          // value={room}
-          // onChange={(event) => setRoom(event.target.value)}
+          value={user}
+          onChange={(event) => setUser(event.target.value)}
         />
-        {/* <button onClick={handleJoinRoom}>Join Room</button> */}
+        <Link to={`/karaoke/${room}`} state={room}>
+          <button onClick={handleJoinRoom}>Join Room</button>
+        </Link>
       </div>
     </div>
   )
