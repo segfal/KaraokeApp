@@ -11,23 +11,27 @@ import { syncVideoThunk } from "../../../redux/Video/Video.action";
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
+  const allVideos = useSelector((state) => state.video.allVideos);
   
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
+  const [link, setLink] = useState();
+  console.log("First vid link: ", allVideos[0])
+  console.log("All Videos ", allVideos);
   // console.log("Socket in video component", socket)
   
   const roomId = socket.id;
   console.log("VIDEO STATE: ", video);
   const [playing, setPlaying] = useState(true);
-  const [ended, setEnded] = useState(true);
+  // const [ended, setEnded] = useState(true);
 
   useEffect(()=> {
     dispatch(syncVideoThunk(socket));
   }, [])
   
   const pauseVideo = () => {
-    console.log("pause");
-    console.log("PAUSE: ",{roomId});
+   // console.log("pause");
+   // console.log("PAUSE: ",{roomId});
     socket.emit("on_pause", {roomId});
   };
 
@@ -52,11 +56,14 @@ const Video = () => {
 
   // Setting the next video
   const handleEnd = () => {
-    setEnded(true);
-    if (ended) {
-      
-      setVideo(allVideos[0]);
-    }
+    // setEnded(true);
+    // if (ended) {
+      allVideos.shift();
+      console.log("HANDLE END: ", allVideos)
+      console.log("VIDEO DATA:::::",allVideos[0]);
+      // setLink(allVideos[0]);
+      //setVideo(allVideos[0]);
+    // }
 
   };
 
@@ -70,10 +77,12 @@ const Video = () => {
     return () => {
       socket.off("pause");
     };
+
+    
   }, []);
   // Resume useEffect
   useEffect(() => {
-    console.log("USE EFFECT IS RUNNING")
+    //console.log("USE EFFECT IS RUNNING")
     socket.on("resume", () => {
       resumeAll();
     });
@@ -81,11 +90,16 @@ const Video = () => {
       socket.off("resume");
     };
   }, []);
+
+  
   // Ended useEffect
   useEffect(() => {
-    console.log("USE EFFECT IS RUNNING")
+    //console.log("USE EFFECT IS RUNNING")
     socket.on("end", () => {
-      handleEnd();
+      allVideos.shift();
+      console.log("HANDLE END: ", allVideos)
+      console.log("VIDEO DATA:::::",allVideos[0]);
+      // handleEnd();
     });
     return () => {
       socket.off("end");
@@ -93,18 +107,14 @@ const Video = () => {
   }, []);
 
 
-  // useEffect(()=> {
-  //   console.log("DISPATCHING SYNCVIDEOTHUNK")
-  //   dispatch(syncVideoThunk());
-  // }, )
-  //if length of video is 0, then display a message saying that the video is not available
+
   if (video.length === 0) {
     return <div><h1>Add a video</h1></div>;
-  } 
+  }
   return (
     <div className="video-responsive">
       <ReactPlayer
-        url={video}
+        url={allVideos[0] ? allVideos[0] : link}
         playing={playing}
         controls={true}
         width="853px"
@@ -112,19 +122,19 @@ const Video = () => {
         onPause={() => console.log("paused")}
         onPlay={() => console.log("playing")}
         onEnded={() => {
-          console.log("ended");
+          handleEnd();
           endVideo();
         }}
         autoPlay={false}
       />
-      {console.log("VIDEO: ", video)}
+      {/* {console.log("PLAYER LINK: ", link)} */}
       <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
         ) : (
           <button onClick={resumeVideo}>Resume</button>
         )}
-        <button>Sync</button>
+        {/* <button>Sync</button> */}
       </div>
     </div>
   );

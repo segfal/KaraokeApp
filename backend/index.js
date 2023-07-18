@@ -58,7 +58,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("vid_info", (data) => {
-    io.to(data.room).emit("vid_info", data.title);
+    io.to(data.room).emit("vid_info", {title: data.title,
+      thumbnail: data.thumbnail,
+      link: data.link
+    
+    } );
   });
 
   socket.on("is_playing", (data) => {
@@ -68,7 +72,7 @@ io.on("connection", (socket) => {
 
   socket.on("is_ended", (data) => {
     console.log("data for is_ended: ", data.roomId);
-    io.to(data.roomId).emit("is_ended", data.roomId);
+    io.to(data.roomId).emit("end", data.roomId);
   });
 
   socket.on("is_empty", (data) => {

@@ -3,6 +3,8 @@ import { useEffect, useContext, useState } from 'react';
 import {useSelector} from 'react-redux'
 import { SocketContext } from '../../../context';
 
+import MusicCard from './MusicCard';
+
 
 /* The queue is supposed to contain a map of videos
 * Add an item to search and then place that in a queue of vids: first in, first out
@@ -18,10 +20,11 @@ const Queue = () => {
 
 
   useEffect(() => {
-    socket.on('vid_info', (title) => {
-      setVidInfo(vidInfo => [...vidInfo, title]);
-      console.log("All Videos", allVideos);
-      console.log("VIDEO_INFO: ",vidInfo)
+    socket.on('vid_info', (newElement) => {
+      setVidInfo(vidInfo => [...vidInfo, newElement]);
+      //console.log("All Videos", allVideos);
+      // console.log("VIDEO_INFO: ", vidInfo)
+      
     })
 
     return () => {
@@ -35,8 +38,9 @@ const Queue = () => {
       {/* {allVideos.map((video) => (
         <h3>{video}</h3>
       ))} */}
-      {vidInfo.map((title) => (
-        <h3>{title}</h3>
+      
+      {vidInfo.map((video, index) => (
+        <MusicCard key={index} video={video}/>
       ))}
     </div>
   )
