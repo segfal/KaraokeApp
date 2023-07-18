@@ -58,7 +58,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("vid_info", (data) => {
-    io.to(data.room).emit("vid_info", data.title);
+    io.to(data.room).emit("vid_info", {title: data.title,
+      thumbnail: data.thumbnail,
+      link: data.link
+    
+    } );
   });
 
   socket.on("is_playing", (data) => {

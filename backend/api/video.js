@@ -35,15 +35,17 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
                     key: apiKey
                 }
             })
-            // console.log("RESPONSE DATA ------ ", response.data);
+            
             isEmbeddable = response.data.items[0].status.embeddable;
             if (isEmbeddable) {
                 const videoId = response.data.items[0].id;
                 const videoLink = `https://www.youtube.com/embed/${videoId}`;
                 // console.log("EMBED RES---- ", searchResults[i]);
                 const videoTitle = searchResults[i].snippet.title;
+                const videoThumbnail = searchResults[i].snippet.thumbnails.default.url;
+                console.log("RESPONSE SNIPPET------ ", searchResults[i].snippet.thumbnails.default.url);
                 // console.log(videoTitle);
-                const newVideo = await Video.create({"link": videoLink, "title": videoTitle});
+                const newVideo = await Video.create({"link": videoLink, "title": videoTitle, "thumbnail": videoThumbnail});
                 res.send(newVideo);
                 return;
             }
