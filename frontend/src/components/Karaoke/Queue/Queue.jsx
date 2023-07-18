@@ -39,8 +39,8 @@ const Queue = () => {
         <h3>{video}</h3>
       ))} */}
       
-      {vidInfo.map((video) => (
-        <MusicCard video={video}/>
+      {vidInfo.map((video, index) => (
+        <MusicCard key={index} video={video}/>
       ))}
     </div>
   )
