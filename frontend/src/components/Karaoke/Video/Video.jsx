@@ -23,7 +23,7 @@ const Video = () => {
   const roomId = socket.id;
   console.log("VIDEO STATE: ", video);
   const [playing, setPlaying] = useState(true);
-  // const [ended, setEnded] = useState(true);
+  const [ended, setEnded] = useState(true);
 
   useEffect(()=> {
     dispatch(syncVideoThunk(socket));
@@ -64,8 +64,12 @@ const Video = () => {
       // setLink(allVideos[0]);
       //setVideo(allVideos[0]);
     // }
-
   };
+
+  const nextVideo = () => {
+    setEnded(false)
+    // allVideos.shift();
+  }
 
   // Pause useEffect
   useEffect(() => {
@@ -92,19 +96,19 @@ const Video = () => {
   }, []);
 
   
-  // Ended useEffect
-  useEffect(() => {
-    //console.log("USE EFFECT IS RUNNING")
-    socket.on("end", () => {
-      allVideos.shift();
-      console.log("HANDLE END: ", allVideos)
-      console.log("VIDEO DATA:::::",allVideos[0]);
-      // handleEnd();
-    });
-    return () => {
-      socket.off("end");
-    };
-  }, []);
+  // // Ended useEffect
+  // useEffect(() => {
+  //   //console.log("USE EFFECT IS RUNNING")
+  //   socket.on("end", () => {
+  //     allVideos.shift();
+  //     console.log("HANDLE END: ", allVideos)
+  //     console.log("VIDEO DATA:::::",allVideos[0]);
+  //     // handleEnd();
+  //   });
+  //   return () => {
+  //     socket.off("end");
+  //   };
+  // }, []);
 
 
 
@@ -114,7 +118,7 @@ const Video = () => {
   return (
     <div className="video-responsive">
       <ReactPlayer
-        url={allVideos[0] ? allVideos[0] : link}
+        url={allVideos[0]}
         playing={playing}
         controls={true}
         width="853px"
@@ -134,6 +138,7 @@ const Video = () => {
         ) : (
           <button onClick={resumeVideo}>Resume</button>
         )}
+        <button onClick={nextVideo}>Next Song</button>
         {/* <button>Sync</button> */}
       </div>
     </div>

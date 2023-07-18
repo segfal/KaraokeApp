@@ -17,6 +17,7 @@ const VideoReducer = (state = initialState, action) => {
             return {
                 ...state,
                 video: action.payload
+                // allVideos: [...state.allVideos, action.payload]
             }
         case VideoActionTypes.END_VIDEO:
 
