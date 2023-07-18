@@ -117,7 +117,7 @@ const Video = () => {
         }}
         autoPlay={false}
       />
-      {console.log("VIDEO: ", video)}
+      {/*console.log("VIDEO: ", video)*/}
       <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
