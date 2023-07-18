@@ -55,9 +55,40 @@ io.on("connection", (socket) => {
     console.log("data for get_video: ", data);
     console.log("Listening for get_video")
     io.to(data.room).emit("sync_video", data.link);
-    // const currentRoom = Object.keys(io.sockets.adapter.sids[socket.id]).filter(item => item!=socket.id);
+    
   });
+
+
+  socket.on("is_playing", (data) => {
+    console.log("data for is_playing: ", data.roomId);
+    io.to(data.roomId).emit("is_playing", data.roomId);
+  });
+
+  socket.on("is_ended", (data) => {
+    console.log("data for is_ended: ", data.roomId);
+    io.to(data.roomId).emit("is_ended", data.roomId);
+    
+
+  });
+
+  socket.on("is_empty", (data) => {
+    console.log("data for is_empty: ", data.roomId);
+    io.to(data.roomId).emit("is_empty", data.roomId);
+  });
+
+  socket.on("add_to_queue", (data) => {
+    console.log("data for add_to_queue: ", data.roomId);
+    io.to(data.roomId).emit("add_to_queue", data.roomId);
+  });
+
+  socket.on("remove_from_queue", (data) => {
+    console.log("data for remove_from_queue: ", data.roomId);
+    io.to(data.roomId).emit("remove_from_queue", data.roomId);
+  });
+
 });
+
+
 
 // Potential sync, place db.sync({force: true }) to nuke data
 const syncDB = () => db.sync();

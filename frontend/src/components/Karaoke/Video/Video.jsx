@@ -19,6 +19,7 @@ const Video = () => {
   const roomId = socket.id;
   console.log(video);
   const [playing, setPlaying] = useState(true);
+  const [ended, setEnded] = useState(true);
 
   useEffect(()=> {
     dispatch(syncVideoThunk(socket));
@@ -38,6 +39,17 @@ const Video = () => {
     console.log("RESUME: ", {roomId});
     socket.emit("on_resume", {roomId});
   };
+
+  const endVideo = () => {
+    setEnded(true);
+  };
+
+
+  const hasEnded = () => {
+    console.log("end");
+    socket.emit("is_ended", {roomId});
+  };
+
 
   const resumeAll = () => {
     setPlaying(true);
@@ -67,11 +79,25 @@ const Video = () => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log("USE EFFECT IS RUNNING")
+    socket.on("end", () => {
+      endVideo();
+    });
+    return () => {
+      socket.off("end");
+    };
+  }, []);
+
+
   // useEffect(()=> {
   //   console.log("DISPATCHING SYNCVIDEOTHUNK")
   //   dispatch(syncVideoThunk());
   // }, )
-
+  //if length of video is 0, then display a message saying that the video is not available
+  if (video.length === 0) {
+    return <div><h1>Add a video</h1></div>;
+  }
   return (
     <div className="video-responsive">
       <ReactPlayer
@@ -83,10 +109,12 @@ const Video = () => {
         onPause={() => console.log("paused")}
         onPlay={() => console.log("playing")}
         onEnded={() => {
-          "Hello World";
+          console.log("ended");
+          hasEnded();
         }}
         autoPlay={false}
       />
+      {console.log("VIDEO: ", video)}
       <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
