@@ -15,6 +15,8 @@ export const syncVideo = (payload) => ({
 })
 
 
+
+
 export const getVideoThunk = (keyword,socket,roomId) => {
     return async (dispatch) => {
         try {
