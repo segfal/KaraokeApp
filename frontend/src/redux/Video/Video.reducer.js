@@ -1,7 +1,7 @@
 import VideoActionTypes  from './Video.types';
 const initialState = {
-    video: []
-
+    video: [],
+    allVideos: []
 }
 
 
@@ -10,7 +10,8 @@ const VideoReducer = (state = initialState, action) => {
         case VideoActionTypes.GET_VIDEO:
             return {
                 ...state,
-                video: action.payload
+                video: action.payload,
+                allVideos: [...state.allVideos, action.payload]
             }
         case VideoActionTypes.SYNC_VIDEO:
             return {

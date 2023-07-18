@@ -2,6 +2,7 @@ import { React, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { getVideoThunk, syncVideoThunk } from '../../../redux/Video/Video.action';
 import Video from "../Video/Video";  
+import Queue from "../Queue/Queue";
 import { SocketContext } from '../../../context';
 import "./search.css";
 
@@ -18,7 +19,6 @@ const Search = ({roomId}) => {
 
   const handleSearch = async (event) => {
     dispatch(getVideoThunk(keyword,socket,roomId));
-
   }
 
     // search component
@@ -51,6 +51,7 @@ const Search = ({roomId}) => {
       </div>
       <div>
       <Video roomId={roomId}/>
+      <Queue/>
         {/* {links.map((msg, index) => (
           <Video link={link} room={room} socket={socket}/>
         ))} */}

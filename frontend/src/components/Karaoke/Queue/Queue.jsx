@@ -1,4 +1,7 @@
 import React from 'react'
+import { useEffect, useContext, useState } from 'react';
+import {useSelector} from 'react-redux'
+import { SocketContext } from '../../../context';
 
 
 /* The queue is supposed to contain a map of videos
@@ -9,9 +12,35 @@ import React from 'react'
 
 */
 const Queue = () => {
+  const allVideos = useSelector((state) => state.video.allVideos);
+  const [vidInfo, setVidInfo] = useState([]);
+  const socket = useContext(SocketContext);
+
+
+  useEffect(() => {
+    socket.on('vid_info', (title) => {
+      setVidInfo(vidInfo => [...vidInfo, title]);
+      console.log("All Videos", allVideos);
+      console.log("VIDEO_INFO: ",vidInfo)
+    })
+
+    return () => {
+      socket.off("vid_info");
+    };
+  }, [])
+
   return (
-    <div>Queue</div>
+    <div>
+      <div>Queue</div>
+      {/* {allVideos.map((video) => (
+        <h3>{video}</h3>
+      ))} */}
+      {vidInfo.map((title) => (
+        <h3>{title}</h3>
+      ))}
+    </div>
   )
+
 }
 
 export default Queue

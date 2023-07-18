@@ -11,19 +11,20 @@ import { syncVideoThunk } from "../../../redux/Video/Video.action";
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
-  // const dispatch = useDispatch();
+  
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
   // console.log("Socket in video component", socket)
   
   const roomId = socket.id;
-  console.log(video);
+  console.log("VIDEO STATE: ", video);
   const [playing, setPlaying] = useState(true);
   const [ended, setEnded] = useState(true);
 
   useEffect(()=> {
     dispatch(syncVideoThunk(socket));
   }, [])
+  
   const pauseVideo = () => {
     console.log("pause");
     console.log("PAUSE: ",{roomId});
@@ -40,24 +41,26 @@ const Video = () => {
     socket.emit("on_resume", {roomId});
   };
 
-  const endVideo = () => {
-    setEnded(true);
-  };
-
-
-  const hasEnded = () => {
-    console.log("end");
-    socket.emit("is_ended", {roomId});
-  };
-
-
   const resumeAll = () => {
     setPlaying(true);
   };
 
-    
+  const endVideo = () => { // hasEnded
+    console.log("end");
+    socket.emit("is_ended", {roomId});
+  };
 
+  // Setting the next video
+  const handleEnd = () => {
+    setEnded(true);
+    if (ended) {
+      
+      setVideo(allVideos[0]);
+    }
 
+  };
+
+  // Pause useEffect
   useEffect(() => {
     console.log("USE EFFECT IS RUNNING")
     socket.on("pause", () => {
@@ -68,7 +71,7 @@ const Video = () => {
       socket.off("pause");
     };
   }, []);
-
+  // Resume useEffect
   useEffect(() => {
     console.log("USE EFFECT IS RUNNING")
     socket.on("resume", () => {
@@ -78,11 +81,11 @@ const Video = () => {
       socket.off("resume");
     };
   }, []);
-
+  // Ended useEffect
   useEffect(() => {
     console.log("USE EFFECT IS RUNNING")
     socket.on("end", () => {
-      endVideo();
+      handleEnd();
     });
     return () => {
       socket.off("end");
@@ -97,7 +100,7 @@ const Video = () => {
   //if length of video is 0, then display a message saying that the video is not available
   if (video.length === 0) {
     return <div><h1>Add a video</h1></div>;
-  }
+  } 
   return (
     <div className="video-responsive">
       <ReactPlayer
@@ -110,7 +113,7 @@ const Video = () => {
         onPlay={() => console.log("playing")}
         onEnded={() => {
           console.log("ended");
-          hasEnded();
+          endVideo();
         }}
         autoPlay={false}
       />
@@ -132,37 +135,3 @@ Video.propTypes = {
 };
 
 export default Video;
-
-
-// A component that intents to display the video fetched from the youtube API
-// import React from "react";
-// import { useSelector } from "react-redux";
-
-// const Video = () => {
-//   /*Instead of displaying the stuff from the getVideoThunk, a getAllVideosThunk should be used instead to retrieve all videos and display 
-//   them through a thunk. The iframe should be handled within the queue.
-
-//   * The getAllVideosThunk would be handled in the Room component
-//   */
-//   const video = useSelector((state) => state.video.video);
-//   console.log(video);
-//   return (
-//     <div>
-//       <h2>Video</h2>
-//       {/* test  */}
-//       <iframe
-//         width="560"
-//         height="315"
-//         src={video} //"https://www.youtube.com/embed/HyWYpM_S-2c"
-//         rel="noreferrer"
-//         title={video}
-//         frameBorder="0"
-//         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-//         allowFullScreen
-//       ></iframe>
-
-//     </div>
-//   );
-// };
-
-// export default Video;
