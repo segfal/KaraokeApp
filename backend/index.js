@@ -47,7 +47,6 @@ io.on("connection", (socket) => {
 
   socket.on("on_pause", (data) => {
     console.log("data for pause: ", data.roomId);
-
     io.to(data.roomId).emit("pause", data.roomId);
   });
 
@@ -58,6 +57,9 @@ io.on("connection", (socket) => {
     
   });
 
+  socket.on("vid_info", (data) => {
+    io.to(data.room).emit("vid_info", data.title);
+  });
 
   socket.on("is_playing", (data) => {
     console.log("data for is_playing: ", data.roomId);
@@ -67,8 +69,6 @@ io.on("connection", (socket) => {
   socket.on("is_ended", (data) => {
     console.log("data for is_ended: ", data.roomId);
     io.to(data.roomId).emit("is_ended", data.roomId);
-    
-
   });
 
   socket.on("is_empty", (data) => {
