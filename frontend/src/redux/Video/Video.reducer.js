@@ -18,6 +18,14 @@ const VideoReducer = (state = initialState, action) => {
                 ...state,
                 video: action.payload
             }
+        case VideoActionTypes.END_VIDEO:
+
+        const videos = [...state.allVideos];
+        
+            return {
+                ...state,
+                
+            }
         default:
             return state;
     }

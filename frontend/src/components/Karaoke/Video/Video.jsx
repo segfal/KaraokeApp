@@ -11,9 +11,11 @@ import { syncVideoThunk } from "../../../redux/Video/Video.action";
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
+  const allVideos = useSelector((state) => state.video.allVideos);
   
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
+  const [link, setLink] = useState("");
   // console.log("Socket in video component", socket)
   
   const roomId = socket.id;
@@ -54,7 +56,8 @@ const Video = () => {
   const handleEnd = () => {
     setEnded(true);
     if (ended) {
-      
+      allVideos.remove(allVideos[0]);
+      setLink(allVideos[0].link);
       setVideo(allVideos[0]);
     }
 
@@ -81,6 +84,8 @@ const Video = () => {
       socket.off("resume");
     };
   }, []);
+
+  
   // Ended useEffect
   useEffect(() => {
     console.log("USE EFFECT IS RUNNING")
@@ -93,18 +98,14 @@ const Video = () => {
   }, []);
 
 
-  // useEffect(()=> {
-  //   console.log("DISPATCHING SYNCVIDEOTHUNK")
-  //   dispatch(syncVideoThunk());
-  // }, )
-  //if length of video is 0, then display a message saying that the video is not available
+
   if (video.length === 0) {
     return <div><h1>Add a video</h1></div>;
   } 
   return (
     <div className="video-responsive">
       <ReactPlayer
-        url={video}
+        url={link}
         playing={playing}
         controls={true}
         width="853px"
@@ -117,14 +118,13 @@ const Video = () => {
         }}
         autoPlay={false}
       />
-      {/*console.log("VIDEO: ", video)*/}
       <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
         ) : (
           <button onClick={resumeVideo}>Resume</button>
         )}
-        <button>Sync</button>
+        {/* <button>Sync</button> */}
       </div>
     </div>
   );
