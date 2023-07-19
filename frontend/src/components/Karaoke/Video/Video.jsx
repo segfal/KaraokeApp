@@ -14,7 +14,6 @@ import { syncVideo } from "../../../redux/Video/Video.action";
 const Video = () => {
   const video = useSelector((state) => state.video.video);
   const allVideos = useSelector((state) => state.video.allVideos);
-  // const uniqueVideos = useSelector((state) => [...new Set(state.video.allVideos)])
   const set= new Set(allVideos);
   const uniqueVideos = Array.from(set);
 
@@ -22,22 +21,22 @@ const Video = () => {
   
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
-  const [link, setLink] = useState();
+  
   console.log("First vid link: ", uniqueVideos[0])
   console.log("All Videos ", uniqueVideos);
   // console.log("Socket in video component", socket)
+  const tempurl = "https://www.youtube.com/embed/QC8iQqtG0hg";
+  const [link, setLink] = useState(uniqueVideos[0]);
   
   const roomId = socket.id;
   
   const [playing, setPlaying] = useState(true);
   const [ended, setEnded] = useState(true);
 
-  /*
+  
 
-   socket.on('sync_video', (link)=> {
-                dispatch(syncVideo(link))
-            })
-   */
+
+
   useEffect(()=> {
     socket.on('sync_video', (link) => {
       dispatch(syncVideo(link))
@@ -73,21 +72,19 @@ const Video = () => {
 
   // Setting the next video
   const handleEnd = () => {
-    // setEnded(true);
-    // if (ended) {
-      // uniqueVideos.shift();
+   
       console.log("HANDLE END: ", uniqueVideos)
-      // console.log("VIDEO DATA:::::",uniqueVideos[0]);
+
       console.log("VIDEO DATA:::::",uniqueVideos[0]);
       setLink(uniqueVideos[0]);
-      //setVideo(uniqueVideos[0]);
-    // }
-    // dispatch(endVideoThunk())
+ 
   };
 
+
+  
   const nextVideo = () => {
     setEnded(false)
-    // uniqueVideos.shift();
+    
   }
 
   // Pause useEffect
@@ -120,39 +117,38 @@ const Video = () => {
   
   // Ended useEffect
   useEffect(() => {
-    //console.log("USE EFFECT IS RUNNING")
+   
     
     console.log("HANDLE END: ", uniqueVideos)
-    // console.log("VIDEO DATA:::::",uniqueVideos[0]);
+    //uniqueVideos.shift();
+    setLink(uniqueVideos[0] ? uniqueVideos[0] : undefined);///
     
     
-    // setLink(uniqueVideos[0]);
+    
     socket.on("end", () => {
       // uniqueVideos.shift();
       uniqueVideos.shift();
       handleEnd();
       console.log("HANDLE END: ", uniqueVideos)
-      // console.log("VIDEO DATA:::::",uniqueVideos[0]);
-      // //setLink(uniqueVideos[0]);
+
      
       
     });
     return () => {
       socket.off("end");
     };
-  }, []);
+  }, [allVideos.length]);
 
 
 
-  if (video.length === 0) {
+  if (video.length === 0  || link === undefined) {
     return <div><h1>Add a video</h1></div>;
   }
   return (
     <div className="video-responsive">
-     
+     {console.log("VIDEO LINK: ", link)}
       <ReactPlayer
-        url = {link ? link : uniqueVideos[0]}
-        // {link ? link : allVideos[0]}
+        url = {link}
         playing={playing}
         controls={true}
         width="853px"
