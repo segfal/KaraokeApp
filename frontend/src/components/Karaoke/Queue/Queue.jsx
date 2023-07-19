@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux'
 import { SocketContext } from '../../../context';
 
 import MusicCard from './MusicCard';
+import { all } from 'axios';
 
 
 /* The queue is supposed to contain a map of videos
@@ -14,7 +15,7 @@ import MusicCard from './MusicCard';
 
 */
 const Queue = () => {
-  const allVideos = useSelector((state) => state.video.allVideos);
+  //const allVideos = useSelector((state) => state.video.allVideos);
   const [vidInfo, setVidInfo] = useState([]);
   const socket = useContext(SocketContext);
 
@@ -38,6 +39,7 @@ const Queue = () => {
       {/* {allVideos.map((video) => (
         <h3>{video}</h3>
       ))} */}
+      {console.log("QUEUE: ", vidInfo)}
       
       {vidInfo.map((video, index) => (
         <MusicCard key={index} video={video}/>
