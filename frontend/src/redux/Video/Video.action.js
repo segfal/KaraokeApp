@@ -14,6 +14,10 @@ export const syncVideo = (payload) => ({
     payload
 })
 
+export const endVideo = (payload) => ({
+    type: VideoActionTypes.END_VIDEO,
+    payload
+})
 
 
 
@@ -37,20 +41,29 @@ export const getVideoThunk = (keyword,socket,roomId) => {
     }
 }
 
-export const syncVideoThunk = (socket) => {
+// export const syncVideoThunk = (socket) => {
+//     return async (dispatch) => {
+//         try {
+//             console.log("SYNC VIDEO THUNK FIRING")
+//             socket.on('sync_video', (link)=> {
+//                 dispatch(syncVideo(link))
+//             })
+//             return () => {
+//                 socket.off('sync_video');
+//               };
+            
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+// }
+
+export const endVideoThunk = () => {
     return async (dispatch) => {
         try {
-            console.log("SYNC VIDEO THUNK FIRING")
-            socket.on('sync_video', (link)=> {
-                dispatch(syncVideo(link))
-            })
-            return () => {
-                socket.off('sync_video');
-              };
-            
+            dispatch(endVideo());
         } catch (error) {
             console.log(error)
         }
     }
 }
-

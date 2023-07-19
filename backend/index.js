@@ -53,7 +53,9 @@ io.on("connection", (socket) => {
   socket.on("get_video", (data) => {
     console.log("data for get_video: ", data);
     console.log("Listening for get_video")
+    console.log("IO ADAPTER ROOMS", io.sockets.adapter.rooms)
     io.to(data.room).emit("sync_video", data.link);
+
     
   });
 
@@ -92,7 +94,7 @@ io.on("connection", (socket) => {
 
 });
 
-
+console.log("User Room",io.adapter.rooms);
 
 // Potential sync, place db.sync({force: true }) to nuke data
 const syncDB = () => db.sync();

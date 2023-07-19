@@ -3,7 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
 import { SocketContext } from "../../../context";
-import { syncVideoThunk } from "../../../redux/Video/Video.action";
+// import { syncVideoThunk } from "../../../redux/Video/Video.action";
+import { syncVideo } from "../../../redux/Video/Video.action";
+
 
 // import io from 'socket.io-client';
 
@@ -12,21 +14,36 @@ import { syncVideoThunk } from "../../../redux/Video/Video.action";
 const Video = () => {
   const video = useSelector((state) => state.video.video);
   const allVideos = useSelector((state) => state.video.allVideos);
+  // const uniqueVideos = useSelector((state) => [...new Set(state.video.allVideos)])
+  const set= new Set(allVideos);
+  const uniqueVideos = Array.from(set);
+
+  
   
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
   const [link, setLink] = useState();
-  console.log("First vid link: ", allVideos[0])
-  console.log("All Videos ", allVideos);
+  console.log("First vid link: ", uniqueVideos[0])
+  console.log("All Videos ", uniqueVideos);
   // console.log("Socket in video component", socket)
   
   const roomId = socket.id;
-  console.log("VIDEO STATE: ", video);
+  
   const [playing, setPlaying] = useState(true);
   const [ended, setEnded] = useState(true);
 
+  /*
+
+   socket.on('sync_video', (link)=> {
+                dispatch(syncVideo(link))
+            })
+   */
   useEffect(()=> {
-    dispatch(syncVideoThunk(socket));
+    socket.on('sync_video', (link) => {
+      dispatch(syncVideo(link))
+  })
+    // dispatch(syncVideo);
+    return () => socket.off('sync_video');
   }, [])
   
   const pauseVideo = () => {
@@ -58,17 +75,19 @@ const Video = () => {
   const handleEnd = () => {
     // setEnded(true);
     // if (ended) {
-      allVideos.shift();
-      console.log("HANDLE END: ", allVideos)
-      console.log("VIDEO DATA:::::",allVideos[0]);
-      // setLink(allVideos[0]);
-      //setVideo(allVideos[0]);
+      // uniqueVideos.shift();
+      console.log("HANDLE END: ", uniqueVideos)
+      // console.log("VIDEO DATA:::::",uniqueVideos[0]);
+      console.log("VIDEO DATA:::::",uniqueVideos[0]);
+      setLink(uniqueVideos[0]);
+      //setVideo(uniqueVideos[0]);
     // }
+    // dispatch(endVideoThunk())
   };
 
   const nextVideo = () => {
     setEnded(false)
-    // allVideos.shift();
+    // uniqueVideos.shift();
   }
 
   // Pause useEffect
@@ -95,20 +114,33 @@ const Video = () => {
     };
   }, []);
 
+
+
+
   
-  // // Ended useEffect
-  // useEffect(() => {
-  //   //console.log("USE EFFECT IS RUNNING")
-  //   socket.on("end", () => {
-  //     allVideos.shift();
-  //     console.log("HANDLE END: ", allVideos)
-  //     console.log("VIDEO DATA:::::",allVideos[0]);
-  //     // handleEnd();
-  //   });
-  //   return () => {
-  //     socket.off("end");
-  //   };
-  // }, []);
+  // Ended useEffect
+  useEffect(() => {
+    //console.log("USE EFFECT IS RUNNING")
+    
+    console.log("HANDLE END: ", uniqueVideos)
+    // console.log("VIDEO DATA:::::",uniqueVideos[0]);
+    
+    
+    // setLink(uniqueVideos[0]);
+    socket.on("end", () => {
+      // uniqueVideos.shift();
+      uniqueVideos.shift();
+      handleEnd();
+      console.log("HANDLE END: ", uniqueVideos)
+      // console.log("VIDEO DATA:::::",uniqueVideos[0]);
+      // //setLink(uniqueVideos[0]);
+     
+      
+    });
+    return () => {
+      socket.off("end");
+    };
+  }, []);
 
 
 
@@ -117,8 +149,10 @@ const Video = () => {
   }
   return (
     <div className="video-responsive">
+     
       <ReactPlayer
-        url={allVideos[0]}
+        url = {link ? link : uniqueVideos[0]}
+        // {link ? link : allVideos[0]}
         playing={playing}
         controls={true}
         width="853px"

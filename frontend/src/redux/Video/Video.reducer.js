@@ -14,19 +14,33 @@ const VideoReducer = (state = initialState, action) => {
                 allVideos: [...state.allVideos, action.payload]
             }
         case VideoActionTypes.SYNC_VIDEO:
-            return {
-                ...state,
-                video: action.payload
-                // allVideos: [...state.allVideos, action.payload]
-            }
-        case VideoActionTypes.END_VIDEO:
 
-        const videos = [...state.allVideos];
-        
+
             return {
                 ...state,
-                
+                video: action.payload,
+                allVideos: [...state.allVideos, action.payload]
             }
+            // if (!state.allVideos.includes(action.payload)) {
+            //     return {
+            //     ...state,
+            //     video: action.payload,
+            //     allVideos: [...state.allVideos, action.payload]
+            //  };
+            // }
+            // return state.allVideos;
+        // case VideoActionTypes.END_VIDEO:
+        //     return {
+        //         ...state,
+        //         allVideos: [...state.allVideos].shift
+        //     }
+
+        // const videos = [...state.allVideos];
+        
+        //     return {
+        //         ...state,
+                
+        //     }
         default:
             return state;
     }
