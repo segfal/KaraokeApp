@@ -13,23 +13,33 @@ import ChatBox from '../ChatBox/ChatBox';
 
 // Future: search bar and queue option
 const Room = () => {
-  const socket = useContext(SocketContext);
-  const location = useLocation();
   // const roomId = socket.id;
   // const room = location.state;
-  const room = location.state ? location.state : socket.id;
   // const roomId = location.state; // socket.id
   // const [room, setRoom] = useState('');
+  const socket = useContext(SocketContext);
+  const location = useLocation();
+  const room = location.state ? location.state : socket.id;
+  const [isChatVisible, setIsChatVisible] = useState(false);
+  const [messages, setMessages] = useState([]);
 
+  const toggleChatVisibility = () => {
+    setIsChatVisible((prevVisible) => !prevVisible);
+  };
   return (
     <div>
-      <h1>Room</h1>
-      <h2>Room ID: {room}</h2>
       {/* <ShareButton/> */}
-      <Search roomId={room} />
-      <ChatBox roomId={room} />
       {/* <Queue/> */}
       {/* <Participants/>  */}
+      <h1>Room</h1>
+      <h2>Room ID: {room}</h2>
+      <Search roomId={room} />
+      <button onClick={toggleChatVisibility}>
+        {isChatVisible ? 'Hide Chat' : 'Show Chat'}
+      </button>
+      {isChatVisible && (
+        <ChatBox roomId={room} messages={messages} setMessages={setMessages} />
+      )}
     </div>
   );
 };

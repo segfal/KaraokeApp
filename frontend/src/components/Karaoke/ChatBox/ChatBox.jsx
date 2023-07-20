@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { SocketContext } from '../../../context';
+import './ChatBox.css';
 
-const ChatBox = ({ roomId }) => {
+const ChatBox = ({ roomId, messages, setMessages }) => {
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
   const socket = useContext(SocketContext);
 
   const handleSendMessage = () => {
@@ -21,16 +22,18 @@ const ChatBox = ({ roomId }) => {
     return () => {
       socket.off('receive_message');
     };
-  }, []);
+  }, [roomId, setMessages]);
 
   return (
-    <div>
-      <div>
+    <div className="chatbox-container">
+      <div className="message-list">
         {messages.map((msg, index) => (
-          <div key={index}>{msg}</div>
+          <div key={index} className="message-item">
+            {msg}
+          </div>
         ))}
       </div>
-      <div>
+      <div className="message-input">
         <input
           type="text"
           value={message}
