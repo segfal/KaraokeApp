@@ -47,3 +47,9 @@ router.post("/logout", async(req, res, next) => {
         res.redirect("/")
     })
 })
+
+// auth/profile
+router.post("/profile", async(req, res, next) => {
+    // When on /profile, send profile data to be accessed
+    res.status(200).json(req.user);
+})
