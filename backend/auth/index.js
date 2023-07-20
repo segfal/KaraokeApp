@@ -8,7 +8,7 @@ router.post("/login", async(req, res, next) => {
         if (!user || !user.correctPassword(req.body.password)) {
             res.status(401).send("Invalid login attempt");
         } else {
-            // Passport.js
+            // Log in with Passport.js
             req.login(user, err => (err ? next(err) : res.status(200).json(user)));
         }
     } catch (error) {
@@ -24,7 +24,7 @@ router.post("/signup", async(req, res, next) => {
             return res.status(400).send("Required fields missing");
         }
         const user = await User.create(req.body);
-        // Logs in user automatically after sign up
+        // Logs in user automatically after sign up with Passport js
         req.login(user, err => (err ? next(err) : res.status(200).json(user)));
     } catch (error) {
         // Error for if user already exists
@@ -35,3 +35,15 @@ router.post("/signup", async(req, res, next) => {
         }
     }
 });
+
+// auth/logout
+router.post("/logout", async(req, res, next) => {
+    // Passport js logout method
+    req.logout((error) => {
+        if (error) {
+            return next(error);
+        }
+        // Redirect to logged out home page
+        res.redirect("/")
+    })
+})
