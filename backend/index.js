@@ -15,6 +15,8 @@ const io = require("socket.io")(http, {
 app.use(cors());
 app.use(express.json());
 app.use("/api", require("./api"));
+// Mount on Auth
+app.use("/auth", require("./auth"))
 
 io.on("connection", (socket) => {
   // Create room
