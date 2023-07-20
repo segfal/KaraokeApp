@@ -7,9 +7,6 @@ import { SocketContext } from "../../../context";
 import { syncVideo } from "../../../redux/Video/Video.action";
 
 
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:4000');
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
@@ -24,7 +21,6 @@ const Video = () => {
   
   console.log("First vid link: ", uniqueVideos[0])
   console.log("All Videos ", uniqueVideos);
-  // console.log("Socket in video component", socket)
   const tempurl = "https://www.youtube.com/embed/QC8iQqtG0hg";
   const [link, setLink] = useState(uniqueVideos[0]);
   
@@ -161,7 +157,7 @@ const Video = () => {
           <button onClick={resumeVideo}>Resume</button>
         )}
         <button onClick={nextVideo}>Next Song</button>
-        {/* <button>Sync</button> */}
+        
       </div>
     </div>
   );
