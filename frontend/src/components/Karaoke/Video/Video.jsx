@@ -149,7 +149,7 @@ const Video = () => {
         }}
         autoPlay={false}
       />
-      {/* {console.log("PLAYER LINK: ", link)} */}
+      
       <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
