@@ -1,4 +1,7 @@
 const express = require("express");
+const session = require("express-session");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const passport = require("passport");
 const app = express(); // instance to express module
 const db = require("./db");
 const PORT = 4000; //Port number
@@ -11,12 +14,13 @@ const io = require("socket.io")(http, {
     methods: ["GET", "POST"],
   },
 });
+const sessionStore = new SequelizeStore({  db })
 
-app.use(cors());
-app.use(express.json());
-app.use("/api", require("./api"));
-// Mount on Auth
-app.use("/auth", require("./auth"))
+// app.use("/api", require("./api"));
+// // Mount on Auth
+// app.use("/auth", require("./auth"))
+
+// Socket connection
 
 io.on("connection", (socket) => {
   // Create room
@@ -98,6 +102,67 @@ io.on("connection", (socket) => {
 
 console.log("User Room",io.adapter.rooms);
 
+// User authorization
+
+// Pass user into Passport
+const serializeUser = (user, done) => done(null, user.id); 
+const deserializeUser = async (id, done) => {
+  try {
+    const user = await db.models.user.findByPk(id);
+    done (null, user);
+  } catch (error) {
+    done(error);
+  }
+}
+
+// Configs
+const configSession = () => ({
+  secret:"karaokeapp",
+  store: sessionStore,
+  resave: false,
+  cookie: {maxAge: 8 * 60 * 60 * 1000}, // 8 hours in ms
+  saveUninitialized: false,
+})
+
+// Middleware Setup
+const setUpMiddleware = app => {
+  app.use(express.json());
+  app.use(express.urlencoded({extended: true}));
+  app.use(cors());
+  app.use(session(configSession()))
+  app.use(passport.initialize());
+  app.use(passport.session());
+  return app;
+}
+
+// Passport Setup
+const setUpPassport = () => {
+  passport.serializeUser(serializeUser); // Add user from session
+  passport.deserializeUser(deserializeUser); // Remove user from session
+}
+
+// Routes
+const setUpRoutes = app => {
+  app.use("/api", require("./api"));
+  app.use("/auth", require("./auth"));
+}
+
+// Start server and sync db
+// const startServer = async (app, PORT) => {
+//   await db.sync();
+//   app.list(PORT, () => console.log(`Server is on port: ${PORT}`));
+//   return app;
+// }
+
+// Configure all functions
+const configureApp = async(PORT) => {
+  setUpPassport();
+  setUpMiddleware(app);
+  await sessionStore.sync()
+  setUpRoutes(app);
+  // return startServer(app, port);
+}
+
 // Potential sync, place db.sync({force: true }) to nuke data
 const syncDB = () => db.sync();
 
@@ -118,4 +183,4 @@ syncDB();
 runServer();
 runHttp();
 
-module.exports = app;
+module.exports = app, configureApp(PORT);
