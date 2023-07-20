@@ -46,8 +46,6 @@ const Video = () => {
   }, [])
   
   const pauseVideo = () => {
-   // console.log("pause");
-   // console.log("PAUSE: ",{roomId});
     socket.emit("on_pause", {roomId});
   };
 
@@ -73,9 +71,6 @@ const Video = () => {
   // Setting the next video
   const handleEnd = () => {
    
-      console.log("HANDLE END: ", uniqueVideos)
-
-      console.log("VIDEO DATA:::::",uniqueVideos[0]);
       setLink(uniqueVideos[0]);
  
   };
@@ -91,18 +86,16 @@ const Video = () => {
   useEffect(() => {
     console.log("USE EFFECT IS RUNNING")
     socket.on("pause", () => {
-      console.log("Listening for pause")
       pauseAll();
     });
     return () => {
       socket.off("pause");
-    };
-
-    
+    };  
   }, []);
+
   // Resume useEffect
   useEffect(() => {
-    //console.log("USE EFFECT IS RUNNING")
+    
     socket.on("resume", () => {
       resumeAll();
     });
@@ -126,7 +119,7 @@ const Video = () => {
     
     
     socket.on("end", () => {
-      // uniqueVideos.shift();
+    
       uniqueVideos.shift();
       handleEnd();
       console.log("HANDLE END: ", uniqueVideos)
@@ -146,7 +139,6 @@ const Video = () => {
   }
   return (
     <div className="video-responsive">
-     {console.log("VIDEO LINK: ", link)}
       <ReactPlayer
         url = {link}
         playing={playing}

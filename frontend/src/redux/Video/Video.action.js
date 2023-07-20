@@ -41,22 +41,6 @@ export const getVideoThunk = (keyword,socket,roomId) => {
     }
 }
 
-// export const syncVideoThunk = (socket) => {
-//     return async (dispatch) => {
-//         try {
-//             console.log("SYNC VIDEO THUNK FIRING")
-//             socket.on('sync_video', (link)=> {
-//                 dispatch(syncVideo(link))
-//             })
-//             return () => {
-//                 socket.off('sync_video');
-//               };
-            
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-// }
 
 export const endVideoThunk = () => {
     return async (dispatch) => {
