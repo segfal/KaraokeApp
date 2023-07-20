@@ -18,7 +18,7 @@ const Queue = () => {
   
   const [vidInfo, setVidInfo] = useState([]);
   const socket = useContext(SocketContext);
-  const [remove, setRemove] = useState(false);
+ 
   
 
 

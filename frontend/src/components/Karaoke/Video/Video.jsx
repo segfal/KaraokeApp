@@ -5,14 +5,16 @@ import ReactPlayer from "react-player";
 import { SocketContext } from "../../../context";
 // import { syncVideoThunk } from "../../../redux/Video/Video.action";
 import { syncVideo } from "../../../redux/Video/Video.action";
+import { removeVideoThunk } from "../../../redux/Video/Video.action";
 
 
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
   const allVideos = useSelector((state) => state.video.allVideos);
-  const set= new Set(allVideos);
-  const uniqueVideos = Array.from(set);
+  const uniqueVideos = useSelector((state) => state.video.uniqueVideos);
+  //const set= new Set(allVideos);
+  //const uniqueVideos = Array.from(set);
 
   
   
@@ -20,8 +22,8 @@ const Video = () => {
   const dispatch = useDispatch();
   
   console.log("First vid link: ", uniqueVideos[0])
-  console.log("All Videos ", uniqueVideos);
-  const tempurl = "https://www.youtube.com/embed/QC8iQqtG0hg";
+  //console.log("All Videos ", uniqueVideos);
+  
   const [link, setLink] = useState(uniqueVideos[0]);
   
   const roomId = socket.id;
@@ -116,7 +118,12 @@ const Video = () => {
     
     socket.on("end", () => {
     
-      uniqueVideos.shift();
+      //uniqueVideos.shift();
+      //get rid of all instances of x in allVideos array
+      dispatch(removeVideoThunk(uniqueVideos[0],socket.id));
+      console.log("ALL VIDEOS: ", allVideos);
+
+      
       handleEnd();
       console.log("HANDLE END: ", uniqueVideos)
 
@@ -130,9 +137,10 @@ const Video = () => {
 
 
 
-  if (video.length === 0  || link === undefined) {
+  if (!(video)  || link === undefined) {
     return <div><h1>Add a video</h1></div>;
   }
+
   return (
     <div className="video-responsive">
       <ReactPlayer

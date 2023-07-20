@@ -20,6 +20,12 @@ export const endVideo = (payload) => ({
 })
 
 
+export const removeVideo = (payload) => ({
+    type: VideoActionTypes.REMOVE_VIDEO,
+    payload
+})
+
+
 
 
 
@@ -46,6 +52,20 @@ export const endVideoThunk = () => {
     return async (dispatch) => {
         try {
             dispatch(endVideo());
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+
+export const removeVideoThunk = (video,socket) => {
+    return async (dispatch) => {
+        try {
+            console.log("REDUX socket: ", socket);
+            console.log("REMOVE VIDEO THUNK");
+            dispatch(removeVideo(video));
+            socket.emit('remove_video', { link: video, room: socket });
         } catch (error) {
             console.log(error)
         }

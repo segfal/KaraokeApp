@@ -51,9 +51,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("get_video", (data) => {
-    console.log("data for get_video: ", data);
-    console.log("Listening for get_video")
-    console.log("IO ADAPTER ROOMS", io.sockets.adapter.rooms)
+    //console.log("data for get_video: ", data);
+    //console.log("Listening for get_video")
+    //console.log("IO ADAPTER ROOMS", io.sockets.adapter.rooms)
     io.to(data.room).emit("sync_video", data.link);
 
     
