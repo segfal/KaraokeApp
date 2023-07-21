@@ -20,22 +20,7 @@ const Room = () => {
   const socket = useContext(SocketContext);
   const location = useLocation();
   const room = location.state ? location.state : socket.id;
-  const [isChatVisible, setIsChatVisible] = useState(true);
-  const [messages, setMessages] = useState([]);
-
-  const toggleChatVisibility = () => {
-    setIsChatVisible((prevVisible) => !prevVisible);
-  };
-
-  useEffect(() => {
-    socket.on('receive_message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
-    });
-
-    return () => {
-      socket.off('receive_message');
-    };
-  }, [socket]);
+  // const [messages, setMessages] = useState([]);
 
   return (
     <div>
@@ -45,12 +30,7 @@ const Room = () => {
       <h1>Room</h1>
       <h2>Room ID: {room}</h2>
       <Search roomId={room} />
-      <button onClick={toggleChatVisibility}>
-        {isChatVisible ? 'Hide Chat' : 'Show Chat'}
-      </button>
-      {isChatVisible && (
-        <ChatBox roomId={room} messages={messages} setMessages={setMessages} />
-      )}
+      <ChatBox roomId={room} />
     </div>
   );
 };
