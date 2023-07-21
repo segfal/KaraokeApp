@@ -16,8 +16,9 @@ import axios from 'axios';
 */
 const Queue = () => {
   
-  const [vidInfo, setVidInfo] = useState([]);
+  const vidInfo = useSelector((state) => state.video.vidInfo);
   const socket = useContext(SocketContext);
+  console.log("VIDEO INFO: ", vidInfo);
  
   
 
@@ -25,7 +26,9 @@ const Queue = () => {
 
   useEffect(() => {
     socket.on('vid_info', (newElement) => {
-      setVidInfo(vidInfo => [...vidInfo, newElement]);
+      ///add it to vidInfo
+      console.log("NEW ELEMENT: ", newElement);
+      vidInfo.push(newElement);
     })
 
     return () => {

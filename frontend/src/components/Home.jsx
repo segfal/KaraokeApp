@@ -21,8 +21,8 @@ const Home = () => {
   const handleCreateRoom = () => {
     socket.emit('createRoom', socket.id);
     // setRoomId(socket.id);
-    console.log("CREATE ROOM: ", socket.id);
-    console.log("CR SOCKET: ", socket)
+    //console.log("CREATE ROOM: ", socket.id);
+    //console.log("CR SOCKET: ", socket)
     navigate(`/karaoke/${socket.id}`);
   }
 

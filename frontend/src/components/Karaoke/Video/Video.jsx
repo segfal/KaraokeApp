@@ -13,18 +13,14 @@ const Video = () => {
   const video = useSelector((state) => state.video.video);
   const allVideos = useSelector((state) => state.video.allVideos);
   const uniqueVideos = useSelector((state) => state.video.uniqueVideos);
-  //const set= new Set(allVideos);
-  //const uniqueVideos = Array.from(set);
-
-  
   
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
   
-  console.log("First vid link: ", uniqueVideos[0])
+  //console.log("First vid link: ", uniqueVideos[0])
   //console.log("All Videos ", uniqueVideos);
   
-  const [link, setLink] = useState(uniqueVideos[0]);
+  const [link, setLink] = useState(uniqueVideos[0] ? uniqueVideos[0] : "hello");
   
   const roomId = socket.id;
   
@@ -52,8 +48,8 @@ const Video = () => {
   };
 
   const resumeVideo = () => {
-    console.log("resume");
-    console.log("RESUME: ", {roomId});
+    //console.log("resume");
+    //console.log("RESUME: ", {roomId});
     socket.emit("on_resume", {roomId});
   };
 
@@ -62,7 +58,7 @@ const Video = () => {
   };
 
   const endVideo = () => { // hasEnded
-    console.log("end");
+    //console.log("end");
     socket.emit("is_ended", {roomId});
   };
 
@@ -82,7 +78,7 @@ const Video = () => {
 
   // Pause useEffect
   useEffect(() => {
-    console.log("USE EFFECT IS RUNNING")
+    //console.log("USE EFFECT IS RUNNING")
     socket.on("pause", () => {
       pauseAll();
     });
@@ -110,7 +106,7 @@ const Video = () => {
   useEffect(() => {
    
     
-    console.log("HANDLE END: ", uniqueVideos)
+    //console.log("HANDLE END: ", uniqueVideos)
     //uniqueVideos.shift();
     setLink(uniqueVideos[0] ? uniqueVideos[0] : undefined);///
     
@@ -121,11 +117,11 @@ const Video = () => {
       //uniqueVideos.shift();
       //get rid of all instances of x in allVideos array
       dispatch(removeVideoThunk(uniqueVideos[0],socket.id));
-      console.log("ALL VIDEOS: ", allVideos);
+      //console.log("ALL VIDEOS: ", allVideos);
 
       
       handleEnd();
-      console.log("HANDLE END: ", uniqueVideos)
+      
 
      
       

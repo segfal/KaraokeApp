@@ -17,12 +17,12 @@ const MusicCard = ({video}) => {
 
 
     const handleDelete = () => {
-        console.log("DELETE: ", video.link);
+        //console.log("DELETE: ", video.link);
         const index = allVideos.indexOf(video.link);
-        console.log("INDEX: ", index);
+        //console.log("INDEX: ", index);
         ///remove all occurences of video.link from allVideos
         const filtered = allVideos.filter((link) => link !== video.link);
-        console.log("FILTERED: ", filtered);
+        //console.log("FILTERED: ", filtered);
         //set allVideos to filtered
 
     }

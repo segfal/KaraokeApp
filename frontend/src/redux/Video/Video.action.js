@@ -34,12 +34,18 @@ export const getVideoThunk = (keyword,socket,roomId) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(`http://127.0.0.1:4100/api/video/addmusic/${keyword}`);
-            console.log("RESPONSE DATA----: ", response.data);
+            //console.log("RESPONSE DATA----: ", response.data);
             socket.emit('get_video', { link: response.data.link, room: roomId});
             socket.emit('vid_info', { link: response.data.link, title: response.data.title, thumbnail: response.data.thumbnail, room: roomId });
-            console.log("response.data.link: ", response.data.link, "response.data.roomId: ", roomId, "response.data.title: ", response.data.title);
-            console.log("REDUX socket: ", socket);
-            dispatch(getVideo(response.data.link));
+            
+            dispatch(getVideo({
+                
+                link:response.data.link,
+                title: response.data.title,
+                thumbnail: response.data.thumbnail
+                
+            
+            }));
         }
         catch (error) {
             console.log(error);
