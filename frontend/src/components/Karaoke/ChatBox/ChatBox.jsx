@@ -14,15 +14,15 @@ const ChatBox = ({ roomId, messages, setMessages }) => {
     }
   };
 
-  useEffect(() => {
-    socket.on('receive_message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
-    });
+  //   useEffect(() => {
+  //     socket.on('receive_message', (data) => {
+  //       setMessages((prevMessages) => [...prevMessages, data.message]);
+  //     });
 
-    return () => {
-      socket.off('receive_message');
-    };
-  }, [roomId, setMessages]);
+  //     return () => {
+  //       socket.off('receive_message');
+  //     };
+  //   }, [roomId, setMessages]);
 
   return (
     <div className="chatbox-container">
