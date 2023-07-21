@@ -14,6 +14,12 @@ export const syncVideo = (payload) => ({
     payload
 })
 
+
+export const syncVideoInfo = (payload) => ({
+    type: VideoActionTypes.SYNC_VIDEO_INFO,
+    payload
+})
+
 export const endVideo = (payload) => ({
     type: VideoActionTypes.END_VIDEO,
     payload
@@ -71,7 +77,7 @@ export const removeVideoThunk = (video,socket) => {
             console.log("REDUX socket: ", socket);
             console.log("REMOVE VIDEO THUNK");
             dispatch(removeVideo(video));
-            socket.emit('remove_video', { link: video, room: socket });
+            socket.emit('remove_from_queue', { link: video, room: socket });
         } catch (error) {
             console.log(error)
         }

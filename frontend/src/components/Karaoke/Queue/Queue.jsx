@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useContext, useState } from 'react';
 import {useSelector,useDispatch} from 'react-redux'
 import { SocketContext } from '../../../context';
+import { syncVideoInfo } from '../../../redux/Video/Video.action';
 
 import MusicCard from './MusicCard';
 import axios from 'axios';
@@ -16,8 +17,9 @@ import axios from 'axios';
 */
 const Queue = () => {
   
-  const vidInfo = useSelector((state) => state.video.vidInfo);
+  const vidInfo = useSelector((state) => state.video.uniqueVidInfo);
   const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
   console.log("VIDEO INFO: ", vidInfo);
  
   
@@ -28,7 +30,9 @@ const Queue = () => {
     socket.on('vid_info', (newElement) => {
       ///add it to vidInfo
       console.log("NEW ELEMENT: ", newElement);
-      vidInfo.push(newElement);
+      //vidInfo.push(newElement);
+      dispatch(syncVideoInfo(newElement));
+
     })
 
     return () => {

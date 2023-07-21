@@ -129,7 +129,7 @@ const Video = () => {
     return () => {
       socket.off("end");
     };
-  }, [allVideos.length]);
+  }, [allVideos.length,uniqueVideos.length]);
 
 
 
