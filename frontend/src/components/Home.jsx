@@ -1,6 +1,8 @@
 import React,{useContext,useState,useEffect} from 'react'
 import { Navigate, redirect, useNavigate , Link} from 'react-router-dom';
 import { SocketContext } from '../context';
+import { PeerContext } from '../PeerContext';
+import Peer from 'peerjs';
 // import io from 'socket.io-client';
 
 
@@ -8,18 +10,40 @@ import { SocketContext } from '../context';
 
 const Home = () => {
   const socket = useContext(SocketContext);
+  const peer = useContext(PeerContext);
   // const [roomId, setRoomId] = useState(socket.id);
+  const [id, setId] = useState("");
   const [room, setRoom] = useState('');
   const [user, setUser] = useState('');
 
+  
+
+  useEffect(()=> {
+    peer.on('open', id => {
+      console.log("My Peer connection: ", id);
+      setId(id);
+    })
+  }, [])
+
+  // const handleJoinRoom = () => {
+  //   // myPeer.on('open', id => {
+  //       console.log("My Peer connection ", id);
+  //       socket.emit('join_room', room , id );
+  //       // socket.emit('join_room', room);
+  //   // })
+    
+  //   // navigate(`/karaoke/${room}`);
+  // };
+
   const navigate = useNavigate();
   const handleJoinRoom = () => {
-    socket.emit('joinRoom', {room,user});
+    console.log("My Peer connection ", id);
+    socket.emit('join_room', {room,user}, id);  //id is coming from the peerjs id.
     // navigate(`/karaoke/${room}`);
   };
 
   const handleCreateRoom = () => {
-    socket.emit('createRoom', socket.id);
+    socket.emit('create_room', socket.id);
     // setRoomId(socket.id);
     //console.log("CREATE ROOM: ", socket.id);
     //console.log("CR SOCKET: ", socket)

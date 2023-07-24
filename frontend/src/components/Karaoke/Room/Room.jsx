@@ -8,6 +8,8 @@ import ChatBox from '../ChatBox/ChatBox';
 import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SocketContext } from '../../../context';
+import UserVideo from '../UserVideo/UserVideo';
+import User from '../UserVideo/User';
 
 // const socket = io('http://localhost:4000');
 // Future: search bar and queue option
@@ -30,6 +32,7 @@ const Room = () => {
       <h1>Room</h1>
       <h2>Room ID: {room}</h2>
       <Search roomId={room} />
+      <User />
       <ChatBox roomId={room} />
     </div>
   );
