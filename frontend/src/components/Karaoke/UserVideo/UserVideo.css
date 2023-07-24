@@ -1,0 +1,10 @@
+.user-vid {
+    width:200px;
+    height: 200px;
+}
+
+#video-group {
+    display: flex;
+    gap: 40px;
+    /* grid-auto-columns: 300px; */
+}

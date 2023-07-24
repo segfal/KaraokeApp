@@ -17,19 +17,37 @@ app.use(express.json());
 app.use('/api', require('./api'));
 
 io.on('connection', (socket) => {
+  var peerId;
   // Create room
-  console.log('SOCKET', socket.id);
-  socket.on('createRoom', (roomId) => {
+  // console.log('SOCKET', socket.id);
+  socket.on('create_room', (roomId) => {
     socket.join(roomId);
     console.log(`User created room: ${roomId}`);
   });
 
   // Join room
-  socket.on('joinRoom', (data) => {
+  socket.on('join_room', (data, id) => {
     socket.join(data.room);
+    // console.log("Peer id", id);
     ///join room
-    console.log(`User joined room: ${data.room}`);
+    console.log(`${id} joined room: ${data.room}`);
+    socket.to(data.room).emit('user-connected', id)
+    peerId = id;
+    console.log("PeerID: ",peerId)
   });
+
+//   socket.on('join_room', (roomId, userId) => {
+//     console.log(roomId, userId)
+//     socket.join(roomId)
+//     console.log(`${userId} has joined room ${roomId}`)
+//     socket.to(roomId).emit('user-connected', userId)
+//     peerId = userId;
+// });
+
+  socket.on('disconnect', () => {
+    console.log("A user disconnected", peerId);
+    io.emit('user-disconnected', peerId);
+});
 
   // Handle links
   // socket.on('link', (data) => {

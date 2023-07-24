@@ -8,6 +8,8 @@ import ChatBox from '../ChatBox/ChatBox';
 import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SocketContext } from '../../../context';
+import UserVideo from '../UserVideo/UserVideo';
+import User from '../UserVideo/User';
 
 // const socket = io('http://localhost:4000');
 // Future: search bar and queue option
@@ -49,6 +51,7 @@ const Room = () => {
       <button onClick={handleCopyId}>Copy Room ID</button>
       {isCopied && <div>Copied to clipboard</div>}
       <Search roomId={room} />
+      <User />
       <ChatBox roomId={room} />
     </div>
   );
