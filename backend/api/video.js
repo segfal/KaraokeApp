@@ -39,7 +39,9 @@ router.post("/addmusic/:keyword", async (req, res, next) => {
             isEmbeddable = response.data.items[0].status.embeddable;
             if (isEmbeddable) {
                 const videoId = response.data.items[0].id;
+                console.log("VIDEO ID---- ", videoId);
                 const videoLink = `https://www.youtube.com/embed/${videoId}`;
+
                 // console.log("EMBED RES---- ", searchResults[i]);
                 const videoTitle = searchResults[i].snippet.title;
                 const videoThumbnail = searchResults[i].snippet.thumbnails.default.url;

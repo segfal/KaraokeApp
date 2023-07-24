@@ -52,19 +52,7 @@ const Search = ({roomId}) => {
       <div>
       <Video roomId={roomId}/>
       <Queue/>
-        {/* {links.map((msg, index) => (
-          <Video link={link} room={room} socket={socket}/>
-        ))} */}
       </div>
-      {/* <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter message"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-        />
-        <button type="submit">Send</button>
-      </form> */}
     </div>
   )
 

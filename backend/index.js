@@ -49,12 +49,13 @@ io.on('connection', (socket) => {
     console.log('data for pause: ', data.roomId);
     io.to(data.roomId).emit('pause', data.roomId);
   });
+  
 
   socket.on('get_video', (data) => {
     console.log('data for get_video: ', data);
     console.log('Listening for get_video');
     console.log('IO ADAPTER ROOMS', io.sockets.adapter.rooms);
-    io.to(data.room).emit('sync_video', data.link);
+
   });
 
   socket.on('vid_info', (data) => {

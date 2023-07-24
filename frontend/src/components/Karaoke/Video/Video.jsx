@@ -5,28 +5,22 @@ import ReactPlayer from "react-player";
 import { SocketContext } from "../../../context";
 // import { syncVideoThunk } from "../../../redux/Video/Video.action";
 import { syncVideo } from "../../../redux/Video/Video.action";
+import { removeVideoThunk } from "../../../redux/Video/Video.action";
 
 
-// import io from 'socket.io-client';
-
-// const socket = io('http://localhost:4000');
 
 const Video = () => {
   const video = useSelector((state) => state.video.video);
   const allVideos = useSelector((state) => state.video.allVideos);
-  const set= new Set(allVideos);
-  const uniqueVideos = Array.from(set);
-
-  
+  const uniqueVideos = useSelector((state) => state.video.uniqueVideos);
   
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
   
-  console.log("First vid link: ", uniqueVideos[0])
-  console.log("All Videos ", uniqueVideos);
-  // console.log("Socket in video component", socket)
-  const tempurl = "https://www.youtube.com/embed/QC8iQqtG0hg";
-  const [link, setLink] = useState(uniqueVideos[0]);
+  //console.log("First vid link: ", uniqueVideos[0])
+  //console.log("All Videos ", uniqueVideos);
+  
+  const [link, setLink] = useState(uniqueVideos[0] ? uniqueVideos[0] : "hello");
   
   const roomId = socket.id;
   
@@ -46,8 +40,6 @@ const Video = () => {
   }, [])
   
   const pauseVideo = () => {
-   // console.log("pause");
-   // console.log("PAUSE: ",{roomId});
     socket.emit("on_pause", {roomId});
   };
 
@@ -56,8 +48,8 @@ const Video = () => {
   };
 
   const resumeVideo = () => {
-    console.log("resume");
-    console.log("RESUME: ", {roomId});
+    //console.log("resume");
+    //console.log("RESUME: ", {roomId});
     socket.emit("on_resume", {roomId});
   };
 
@@ -66,16 +58,13 @@ const Video = () => {
   };
 
   const endVideo = () => { // hasEnded
-    console.log("end");
+    //console.log("end");
     socket.emit("is_ended", {roomId});
   };
 
   // Setting the next video
   const handleEnd = () => {
    
-      console.log("HANDLE END: ", uniqueVideos)
-
-      console.log("VIDEO DATA:::::",uniqueVideos[0]);
       setLink(uniqueVideos[0]);
  
   };
@@ -89,20 +78,18 @@ const Video = () => {
 
   // Pause useEffect
   useEffect(() => {
-    console.log("USE EFFECT IS RUNNING")
+    //console.log("USE EFFECT IS RUNNING")
     socket.on("pause", () => {
-      console.log("Listening for pause")
       pauseAll();
     });
     return () => {
       socket.off("pause");
-    };
-
-    
+    };  
   }, []);
+
   // Resume useEffect
   useEffect(() => {
-    //console.log("USE EFFECT IS RUNNING")
+    
     socket.on("resume", () => {
       resumeAll();
     });
@@ -119,17 +106,22 @@ const Video = () => {
   useEffect(() => {
    
     
-    console.log("HANDLE END: ", uniqueVideos)
+    //console.log("HANDLE END: ", uniqueVideos)
     //uniqueVideos.shift();
     setLink(uniqueVideos[0] ? uniqueVideos[0] : undefined);///
     
     
     
     socket.on("end", () => {
-      // uniqueVideos.shift();
-      uniqueVideos.shift();
+    
+      //uniqueVideos.shift();
+      //get rid of all instances of x in allVideos array
+      dispatch(removeVideoThunk(uniqueVideos[0],socket.id));
+      //console.log("ALL VIDEOS: ", allVideos);
+
+      
       handleEnd();
-      console.log("HANDLE END: ", uniqueVideos)
+      
 
      
       
@@ -137,16 +129,16 @@ const Video = () => {
     return () => {
       socket.off("end");
     };
-  }, [allVideos.length]);
+  }, [allVideos.length,uniqueVideos.length]);
 
 
 
-  if (video.length === 0  || link === undefined) {
+  if (!(video)  || link === undefined) {
     return <div><h1>Add a video</h1></div>;
   }
+
   return (
     <div className="video-responsive">
-     {console.log("VIDEO LINK: ", link)}
       <ReactPlayer
         url = {link}
         playing={playing}
@@ -161,7 +153,7 @@ const Video = () => {
         }}
         autoPlay={false}
       />
-      {/* {console.log("PLAYER LINK: ", link)} */}
+      
       <div>
         {playing ? (
           <button onClick={pauseVideo}>Pause</button>
@@ -169,7 +161,7 @@ const Video = () => {
           <button onClick={resumeVideo}>Resume</button>
         )}
         <button onClick={nextVideo}>Next Song</button>
-        {/* <button>Sync</button> */}
+        
       </div>
     </div>
   );

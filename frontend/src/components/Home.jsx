@@ -23,9 +23,11 @@ const Home = () => {
     let username = user.trim() || 'Admin';
     socket.emit('createRoom', socket.id);
     // setRoomId(socket.id);
+
     console.log('CREATE ROOM: ', socket.id);
     console.log('CR SOCKET: ', socket);
     sessionStorage.setItem('username', username);
+
     navigate(`/karaoke/${socket.id}`);
   };
 
