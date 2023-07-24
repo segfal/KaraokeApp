@@ -20,10 +20,10 @@ io.on('connection', (socket) => {
   var peerId;
   // Create room
   // console.log('SOCKET', socket.id);
-  // socket.on('create_room', (roomId) => {
-  //   socket.join(roomId);
-  //   console.log(`User created room: ${roomId}`);
-  // });
+  socket.on('create_room', (roomId) => {
+    socket.join(roomId);
+    console.log(`User created room: ${roomId}`);
+  });
 
   // Join room
   socket.on('join_room', (data, id) => {
