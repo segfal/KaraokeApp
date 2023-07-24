@@ -90,7 +90,10 @@ io.on('connection', (socket) => {
     io.to(data.roomId).emit('remove_from_queue', data.roomId);
   });
   socket.on('send_message', (data) => {
-    io.to(data.roomId).emit('receive_message', { message: data.message });
+    io.to(data.roomId).emit('receive_message', {
+      message: data.message,
+      username: data.username,
+    });
   });
 });
 
