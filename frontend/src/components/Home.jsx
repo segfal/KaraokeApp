@@ -1,8 +1,7 @@
-import React,{useContext,useState,useEffect} from 'react'
-import { Navigate, redirect, useNavigate , Link} from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { Navigate, redirect, useNavigate, Link } from 'react-router-dom';
 import { SocketContext } from '../context';
 // import io from 'socket.io-client';
-
 
 // const socket = io('http://localhost:4000');
 
@@ -14,27 +13,29 @@ const Home = () => {
 
   const navigate = useNavigate();
   const handleJoinRoom = () => {
-    socket.emit('joinRoom', {room,user});
+    let username = user.trim() || 'Anonymous';
+    socket.emit('joinRoom', { room, user });
+    sessionStorage.setItem('username', username);
     // navigate(`/karaoke/${room}`);
   };
 
   const handleCreateRoom = () => {
+    let username = user.trim() || 'Admin';
     socket.emit('createRoom', socket.id);
     // setRoomId(socket.id);
-    //console.log("CREATE ROOM: ", socket.id);
-    //console.log("CR SOCKET: ", socket)
+
+    console.log('CREATE ROOM: ', socket.id);
+    console.log('CR SOCKET: ', socket);
+    sessionStorage.setItem('username', username);
+
     navigate(`/karaoke/${socket.id}`);
-  }
+  };
 
-
-  
-  
   return (
     <div>
       <h1>Home</h1>
       {/* <Link to={`/karaoke/${roomId}`}> */}
-      {console.log("SOCKET ID: ", socket.id)}
-
+      {console.log('SOCKET ID: ', socket.id)}
       <button onClick={handleCreateRoom}>Create Room</button>
       {/* </Link> */}
       <div>
@@ -55,7 +56,7 @@ const Home = () => {
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
