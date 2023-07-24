@@ -8,14 +8,19 @@ const Navbar = () => {
       <nav className="navigation">
         <ul>
           <li>
-            <Link id="home" to="/">
-              {" "}
-              HOME
-            </Link>
+            <Link id="home" to="/">HOME</Link>
           </li>
 
           <li>
-            <Link to="/karaoke"> KARAOKE</Link>
+            <Link to="/karaoke">KARAOKE</Link>
+          </li>
+
+          <li>
+            <Link to="/login">LOG IN</Link>
+          </li>
+
+          <li>
+            <Link to="/signup">SIGN UP</Link>
           </li>
         </ul>
       </nav>

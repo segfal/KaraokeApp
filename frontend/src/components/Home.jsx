@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Navigate, redirect, useNavigate, Link } from 'react-router-dom';
 import { SocketContext } from '../context';
+
+import JoinRoom from './JoinRoom';
+
 import { PeerContext } from '../PeerContext';
 import Peer from 'peerjs';
+
 // import io from 'socket.io-client';
 
 // const socket = io('http://localhost:4000');
@@ -35,42 +39,73 @@ const Home = () => {
   // };
 
   const navigate = useNavigate();
-  const handleJoinRoom = () => {
 
-    console.log("My Peer connection ", id);
-    socket.emit('join_room', {room,user}, id);  //id is coming from the peerjs id.
+  
+  //OLD HANDLE
+  // const handleJoinRoom = () => {
+  //   socket.emit('joinRoom', {room,user});
+  // };
 
-    let username = user.trim() || 'Anonymous';
+  // const handleCreateRoom = () => {
+  //   socket.emit('createRoom', socket.id);
+  //   // setRoomId(socket.id);
+  //   console.log("CREATE ROOM: ", socket.id);
+  //   console.log("CR SOCKET: ", socket)
+  //   navigate(`/karaoke/${socket.id}`);
+  // }
 
-    sessionStorage.setItem('username', username);
+  const handleLogin = () => {
+    navigate("/login");
+  }
+  
 
-    // navigate(`/karaoke/${room}`);
-  };
+  // CHAT BOX HANDLE
+//   const handleJoinRoom = () => {
 
-  const handleCreateRoom = () => {
+//     console.log("My Peer connection ", id);
+//     socket.emit('join_room', {room,user}, id);  //id is coming from the peerjs id.
 
-    socket.emit('create_room', socket.id);
+//     let username = user.trim() || 'Anonymous';
 
-    let username = user.trim() || 'Admin';
+//     sessionStorage.setItem('username', username);
+
+//     // navigate(`/karaoke/${room}`);
+//   };
+
+//   const handleCreateRoom = () => {
+
+//     socket.emit('create_room', socket.id);
+
+//     let username = user.trim() || 'Admin';
     
 
-    // setRoomId(socket.id);
+//     // setRoomId(socket.id);
 
-    console.log('CREATE ROOM: ', socket.id);
-    console.log('CR SOCKET: ', socket);
-    sessionStorage.setItem('username', username);
+//     console.log('CREATE ROOM: ', socket.id);
+//     console.log('CR SOCKET: ', socket);
+//     sessionStorage.setItem('username', username);
 
-    navigate(`/karaoke/${socket.id}`);
-  };
+//     navigate(`/karaoke/${socket.id}`);
+//   };
+
 
   return (
     <div>
       <h1>Home</h1>
       {/* <Link to={`/karaoke/${roomId}`}> */}
-      {console.log('SOCKET ID: ', socket.id)}
-      <button onClick={handleCreateRoom}>Create Room</button>
+
+      {console.log("SOCKET ID: ", socket.id)}
+
+    
+    
       {/* </Link> */}
+
       <div>
+        <button onClick={handleLogin}>Log In</button>
+      </div>
+      {/* <button onClick={handleCreateRoom}>Create Room</button> */}
+      {/* </Link> */}
+      {/* <div>
         <input
           type="text"
           placeholder="Enter room ID"
@@ -86,7 +121,8 @@ const Home = () => {
         <Link to={`/karaoke/${room}`} state={room}>
           <button onClick={handleJoinRoom}>Join Room</button>
         </Link>
-      </div>
+      </div> */}
+      <JoinRoom/>
     </div>
   );
 };
