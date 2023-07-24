@@ -4,7 +4,7 @@ const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const passport = require("passport");
 const app = express(); // instance to express module
 const db = require("./db");
-const PORT = 4000; //Port number
+const PORT = 4000; //Port number for socket
 const EXPPORT = 4100; //Port number for express
 const http = require("http").createServer(app);
 const cors = require("cors");
@@ -14,13 +14,94 @@ const io = require("socket.io")(http, {
     methods: ["GET", "POST"],
   },
 });
-const sessionStore = new SequelizeStore({  db })
+const sessionStore = new SequelizeStore({ db });
 
-// app.use("/api", require("./api"));
-// // Mount on Auth
-// app.use("/auth", require("./auth"))
+app.use(cors());
 
-// Socket connection
+const bodyParser = require("body-parser");
+
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Parse application/json
+app.use(bodyParser.json());
+
+// Configs
+const configSession = () => ({
+  secret:"karaokeapp",
+  store: sessionStore,
+  resave: false,
+  cookie: {maxAge: 8 * 60 * 60 * 1000}, // 8 hours in ms
+  saveUninitialized: false,
+})
+
+// Middleware Setup - Users
+app.use(session(configSession()))
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+const User = require("./db/models/user")
+
+// Mount on API
+app.use("/api", require("./api"));
+// Mount on Auth
+app.use("/auth", require("./auth"));
+
+// ---------------------USER AUTHORIZATION---------------------
+
+// Pass user into Passport
+const serializeUser = (user, done) => {
+  console.log("USER SESSION: ",user)
+  done(null, user)
+
+}; 
+const deserializeUser = async (id, done) => {
+  try {
+    const user = await db.models.User.findByPk(id);
+    done (null, user);
+  } catch (error) {
+    done(error);
+  }
+}
+
+
+// const setUpMiddleware = app => {
+
+//   return app;
+// }
+
+// Passport Setup
+const setUpPassport = () => {
+  passport.serializeUser(serializeUser); // Add user from session
+  passport.deserializeUser(deserializeUser); // Remove user from session
+}
+
+// Routes
+// const setUpRoutes = app => {
+//   app.use("/api", require("./api"));
+//   app.use("/auth", require("./auth"));
+// }
+
+// Start server and sync db
+// const startServer = async (app, PORT) => {
+//   await db.sync();
+//   app.list(PORT, () => console.log(`Server is on port: ${PORT}`));
+//   return app;
+// }
+
+// Configure all functions
+const configureApp = async(PORT) => {
+  setUpPassport();
+  // setUpMiddleware(app);
+  await sessionStore.sync()
+  // setUpRoutes(app);
+  // return startServer(app, port);
+}
+
+// ---------------------SOCKET CONNECTION---------------------
 
 io.on("connection", (socket) => {
   // Create room
@@ -101,67 +182,6 @@ io.on("connection", (socket) => {
 });
 
 console.log("User Room",io.adapter.rooms);
-
-// User authorization
-
-// Pass user into Passport
-const serializeUser = (user, done) => done(null, user.id); 
-const deserializeUser = async (id, done) => {
-  try {
-    const user = await db.models.user.findByPk(id);
-    done (null, user);
-  } catch (error) {
-    done(error);
-  }
-}
-
-// Configs
-const configSession = () => ({
-  secret:"karaokeapp",
-  store: sessionStore,
-  resave: false,
-  cookie: {maxAge: 8 * 60 * 60 * 1000}, // 8 hours in ms
-  saveUninitialized: false,
-})
-
-// Middleware Setup
-const setUpMiddleware = app => {
-  app.use(express.json());
-  app.use(express.urlencoded({extended: true}));
-  app.use(cors());
-  app.use(session(configSession()))
-  app.use(passport.initialize());
-  app.use(passport.session());
-  return app;
-}
-
-// Passport Setup
-const setUpPassport = () => {
-  passport.serializeUser(serializeUser); // Add user from session
-  passport.deserializeUser(deserializeUser); // Remove user from session
-}
-
-// Routes
-const setUpRoutes = app => {
-  app.use("/api", require("./api"));
-  app.use("/auth", require("./auth"));
-}
-
-// Start server and sync db
-// const startServer = async (app, PORT) => {
-//   await db.sync();
-//   app.list(PORT, () => console.log(`Server is on port: ${PORT}`));
-//   return app;
-// }
-
-// Configure all functions
-const configureApp = async(PORT) => {
-  setUpPassport();
-  setUpMiddleware(app);
-  await sessionStore.sync()
-  setUpRoutes(app);
-  // return startServer(app, port);
-}
 
 // Potential sync, place db.sync({force: true }) to nuke data
 const syncDB = () => db.sync();

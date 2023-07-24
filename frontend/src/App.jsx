@@ -5,8 +5,10 @@ import Navbar from './components/NavBar';
 import Home from './components/Home';
 import './App.css'
 import Room from './components/Karaoke/Room/Room';
+import Login from "./components/Login";
+import Signup from './components/Signup';
+import Profile from './components/Profile';
 import {SocketProvider} from "./context";
-
 
 /*
 Later on add user auth to affect those routes
@@ -23,6 +25,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/karaoke/:id" element={<Room/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/profile/:firstName" element={<Profile/>}></Route>
       </Routes>
       </>
     </Router>

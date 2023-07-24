@@ -4,24 +4,32 @@ const { Model, DataTypes } = require("sequelize");
 const db = require('../db');
 
 class User extends Model {
-  static async generateSalt() {
+  static generateSalt() {
     return crypto.randomBytes(16).toString("base64");
   }
-  static async encyrptPassword(pw, salt) {
-    return crypto.createHash('RSA-SHA256').update(pw).update(salt).digest("hex");
+  async encryptPassword(pw, salt) {
+    console.log("pw", pw)
+    console.log("salt", salt)
+    return await crypto.createHash('RSA-SHA256').update(pw).update(salt).digest("hex");
   }
-  static async correctPassword(pwAttempt) {
-    return User.encyrptPassword(pwAttempt, this.salt) === this.password;
+  async correctPassword(pwAttempt) {
+    console.log("pwAttempt", pwAttempt)
+    return await this.encryptPassword(pwAttempt, this.salt) === this.password;
   }
 }
 
 User.init(
   {
-    userName: {
+    email: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,  
       // unique: true
     },
+    // userName: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    //   // unique: true
+    // },
     password: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -41,11 +49,6 @@ User.init(
       type: DataTypes.STRING, // will change to Files using a profilePic database
       allowNull: true,
     },  
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,  
-      // unique: true
-    },
     googleId: { // OAuth
       type: DataTypes.STRING
     },
@@ -57,9 +60,12 @@ User.init(
   {
     sequelize: db,
     modelName: "User",
-    hook: {
-      beforeSave: async (user) => {
+    hooks: {
+      beforeCreate: async (user) => {
+        console.log("BEFORE BEFORE SAVE");
+        
         if (user.changed('password')){
+          console.log("BEFORE SAVE");
           user.salt = await User.generateSalt();
           user.password = await User.encyrptPassword(user.password, user.salt);
         }

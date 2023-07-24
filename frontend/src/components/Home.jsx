@@ -1,6 +1,7 @@
 import React,{useContext,useState,useEffect} from 'react'
 import { Navigate, redirect, useNavigate , Link} from 'react-router-dom';
 import { SocketContext } from '../context';
+import JoinRoom from './JoinRoom';
 // import io from 'socket.io-client';
 
 
@@ -13,31 +14,33 @@ const Home = () => {
   const [user, setUser] = useState('');
 
   const navigate = useNavigate();
-  const handleJoinRoom = () => {
-    socket.emit('joinRoom', {room,user});
-    // navigate(`/karaoke/${room}`);
-  };
+  // const handleJoinRoom = () => {
+  //   socket.emit('joinRoom', {room,user});
+  // };
 
-  const handleCreateRoom = () => {
-    socket.emit('createRoom', socket.id);
-    // setRoomId(socket.id);
-    console.log("CREATE ROOM: ", socket.id);
-    console.log("CR SOCKET: ", socket)
-    navigate(`/karaoke/${socket.id}`);
+  // const handleCreateRoom = () => {
+  //   socket.emit('createRoom', socket.id);
+  //   // setRoomId(socket.id);
+  //   console.log("CREATE ROOM: ", socket.id);
+  //   console.log("CR SOCKET: ", socket)
+  //   navigate(`/karaoke/${socket.id}`);
+  // }
+
+  const handleLogin = () => {
+    navigate("/login");
   }
-
-
-  
   
   return (
     <div>
       <h1>Home</h1>
       {/* <Link to={`/karaoke/${roomId}`}> */}
       {console.log("SOCKET ID: ", socket.id)}
-
-      <button onClick={handleCreateRoom}>Create Room</button>
-      {/* </Link> */}
       <div>
+        <button onClick={handleLogin}>Log In</button>
+      </div>
+      {/* <button onClick={handleCreateRoom}>Create Room</button> */}
+      {/* </Link> */}
+      {/* <div>
         <input
           type="text"
           placeholder="Enter room ID"
@@ -53,7 +56,8 @@ const Home = () => {
         <Link to={`/karaoke/${room}`} state={room}>
           <button onClick={handleJoinRoom}>Join Room</button>
         </Link>
-      </div>
+      </div> */}
+      <JoinRoom/>
     </div>
   )
 }
