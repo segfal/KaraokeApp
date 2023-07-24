@@ -1,10 +1,11 @@
 import React from 'react'
 import { useEffect, useContext, useState } from 'react';
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 import { SocketContext } from '../../../context';
+import { syncVideoInfo } from '../../../redux/Video/Video.action';
 
 import MusicCard from './MusicCard';
-import { all } from 'axios';
+import axios from 'axios';
 
 
 /* The queue is supposed to contain a map of videos
@@ -15,17 +16,23 @@ import { all } from 'axios';
 
 */
 const Queue = () => {
-  //const allVideos = useSelector((state) => state.video.allVideos);
-  const [vidInfo, setVidInfo] = useState([]);
+  
+  const vidInfo = useSelector((state) => state.video.uniqueVidInfo);
   const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
+  console.log("VIDEO INFO: ", vidInfo);
+ 
+  
+
 
 
   useEffect(() => {
     socket.on('vid_info', (newElement) => {
-      setVidInfo(vidInfo => [...vidInfo, newElement]);
-      //console.log("All Videos", allVideos);
-      // console.log("VIDEO_INFO: ", vidInfo)
-      
+      ///add it to vidInfo
+      console.log("NEW ELEMENT: ", newElement);
+      //vidInfo.push(newElement);
+      dispatch(syncVideoInfo(newElement));
+
     })
 
     return () => {
@@ -36,9 +43,7 @@ const Queue = () => {
   return (
     <div>
       <div>Queue</div>
-      {/* {allVideos.map((video) => (
-        <h3>{video}</h3>
-      ))} */}
+
       {console.log("QUEUE: ", vidInfo)}
       
       {vidInfo.map((video, index) => (

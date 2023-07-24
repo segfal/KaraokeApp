@@ -2,7 +2,7 @@ import { React, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { getVideoThunk } from '../../../redux/Video/Video.action';
 import Video from "../Video/Video";  
-import Queue from "../Queue/Queue";
+import Queue from "../Queue/queue";
 import { SocketContext } from '../../../context';
 import "./search.css";
 
@@ -52,19 +52,7 @@ const Search = ({roomId}) => {
       <div>
       <Video roomId={roomId}/>
       <Queue/>
-        {/* {links.map((msg, index) => (
-          <Video link={link} room={room} socket={socket}/>
-        ))} */}
       </div>
-      {/* <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Enter message"
-          value={message}
-          onChange={(event) => setMessage(event.target.value)}
-        />
-        <button type="submit">Send</button>
-      </form> */}
     </div>
   )
 
