@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
+import JoinRoom from './JoinRoom';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -47,6 +48,7 @@ const Profile = () => {
             </div>
             <h1>Hello {userInfo.firstName}</h1>
             <button onClick={handleCreateRoom}>Create Room</button>
+            <JoinRoom />
             {/* <div>
                 <input
                 type="text"

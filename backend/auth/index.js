@@ -53,7 +53,9 @@ router.post("/signup", async(req, res, next) => {
         }
         const user = await User.create(req.body);
         // Logs in user automatically after sign up with Passport js
-        req.login(user, err => (err ? next(err) : res.status(200).json(user)));
+        const userJ = JSON.stringify(user);
+        console.log("USER: ", JSON.stringify(user));
+        req.login(userJ, err => (err ? next(err) : res.status(200).json(user)));
     } catch (error) {
         // Error for if user already exists
         if (error.name ===  "SequelizeUniqueConstraintError") {

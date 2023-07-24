@@ -19,7 +19,12 @@ class User extends Model {
 }
 
 User.init(
-  {
+  {    
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,  
@@ -67,14 +72,14 @@ User.init(
         if (user.changed('password')){
           console.log("BEFORE SAVE");
           user.salt = await User.generateSalt();
-          user.password = await User.encyrptPassword(user.password, user.salt);
+          user.password = await user.encryptPassword(user.password, user.salt);
         }
       },
       beforeBulkCreate: async (users) => {
         users.forEach(async (user) => {
           if (user.changed("password")) {
             user.salt = await User.generateSalt();
-            user.password = await User.encyrptPassword(user.password, user.salt);
+            user.password = await user.encryptPassword(user.password, user.salt);
           }
         })
       }
