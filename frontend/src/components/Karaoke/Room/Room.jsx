@@ -22,7 +22,24 @@ const Room = () => {
   const socket = useContext(SocketContext);
   const location = useLocation();
   const room = location.state ? location.state : socket.id;
+  const [isCopied, setIsCopied] = useState(false);
   // const [messages, setMessages] = useState([]);
+
+  const handleCopyId = () => {
+    navigator.clipboard.writeText(socket.id).then(
+      function () {
+        console.log('Copying to clipboard was successful!');
+        setIsCopied(true);
+
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 3000);
+      },
+      function (err) {
+        console.error('Could not copy text: ', err);
+      }
+    );
+  };
 
   return (
     <div>
@@ -31,6 +48,8 @@ const Room = () => {
       {/* <Participants/>  */}
       <h1>Room</h1>
       <h2>Room ID: {room}</h2>
+      <button onClick={handleCopyId}>Copy Room ID</button>
+      {isCopied && <div>Copied to clipboard</div>}
       <Search roomId={room} />
       <User />
       <ChatBox roomId={room} />
