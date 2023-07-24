@@ -14,14 +14,15 @@ const ChatBox = ({ roomId }) => {
 
   const handleSendMessage = () => {
     if (message.trim() !== '') {
-      socket.emit('send_message', { message, roomId });
+      const username = sessionStorage.getItem('username');
+      socket.emit('send_message', { message, username, roomId });
       setMessage('');
     }
   };
 
   useEffect(() => {
     socket.on('receive_message', (data) => {
-      setMessages((prevMessages) => [...prevMessages, data.message]);
+      setMessages((prevMessages) => [...prevMessages, data]);
     });
 
     return () => {
@@ -39,7 +40,7 @@ const ChatBox = ({ roomId }) => {
           <div className="message-list">
             {messages.map((msg, index) => (
               <div key={index} className="message-item">
-                {msg}
+                <strong>{msg.username}: </strong> {msg.message}
               </div>
             ))}
           </div>
