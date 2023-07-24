@@ -10,12 +10,23 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 router.use(bodyParser.json());
 
+
+
+// router.get("/", (req, res, next) => {
+//     res.send("Hello World");
+// }
+// )
+
+
+
+
+
+
+
 // auth/login
 router.post("/login", async(req, res, next) => {
     try {
         console.log("REQ BODY: ", req.body);
-        
-
         const user = await User.findOne({where: {email: req.body.email}});
         console.log("REQ BODY: ", req.body);
         if (!user || !user.correctPassword(req.body.password)) {
@@ -54,15 +65,21 @@ router.post("/signup", async(req, res, next) => {
 });
 
 // auth/logout
-router.post("/logout", async(req, res, next) => {
+router.post("/logout",async (req, res, next) => {
     // Passport js logout method
+    
     req.logout((error) => {
         if (error) {
             return next(error);
         }
+        console.log("LOGOUT")
+        res.send(200);
+        
         // Redirect to logged out home page
-        res.redirect("/")
+        
     })
+
+    
 })
 
 // auth/profile

@@ -199,6 +199,13 @@ const runHttp = () => {
   });
 };
 
+
+/// root route
+app.get("/", (req, res) => {
+  res.send({"status" : 200});
+});
+
+
 syncDB();
 runServer();
 runHttp();
