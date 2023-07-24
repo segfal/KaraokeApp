@@ -1,10 +1,12 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useContext} from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector,useDispatch } from "react-redux";
 import JoinRoom from './JoinRoom';
+import { SocketContext } from '../context';
 
 const Profile = () => {
+    const socket = useContext(SocketContext);
     const navigate = useNavigate();
     const userInfo = useSelector((state) => state.user.singleUser);
     console.log("USER INFO: ", userInfo);
@@ -34,11 +36,14 @@ const Profile = () => {
     }, []);
 
     const handleCreateRoom = () => {
-        // socket.emit('createRoom', socket.id);
-        console.log("CREATE ROOM: ", socket.id);
-        console.log("CR SOCKET: ", socket)
-        // navigate(`/karaoke/${socket.id}`);
-    }
+        socket.emit('create_room', socket.id);
+        // let username = user.trim() || 'Admin';
+        console.log('CREATE ROOM: ', socket.id);
+        console.log('CR SOCKET: ', socket);
+        // sessionStorage.setItem('username', username);
+
+        navigate(`/karaoke/${socket.id}`);
+    };
 
     return (
         <div>
@@ -49,23 +54,6 @@ const Profile = () => {
             <h1>Hello {userInfo.firstName}</h1>
             <button onClick={handleCreateRoom}>Create Room</button>
             <JoinRoom />
-            {/* <div>
-                <input
-                type="text"
-                placeholder="Enter room ID"
-                value={room}
-                onChange={(event) => setRoom(event.target.value)}
-                />
-                <input
-                type="text"
-                placeholder="Enter your name"
-                value={user}
-                onChange={(event) => setUser(event.target.value)}
-                />
-                <Link to={`/karaoke/${room}`} state={room}>
-                <button onClick={handleJoinRoom}>Join Room</button>
-                </Link>
-            </div> */}
         </div>
     )
 }
