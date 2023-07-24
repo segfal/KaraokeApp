@@ -9,9 +9,7 @@ const UserActionTypes = {
     UPDATE_ID: 'UPDATE_ID',
     DELETE_USER: 'DELETE_USER',
     DELETE_ID: 'DELETE_ID',
-    
+    SET_USER: 'SET_USER',
 }
-
-
 
 export default UserActionTypes;

@@ -27,7 +27,7 @@ function App() {
         <Route path="/karaoke/:id" element={<Room/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
-        <Route path="/profile/:firstName" element={<Profile/>}></Route>
+        <Route path="/profile/:id" element={<Profile/>}></Route>
       </Routes>
       </>
     </Router>

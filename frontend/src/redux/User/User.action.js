@@ -1,61 +1,48 @@
 import axios from 'axios';
+
 import UserActionTypes from './User.types';
 
-export const getUser = (payload) => ({
+const getLogin = (user) => ({
+    type: UserActionTypes.LOGGED_IN,
+    payload: user
+});
+
+const setUser = (payload) => ({
+    type: UserActionTypes.SET_USER,
+    payload
+});
+
+export const setUserThunk = (user) => {
+    return async (dispatch) => {
+        dispatch(setUser(user));
+
+    }
+}
+
+
+const getUser = (user) => ({
     type: UserActionTypes.GET_USER,
-    payload
+    payload: user
 });
 
-export const getRole = (payload) => ({
-    type: UserActionTypes.GET_ROLE,
-    payload
-});
 
-export const getId = (payload) => ({
-    type: UserActionTypes.GET_ID,
-    payload
-});
 
-export const isAdmin = (payload) => ({
-    type: UserActionTypes.IS_ADMIN,
-    payload
-});
-
-export const isViewer = (payload) => ({
-    type: UserActionTypes.IS_VIEWER,
-    payload
-});
-
-export const updateRole = (payload) => ({
-    type: UserActionTypes.UPDATE_ROLE,
-    payload
-});
-
-export const updateUser = (payload) => ({
-    type: UserActionTypes.UPDATE_USER,
-    payload
-});
-
-export const updateId = (payload) => ({
-    type: UserActionTypes.UPDATE_ID,
-    payload
-});
-
-export const deleteUser = (payload) => ({
-    type: UserActionTypes.DELETE_USER,
-    payload
-});
-
-export const deleteId = (payload) => ({
-    type: UserActionTypes.DELETE_ID,
-    payload
-});
+export const loginThunk = (user) => {
+    return async (dispatch) => {
+        try {
+            const { data } = await axios.post('/auth/login', user);
+            dispatch(getLogin(data));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
 
 
 export const getUserThunk = (id) => {
     return async (dispatch) => {
         try {
-            
+            axios.post('localhost:4100/auth/profile', id);
         } catch (error) {
             console.log(error);
         }

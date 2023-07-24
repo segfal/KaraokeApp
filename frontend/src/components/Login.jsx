@@ -1,18 +1,23 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux';
+import { setUserThunk } from '../redux/User/User.action';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const data = useSelector((state)=>state);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = (e) =>{
         e.preventDefault();
         axios.post(`http://localhost:4100/auth/login`,{email: email, password: password})
-        .then((res)=>{
-            console.log("SUBMIT RES: ", res);
-            navigate(`/profile/${res.data.firstName}}`);
+        .then((user)=>{
+            console.log("SUBMIT RES FOR USER: ", user);
+            dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id}));
+            navigate(`/profile/${user.data.id}}`);
         })
         .catch((err)=>{
             console.log("SUBMIT LOGIN ERROR: ", err);
