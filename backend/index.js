@@ -13,7 +13,7 @@ const cors = require('cors');
 // Note: when using credentials we cannot use '*', put the name of the domain on deployment
 const io = require('socket.io')(http, {
   cors: {
-    origin: 'http://localhost:5173/',
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 });
