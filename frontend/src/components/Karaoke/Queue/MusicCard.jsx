@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useContext, useState} from 'react';
 import {useSelector , useDispatch} from 'react-redux'
 import { SocketContext } from '../../../context';
-import {removeVideoThunk} from '../../../redux/Video/Video.action'
+import {removeVideo, removeVideoThunk} from '../../../redux/Video/Video.action'
 import { syncVideoInfo,syncVideo } from '../../../redux/Video/Video.action';
 
 
@@ -16,13 +16,19 @@ const MusicCard = ({video}) => {
 
 
 
-
+    useEffect(()=> {
+        socket.on('remove_video', (data)=> {
+            dispatch(removeVideo(data.videoLink, data.roomId))
+        })
+    },[])
 
     const handleDelete = () => {
         console.log("BUTTON CLICKED");
-        dispatch(removeVideoThunk(video.link));
-        dispatch(syncVideoInfo(video));
-        dispatch(syncVideo(video.link));
+        // dispatch(removeVideo(video.link, socket.id))
+        socket.emit("remove_video", {videoLink: video.link, roomId: socket.id});
+        // dispatch(removeVideoThunk(video.link, socket.id))
+        // .then(dispatch(syncVideoInfo(video)));
+        // dispatch(syncVideo(video.link));
         console.log("ALL VIDEOS: ", allVideos);
     }
   

@@ -77,7 +77,8 @@ export const removeVideoThunk = (video,socket) => {
             console.log("REDUX socket: ", socket);
             console.log("REMOVE VIDEO THUNK");
             dispatch(removeVideo(video));
-            socket.emit('remove_from_queue', { link: video, room: socket });
+            // socket.emit('remove_from_queue', { link: video, room: socket });
+            socket.emit('remove_from_queue', { link: video });
         } catch (error) {
             console.log(error)
         }
