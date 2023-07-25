@@ -200,6 +200,10 @@ io.on('connection', (socket) => {
     console.log('data for remove_from_queue: ', data.roomId);
     io.to(data.roomId).emit('remove_from_queue', data.roomId);
   });
+
+  socket.on('remove_video', (data) => {
+    io.to(data.roomId).emit('remove_video', {videoLink: data.videoLink, roomId: data.roomId})
+  })
   socket.on('send_message', (data) => {
     io.to(data.roomId).emit('receive_message', {
       message: data.message,

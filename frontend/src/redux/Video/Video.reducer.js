@@ -47,7 +47,7 @@ const VideoReducer = (state = initialState, action) => {
             }
         case VideoActionTypes.REMOVE_VIDEO:
 
-            
+            console.log("In remove_video reducer")
             
             return {
                 ...state,
@@ -55,6 +55,7 @@ const VideoReducer = (state = initialState, action) => {
                 allVideos: state.allVideos.filter(video => video !== action.payload),
                 uniqueVideos : state.uniqueVideos.filter(video => video !== action.payload),
                 vidInfo: state.vidInfo.filter(video => video.link !== action.payload),
+                // vidInfo: [...state.vidInfo, action.payload],
                 uniqueVidInfo: state.uniqueVidInfo.filter(video => video.link !== action.payload)
             }
 
