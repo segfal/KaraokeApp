@@ -6,8 +6,7 @@ import {Peer} from 'peerjs'
 
 
 
-const peer = new Peer(undefined, {
-  });
+const peer = new Peer();
 
 const PeerContext = createContext<Peer>(peer);
 
