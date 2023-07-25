@@ -1,6 +1,6 @@
 import { React, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { getVideoThunk } from '../../../redux/Video/Video.action';
+import { getVideoThunk, syncVideo } from '../../../redux/Video/Video.action';
 import Video from "../Video/Video";  
 import Queue from "../Queue/queue";
 import { SocketContext } from '../../../context';
