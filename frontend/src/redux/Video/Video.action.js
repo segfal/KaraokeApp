@@ -43,7 +43,7 @@ export const getVideoThunk = (keyword,socket,roomId) => {
             //console.log("RESPONSE DATA----: ", response.data);
             socket.emit('get_video', { link: response.data.link, room: roomId});
             socket.emit('vid_info', { link: response.data.link, title: response.data.title, thumbnail: response.data.thumbnail, room: roomId });
-            
+            socket.emit('sync_video', {link: response.data.link});
             dispatch(getVideo({
                 
                 link:response.data.link,

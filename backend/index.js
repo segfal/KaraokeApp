@@ -10,9 +10,10 @@ const PORT = 4000; //Port number for socket
 const EXPPORT = 4100; //Port number for express
 const http = require('http').createServer(app);
 const cors = require('cors');
+// Note: when using credentials we cannot use '*', put the name of the domain on deployment
 const io = require('socket.io')(http, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:5173/',
     methods: ['GET', 'POST'],
   },
 });
@@ -164,7 +165,7 @@ io.on('connection', (socket) => {
     console.log('data for get_video: ', data);
     console.log('Listening for get_video');
     console.log('IO ADAPTER ROOMS', io.sockets.adapter.rooms);
-
+    io.to(data.room).emit("sync_video", data.link);
   });
 
   socket.on('vid_info', (data) => {
