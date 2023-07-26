@@ -5,6 +5,7 @@ import { PeerContext } from '../PeerContext';
 import Peer from 'peerjs';
 
 const JoinRoom = () => {
+  const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const peer = useContext(PeerContext);
   const [id, setId] = useState('');
