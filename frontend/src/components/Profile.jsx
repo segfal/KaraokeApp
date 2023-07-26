@@ -11,19 +11,6 @@ const Profile = () => {
     const userInfo = useSelector((state) => state.user.singleUser);
     console.log("USER INFO: ", userInfo);
 
-    const handleLogout = async () => {
-        //using try catch to handle errors
-        try{
-            //axios call to logout
-            const res = await axios.post(`http://localhost:4100/auth/logout`);
-            console.log("LOGOUT RES: ", res);
-            navigate(`/`);
-        }
-        catch(err){
-            console.log("LOGOUT ERROR: ", err);
-        }
-    }
-
     useEffect(() => {
         axios.get(`http://localhost:4100/auth/profile`)
         .then((res) => {
@@ -48,9 +35,6 @@ const Profile = () => {
     return (
         <div>
             <h1>Profile</h1>
-            <div>
-                <button onClick={handleLogout}>Log Out</button>
-            </div>
             <h1>Hello {userInfo.firstName}</h1>
             <button onClick={handleCreateRoom}>Create Room</button>
             <JoinRoom />
