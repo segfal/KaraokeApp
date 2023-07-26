@@ -1,14 +1,16 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useContext} from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from "react-router-dom";
 import { setUserThunk } from '../redux/User/User.action';
 import { useDispatch } from 'react-redux';
+import { AuthContext } from '../App';
 
 const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -18,6 +20,7 @@ const Signup = () => {
         .then((user)=>{
             console.log("SUBMIT RES FOR USER: ", user);
             dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id}));
+            setIsAuthenticated(true);
             navigate(`/profile/${user.data.id}}`);
         })
         .catch((err)=>{
