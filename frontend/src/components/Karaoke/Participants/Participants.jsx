@@ -6,7 +6,6 @@ const Participants = () => {
   const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
-    // Function to handle new participants joining the room
     const handleUserConnected = (userId, name) => {
       const participantInfo = { id: userId, name: name };
       // console.log('participantInfo: ', participantInfo);
@@ -16,10 +15,18 @@ const Participants = () => {
       ]);
     };
 
+    const handleUserDisconnected = (userId) => {
+      setParticipants((prevParticipants) =>
+        prevParticipants.filter((participant) => participant.id !== userId)
+      );
+    };
+
     socket.on('user-connected', handleUserConnected);
+    socket.on('user-disconnected', handleUserDisconnected);
 
     return () => {
       socket.off('user-connected', handleUserConnected);
+      socket.off('user-disconnected', handleUserDisconnected);
     };
   }, [socket]);
 

@@ -20,10 +20,8 @@ const JoinRoom = () => {
 
   const handleJoinRoom = () => {
     console.log('My Peer connection ', id);
-    socket.emit('join_room', { room, name: user }, id); //id is coming from the peerjs id.
-
     let username = user.trim() || 'Anonymous';
-
+    socket.emit('join_room', { room, name: username }, id); //id is coming from the peerjs id.
     sessionStorage.setItem('username', username);
     navigate(`/karaoke/${room}`);
   };

@@ -119,7 +119,8 @@ io.on('connection', (socket) => {
     // console.log("Peer id", id);
     ///join room
     console.log(`${id} joined room: ${data.room}`);
-    socket.to(data.room).emit('user-connected', id, data.name);
+    const username = data.name.trim() || 'Anonymous';
+    socket.to(data.room).emit('user-connected', id, username);
     peerId = id;
     console.log('PeerID: ', peerId);
   });
