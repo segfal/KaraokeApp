@@ -6,6 +6,7 @@ export const SingleUserVideo = ({ videoStream }) => {
   
 
   useEffect(() => {
+  
     const setVideoStream = () => {
         
       if (videoStream) {
@@ -27,7 +28,7 @@ export const SingleUserVideo = ({ videoStream }) => {
   return (
     <div id="user-vid">
       {/* <div>SingleVid</div> */}
-      {video?( <video className="user-vid" ref={video} autoPlay muted={true} />) :(<h2>...Loading</h2>)}
+      {video?( <video className="user-vid" ref={video} autoPlay muted={false} />) :(<h2>...Loading</h2>)}
      
     </div>
   );
