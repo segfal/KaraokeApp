@@ -7,8 +7,13 @@ const Participants = () => {
 
   useEffect(() => {
     // Function to handle new participants joining the room
-    const handleUserConnected = (userId) => {
-      setParticipants((prevParticipants) => [...prevParticipants, userId]);
+    const handleUserConnected = (userId, name) => {
+      const participantInfo = { id: userId, name: name };
+      // console.log('participantInfo: ', participantInfo);
+      setParticipants((prevParticipants) => [
+        ...prevParticipants,
+        participantInfo,
+      ]);
     };
 
     socket.on('user-connected', handleUserConnected);
@@ -22,9 +27,8 @@ const Participants = () => {
     <div>
       <h3>Participants</h3>
       <div>
-        {/* Render the list of participant names */}
         {participants.map((participant, index) => (
-          <div key={index}>{participant}</div>
+          <div key={index}>{participant.name}</div>
         ))}
       </div>
     </div>
