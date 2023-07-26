@@ -45,7 +45,6 @@ const Room = () => {
     <div>
       {/* <ShareButton/> */}
       {/* <Queue/> */}
-      {/* <Participants/>  */}
       <h1>Room</h1>
       <h2>Room ID: {room}</h2>
       <button onClick={handleCopyId}>Copy Room ID</button>
@@ -53,6 +52,7 @@ const Room = () => {
       <Search roomId={room} />
       <User />
       <ChatBox roomId={room} />
+      <Participants />
     </div>
   );
 };
