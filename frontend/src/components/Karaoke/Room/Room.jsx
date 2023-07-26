@@ -42,10 +42,24 @@ const Room = () => {
     );
   };
 
+  useEffect(()=> {
+    socket.on('leave_room', () => {
+      navigate('/');
+      navigate(0);
+    })
+    return () => socket.off('leave_room');
+  }, [])
   const handleLeaveRoom = () => {
     socket.emit('leave_room', socket.id);
-    navigate(0);
+    // navigate('/');
+    // navigate(0);
   }
+
+  // const emitLeaveRoom = () => {
+  //   socket.emit('leave_room', socket.id);
+
+   
+  // }
 
   return (
     <div>

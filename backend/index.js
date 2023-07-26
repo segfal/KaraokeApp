@@ -110,11 +110,13 @@ const configureApp = async(PORT) => {
 
 io.on('connection', (socket) => {
   var peerId;
+  var room;
   // Create room
   // console.log('SOCKET', socket.id);
   socket.on('create_room', (roomId) => {
     socket.join(roomId);
     console.log(`User created room: ${roomId}`);
+    room = roomId;
   });
 
   // Join room
@@ -206,8 +208,21 @@ io.on('connection', (socket) => {
   })
 
   socket.on('leave_room', (id)=> {
-    socket.disconnect();
-    console.log(`user ${id} has left room`);
+    // This listener is dependent on the one who creates the room. The room id is from 'create_room' listener
+    console.log('ROOM', room)
+    console.log('id', id);
+    if (id === room) {
+      io.to(room).emit('leave_room', ()=> {
+        console.log('Emitting leave room everyone in room')
+      });
+      io.to(room).disconnectSockets();
+    } else {
+      socket.emit('leave_room');
+      socket.disconnect();
+    }
+  
+    
+    // console.log(`user ${id} has left room`);
   })
   socket.on('send_message', (data) => {
     io.to(data.roomId).emit('receive_message', {
