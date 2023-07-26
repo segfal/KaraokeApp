@@ -7,17 +7,17 @@ const Home = () => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    navigate("/login");
-  }
+  // const handleLogin = () => {
+  //   navigate("/login");
+  // }
 
   return (
-    <div>
-      <h1>Home</h1>
+    <div className='bg-primary'>
+      <h1 className="text-center text-secondary">Home</h1>
       {console.log("SOCKET ID: ", socket.id)}
-      <div>
+      {/* <div>
         <button onClick={handleLogin}>Log In</button>
-      </div>
+      </div> */}
       <JoinRoom/>
     </div>
   );

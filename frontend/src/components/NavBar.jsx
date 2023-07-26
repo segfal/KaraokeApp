@@ -23,29 +23,42 @@ const Navbar = () => {
     }
   }
 
-  return (
-      <nav className="navigation">
-        <ul style={{listStyleType: "none"}}>
-          <li>
-            <Link id="home" to="/">HOME</Link>
-          </li>
-          <li>
-            {isAuthenticated && (<button onClick={handleLogout}>Log Out</button>)}
-          </li>
-          <li>
-            {!isAuthenticated && (<Link to="/login">LOG IN</Link>)}
-          </li>
+  const handleLogin = () => {
+    navigate("/login");
+  }
 
-          <li>
-            {!isAuthenticated && (<Link to="/signup">SIGN UP</Link>)}
-          </li>
+  const handleSignup = () => {
+    navigate("/signup");
+  }
+
+  return (
+    <div>
+      <nav>
+        <div className="fixed top-0 left-0 text-right bg-green-500">
+          <i>
+            <Link id="home" to={isAuthenticated ? "/profile" : "/"} className="text-none">HOME</Link>
+          </i>
+          <i>
+            {isAuthenticated && (<button onClick={handleLogout}>LOG OUT</button>)}
+          </i>
+          <i>
+            {!isAuthenticated && (<button onClick={handleLogin}>LOG IN</button>)}
+          </i>
+          {/* <li>
+            {!isAuthenticated && (<Link to="/login">LOG IN</Link>)}
+          </li> */}
+
+          <i>
+            {!isAuthenticated && (<button onClick={handleSignup}>SIGN UP</button>)}
+          </i>
 
 
           {/* <li>
             <Link to="/karaoke">KARAOKE</Link>
           </li> */}
-        </ul>
+        </div>
       </nav>
+    </div>
   );
 };
 

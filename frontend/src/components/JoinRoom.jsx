@@ -29,7 +29,7 @@ const JoinRoom = () => {
   };
   
   return (
-    <div>
+    <div className='flex flex-col'>
         <input
             type="text"
             placeholder="Enter room ID"
