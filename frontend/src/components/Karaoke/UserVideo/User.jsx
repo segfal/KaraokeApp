@@ -6,6 +6,7 @@ import UserVideo from "./UserVideo.jsx";
 const User = () => {
     const socket = useContext(SocketContext);
     const peer = useContext(PeerContext);
+    
   return (
     <UserVideo socket={socket} peer={peer} />
   )

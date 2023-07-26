@@ -7,19 +7,22 @@ import { SingleUserVideo } from "./SingleUserVideo.jsx";
 
 const UserVideo = ({socket, peer}) => {
   const video = useRef(); // This video ref contains your own video
+  const [videoView, setVideoView] = useState(true);
   const [userStream, setUserStream] = useState(); // Array of media streams that come from other users
   const [peers, setPeers] = useState({}); // Peers of other users
   const [isMounted, setIsMounted] = useState(true); //Used to force useEffect change
+  const [mute, setMute] = useState(false);
 
 
   useEffect(() => {
-    // console.log("peer", peer);
+    console.log("peer", peer);
     // console.log("socket", socket);
     const getDeviceMedia = async () => {
         // Gets the mediastream data from webcam
       const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
       if (isMounted && video.current && mediaStream) {
       // Your video stream
+      // mediaStream.getAudioTracks()[0].enabled = mute;
       video.current.srcObject = mediaStream;
     }
       //Now is placed in the the array of streams 
@@ -101,11 +104,25 @@ const UserVideo = ({socket, peer}) => {
       peer.destroy();
     };
   }, []);
+
+  const handleMute = () => {
+    setMute(!mute);
+    // console.log(mute);
+    userStream.getAudioTracks()[0].enabled = mute;
+    
+  }
+
+  const handleVideo = () => {
+    setVideoView(!videoView)
+    userStream.getVideoTracks()[0].enabled = videoView;
+  }
   console.log(peers)
   return (
     <div id="video-group">
       <div>Video</div>
       <video className="user-vid" ref={video} autoPlay muted={true}></video>
+      <button onClick={handleMute} >Mute Audio</button>
+      <button onClick={handleVideo}> Start Video</button>
       {Object.keys(peers).map((peerId, i) => (
         <SingleUserVideo key={i} videoStream={peers[peerId]} />
       ))}
