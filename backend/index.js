@@ -204,6 +204,11 @@ io.on('connection', (socket) => {
   socket.on('remove_video', (data) => {
     io.to(data.roomId).emit('remove_video', {videoLink: data.videoLink, roomId: data.roomId})
   })
+
+  socket.on('leave_room', (id)=> {
+    socket.disconnect();
+    console.log(`user ${id} has left room`);
+  })
   socket.on('send_message', (data) => {
     io.to(data.roomId).emit('receive_message', {
       message: data.message,
