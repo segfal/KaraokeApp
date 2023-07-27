@@ -32,10 +32,10 @@ const Signup = () => {
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`http://localhost:4100/auth/signup`,{email: email,password: password, firstName: firstname, lastName: lastname})
+        axios.post(`http://localhost:4100/auth/signup`,{email: email,password: password, firstName: firstname, lastName: lastname , profilePic: fileName})
         .then((user)=>{
             console.log("SUBMIT RES FOR USER: ", user);
-            dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id}));
+            dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id,profilePic: user.data.profilePic}));
             setIsAuthenticated(true);
             navigate(`/profile/${user.data.id}}`);
         })
@@ -51,11 +51,11 @@ const Signup = () => {
         const reader = new FileReader();
         reader.readAsDataURL(selectedFile);
         reader.onloadend = () =>{
-            const img = new Image();
+            const img = new Image(); // image object so we can get the width and height
             img.src = reader.result;
             const max_width = 150;
             const max_height = 150;
-            img.onload = () =>{
+            img.onload = () =>{ //when the image is loaded, we can resize it
                 let width = img.width;
                 let height = img.height;
                 if(width > height){
@@ -78,14 +78,17 @@ const Signup = () => {
                 setImage(dataurl);
             }
         }
+
+
         //if image is huge, we can compress it here
         //upload to s3
-        setFileName(selectedFile.name);
+        setFileName(`https://karaoke-pfps.s3.amazonaws.com/`+selectedFile.name); //This is the url to the image
         const uploadParams = {
             Bucket: data.bucketName,
             Key: selectedFile.name,
             Body: selectedFile,
-            ContentType: selectedFile.type
+            ContentType: selectedFile.type,
+            ACL: 'public-read'
         };
         const command = new PutObjectCommand(uploadParams);
         s3.send(command)
@@ -116,7 +119,7 @@ const Signup = () => {
                 <input type="password" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" name="password"></input>
                 <input type="file" onChange={handleFileChange} name="image"></input>
                 {image && <img src={image} alt="preview"></img>}
-                <button onClick={handleUpload}>Upload</button>
+                <button onClick={handleUpload}>Upload</button> {/* For some reason this acts like a submit button, need to fix */}
                 <button type="submit">Sign up</button>
             </form>
 
