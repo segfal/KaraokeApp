@@ -21,8 +21,7 @@ const Login = () => {
             dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id}));
             setIsAuthenticated(true);
             navigate(`/profile/${user.data.id}}`);
-        })
-        .catch((err)=>{
+        }).catch((err)=>{
             console.log("SUBMIT LOGIN ERROR: ", err);
         })
     }

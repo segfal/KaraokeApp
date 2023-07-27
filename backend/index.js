@@ -8,7 +8,7 @@ const db = require("./db");
 const PORT = 4000; //Port number for socket
 
 const EXPPORT = 4100; //Port number for express
-const http = require('http').createServer(app);
+const http = require('http').Server(app);
 const cors = require('cors');
 // Note: when using credentials we cannot use '*', put the name of the domain on deployment
 const io = require('socket.io')(http, {
@@ -238,11 +238,11 @@ console.log('User Room', io.adapter.rooms);
 const syncDB = () => db.sync();
 
 // Start the server
-const runServer = () => {
-  app.listen(EXPPORT, () => {
-    console.log(`Live on port: ${EXPPORT}`);
-  });
-};
+// const runServer = () => {
+//   app.listen(EXPPORT, () => {
+//     console.log(`Live on port: ${EXPPORT}`);
+//   });
+// };
 
 const runHttp = () => {
   http.listen(PORT, () => {
@@ -258,7 +258,7 @@ app.get("/", (req, res) => {
 
 
 syncDB();
-runServer();
+// runServer();
 runHttp();
 
 module.exports = app, configureApp(PORT);
