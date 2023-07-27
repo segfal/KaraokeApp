@@ -4,7 +4,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
 const app = express(); // instance to express module
 const db = require('./db');
-const PORT = 4000; //Port number for socket
+const PORT = process.env.PORT || 4000; //Port number for socket
 
 // const EXPPORT = 4100; //Port number for express
 const http = require('http').Server(app);
