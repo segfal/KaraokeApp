@@ -9,6 +9,8 @@ import Login from "./components/Login";
 import Signup from './components/Signup';
 import Profile from './components/Profile';
 import {SocketProvider} from "./context";
+import "./index.css";
+import Footer from "./components/Footer";
 
 const AuthContext = React.createContext();
 
@@ -41,6 +43,7 @@ function App() {
                 />
               </Routes>
           </>
+          <Footer/>
         </Router>
       </AuthContext.Provider>
     </SocketProvider>

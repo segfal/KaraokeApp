@@ -2,23 +2,18 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Navigate, redirect, useNavigate, Link } from 'react-router-dom';
 import { SocketContext } from '../context';
 import JoinRoom from './JoinRoom';
-
+import logo from "../assets/logo-name.png";
 const Home = () => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
-
-  const handleLogin = () => {
-    navigate("/login");
-  }
-
+  
   return (
-    <div>
-      <h1>Home</h1>
-      {console.log("SOCKET ID: ", socket.id)}
-      <div>
-        <button onClick={handleLogin}>Log In</button>
+    <div className='bg-mainGreen font-montserrat h-screen'>
+      <div className="text-center text-mainWhite">
+        <img className="mx-auto" src={logo} alt="eKaraoke Logo"></img>
+        <h2 className='font-extra-bold text-lg my-14 w-1/3 mx-auto'>Sing along with friends from the comfort of your own home on this virtual karaoke platform!</h2>
       </div>
-      
+      {console.log("SOCKET ID: ", socket.id)}
       <JoinRoom/>
     </div>
   );

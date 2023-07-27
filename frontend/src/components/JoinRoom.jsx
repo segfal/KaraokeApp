@@ -28,22 +28,32 @@ const JoinRoom = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter room ID"
-        value={room}
-        onChange={(event) => setRoom(event.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Enter your name"
-        value={user}
-        onChange={(event) => setUser(event.target.value)}
-      />
-      <Link to={`/karaoke/${room}`} state={room}>
-        <button onClick={handleJoinRoom}>Join Room</button>
-      </Link>
+    <div className='flex flex-col justify-center items-center font-montserrat rounded-lg p-4 shadow w-1/2 mx-auto mt-20'>
+      <p className='text-mainWhite text-center text-bold'>Do you have a Room ID? Join your virtual karaoke room below</p>
+      <div className='text-center flex items-center'>
+        <input
+            type="text"
+            placeholder="Enter room ID"
+            value={room}
+            onChange={(event) => setRoom(event.target.value)}
+            className="rounded p-2 mr-4"
+        />
+        <input
+            type="text"
+            placeholder="Enter your name"
+            value={user}
+            onChange={(event) => setUser(event.target.value)}
+            className="rounded p-2 my-4"
+        />
+      </div>
+      <div>
+        <Link to={`/karaoke/${room}`} state={room}>
+          <button onClick={handleJoinRoom} className="text-right font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2">JOIN ROOM</button>
+        </Link>
+      </div>
+      <div className="mt-4">
+        <p><Link to={"/signup"} className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm">Or register an account to create a room of your own</Link></p>
+      </div>
     </div>
   );
 };
