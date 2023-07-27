@@ -12,7 +12,7 @@ const Profile = () => {
     console.log("USER INFO: ", userInfo);
 
     useEffect(() => {
-        axios.get(`http://localhost:4100/auth/profile`)
+        axios.get(`http://localhost:4000/auth/profile`)
         .then((res) => {
             console.log("PROFILE RES: ", res);
             setFirstName(res.data.firstName);
