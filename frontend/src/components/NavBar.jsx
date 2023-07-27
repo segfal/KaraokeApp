@@ -14,7 +14,7 @@ const Navbar = () => {
     //using try catch to handle errors
     try{
         //axios call to logout
-        const res = await axios.post(`http://localhost:4100/auth/logout`);
+        const res = await axios.post(`http://localhost:4000/auth/logout`);
         console.log("LOGOUT RES: ", res);
         setIsAuthenticated(false);
         navigate(`/`);

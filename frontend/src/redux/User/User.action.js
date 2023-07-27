@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import UserActionTypes from './User.types';
 
+const backend_url = import.meta.env.VITE_BACKEND_URL
+
 const getLogin = (user) => ({
     type: UserActionTypes.LOGGED_IN,
     payload: user
@@ -30,7 +32,7 @@ const getUser = (user) => ({
 export const loginThunk = (user) => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.post('/auth/login', user);
+            const { data } = await axios.post(`${backend_url}/auth/login`, user);
             dispatch(getLogin(data));
         } catch (error) {
             console.log(error);
@@ -42,7 +44,7 @@ export const loginThunk = (user) => {
 export const getUserThunk = (id) => {
     return async (dispatch) => {
         try {
-            axios.post('localhost:4100/auth/profile', id);
+            axios.post(`${backend_url}/auth/profile`, id);
         } catch (error) {
             console.log(error);
         }

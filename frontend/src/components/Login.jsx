@@ -15,7 +15,7 @@ const Login = () => {
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`http://localhost:4100/auth/login`,{email: email, password: password})
+        axios.post(`http://localhost:4000/auth/login`,{email: email, password: password})
         .then((user)=>{
             console.log("SUBMIT RES FOR USER: ", user);
             dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id}));

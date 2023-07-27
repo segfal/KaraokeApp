@@ -1,10 +1,61 @@
-// Planning on setting this component with WebRTC to display participants
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react';
+import { SocketContext } from '../../../context';
 
 const Participants = () => {
-  return (
-    <h3>Participants</h3>
-  )
-}
+  const socket = useContext(SocketContext);
+  const [participants, setParticipants] = useState([]);
 
-export default Participants
+  useEffect(() => {
+    const handleUserConnected = (userId, name) => {
+      const participantInfo = { id: userId, name: name };
+      // console.log('participantInfo: ', participantInfo);
+      setParticipants((prevParticipants) => [
+        ...prevParticipants,
+        participantInfo,
+      ]);
+    };
+
+    const handleUserDisconnected = (userId) => {
+      setParticipants((prevParticipants) =>
+        prevParticipants.filter((participant) => participant.id !== userId)
+      );
+    };
+
+    const handleExistingParticipants = (existingParticipants) => {
+      setParticipants(existingParticipants);
+    };
+
+    socket.on('existing-participants', handleExistingParticipants);
+    socket.on('user-connected', handleUserConnected);
+    socket.on('user-disconnected', handleUserDisconnected);
+
+    socket.on('room-created', (username) => {
+      const userId = socket.id;
+      const participantInfo = { id: userId, name: username };
+      setParticipants((prevParticipants) => [
+        ...prevParticipants,
+        participantInfo,
+      ]);
+    });
+
+    return () => {
+      socket.off('user-connected', handleUserConnected);
+      socket.off('user-disconnected', handleUserDisconnected);
+      socket.off('room-created');
+      socket.off('existing-participants', handleExistingParticipants);
+    };
+  }, [socket]);
+
+  return (
+    <div>
+      <h3>Participants</h3>
+      <div>
+        {participants.map((participant, index) => (
+          <div key={index}>{participant.name}</div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Participants;
