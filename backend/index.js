@@ -108,9 +108,11 @@ io.on('connection', (socket) => {
   var peerId;
   // Create room
   // console.log('SOCKET', socket.id);
-  socket.on('create_room', (roomId) => {
+  socket.on('create_room', (roomId, username) => {
     socket.join(roomId);
     console.log(`User created room: ${roomId}`);
+    socket.emit('room-created', username);
+    console.log('username: ', username);
   });
 
   // Join room
@@ -123,6 +125,7 @@ io.on('connection', (socket) => {
     socket.to(data.room).emit('user-connected', id, username);
     peerId = id;
     console.log('PeerID: ', peerId);
+    // socket.emit('room-created', username);
   });
 
   //   socket.on('join_room', (roomId, userId) => {

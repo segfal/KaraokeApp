@@ -24,9 +24,19 @@ const Participants = () => {
     socket.on('user-connected', handleUserConnected);
     socket.on('user-disconnected', handleUserDisconnected);
 
+    socket.on('room-created', (username) => {
+      const userId = socket.id;
+      const participantInfo = { id: userId, name: username };
+      setParticipants((prevParticipants) => [
+        ...prevParticipants,
+        participantInfo,
+      ]);
+    });
+
     return () => {
       socket.off('user-connected', handleUserConnected);
       socket.off('user-disconnected', handleUserDisconnected);
+      socket.off('room-created');
     };
   }, [socket]);
 
