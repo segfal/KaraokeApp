@@ -21,6 +21,11 @@ const Participants = () => {
       );
     };
 
+    const handleExistingParticipants = (existingParticipants) => {
+      setParticipants(existingParticipants);
+    };
+
+    socket.on('existing-participants', handleExistingParticipants);
     socket.on('user-connected', handleUserConnected);
     socket.on('user-disconnected', handleUserDisconnected);
 
@@ -37,6 +42,7 @@ const Participants = () => {
       socket.off('user-connected', handleUserConnected);
       socket.off('user-disconnected', handleUserDisconnected);
       socket.off('room-created');
+      socket.off('existing-participants', handleExistingParticipants);
     };
   }, [socket]);
 

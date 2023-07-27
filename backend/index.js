@@ -103,7 +103,7 @@ const configureApp = async (PORT) => {
 };
 
 // ---------------------SOCKET CONNECTION---------------------
-
+const roomParticipants = {};
 io.on('connection', (socket) => {
   var peerId;
   // Create room
@@ -113,21 +113,31 @@ io.on('connection', (socket) => {
     console.log(`User created room: ${roomId}`);
     socket.emit('room-created', username);
     console.log('username: ', username);
+
+    if (!roomParticipants[roomId]) {
+      roomParticipants[roomId] = [];
+    }
+    roomParticipants[roomId].push({ name: username });
+    socket.emit('existing-participants', roomParticipants[roomId]);
   });
 
   // Join room
   socket.on('join_room', (data, id) => {
     socket.join(data.room);
-    // console.log("Peer id", id);
-    ///join room
     console.log(`${id} joined room: ${data.room}`);
     const username = data.name.trim() || 'Anonymous';
     socket.to(data.room).emit('user-connected', id, username);
     peerId = id;
     console.log('PeerID: ', peerId);
-    // socket.emit('room-created', username);
-  });
+    socket.emit('room-created', username);
 
+    if (!roomParticipants[data.room]) {
+      roomParticipants[data.room] = [];
+    }
+    roomParticipants[data.room].push({ id: id, name: username });
+
+    socket.emit('existing-participants', roomParticipants[data.room]);
+  });
   //   socket.on('join_room', (roomId, userId) => {
   //     console.log(roomId, userId)
   //     socket.join(roomId)
@@ -139,6 +149,13 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('A user disconnected', peerId);
     io.emit('user-disconnected', peerId);
+
+    // Remove the disconnected user from the room's participants list
+    for (let room in roomParticipants) {
+      roomParticipants[room] = roomParticipants[room].filter(
+        (participant) => participant.id !== peerId
+      );
+    }
   });
 
   // Handle links
