@@ -6,7 +6,7 @@ const app = express(); // instance to express module
 const db = require('./db');
 const PORT = 4000; //Port number for socket
 
-const EXPPORT = 4100; //Port number for express
+// const EXPPORT = 4100; //Port number for express
 const http = require('http').Server(app);
 const cors = require('cors');
 // Note: when using credentials we cannot use '*', put the name of the domain on deployment

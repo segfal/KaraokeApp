@@ -18,6 +18,7 @@ const Home = () => {
       <div>
         <button onClick={handleLogin}>Log In</button>
       </div>
+      
       <JoinRoom/>
     </div>
   );
