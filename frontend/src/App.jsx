@@ -29,8 +29,9 @@ function App() {
     <SocketProvider>
       <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}> {/* allows all components to access isAuthenticated and setIsAuthenticated */}
         <Router>
-          <>
+          {/* <div className="flex flex-col min-h-screen bg-bgGreen"> */}
             <Navbar/>
+            {/* <div className='flex-grow'> */}
               <Routes>
                 <Route path="/" element={<Home/>}/>
                 <Route path="/karaoke/:id" element={<Room/>}/>
@@ -42,7 +43,8 @@ function App() {
                   element={isAuthenticated ? (<Profile />) : (<Navigate to="/" replace />)}
                 />
               </Routes>
-          </>
+            {/* </div> */}
+          {/* </div> */}
           <Footer/>
         </Router>
       </AuthContext.Provider>

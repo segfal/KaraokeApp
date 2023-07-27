@@ -11,6 +11,8 @@ export default {
         mainWhite: '#fffffe',
         mainYellow: '#f9bc60',
         lightGreen: '#abd1c6',
+        lightPink: '#e8e4e6',
+        bgGreen: '#73b8ad',
       },
       fontWeight: {
         'extra-light': 100,

@@ -8,9 +8,9 @@ const Home = () => {
   const navigate = useNavigate();
   
   return (
-    <div className='bg-mainGreen font-montserrat h-screen'>
+    <div className='bg-mainGreen font-montserrat h-screen pt-32'>
       <div className="text-center text-mainWhite">
-        <img className="mx-auto" src={logo} alt="eKaraoke Logo"></img>
+        <img className="mx-auto" src={logo} alt="Serenade Logo"></img>
         <h2 className='font-extra-bold text-lg my-14 w-1/3 mx-auto'>Sing along with friends from the comfort of your own home on this virtual karaoke platform!</h2>
       </div>
       {console.log("SOCKET ID: ", socket.id)}
