@@ -13,7 +13,7 @@ const Profile = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/auth/profile`)
+      .get(`https://karaoke-backend-exp-production.up.railway.app/auth/profile`)
       .then((res) => {
         console.log('PROFILE RES: ', res);
         setFirstName(res.data.firstName);
