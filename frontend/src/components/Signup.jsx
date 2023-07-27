@@ -110,7 +110,7 @@ const Signup = () => {
     }, [image])
 
     return (
-        <div>
+        <div className='p-2'>
             <h1>SIGN UP</h1>
             <form onSubmit={handleSubmit}>
                 <input type="text" onChange={(e)=>{setFirstname(e.target.value)}} placeholder="First name" name="firstname"></input>

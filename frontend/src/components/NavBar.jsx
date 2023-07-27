@@ -34,9 +34,9 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="bg-mainGreen font-montserrat font-extra-bold p-4 flex justify-between items-center">
+      <nav className="bg-mainGreen font-montserrat font-extra-bold px-4 py-3 flex justify-between items-center shadow-md fixed top-0 left-0 w-full">
         <div className="flex items-center">
-          <img src={logo} alt="eKaraoke" className="h-10 w-10 mr-4"></img>
+          <img src={logo} alt="Serenade" className="h-10 w-10 mr-4"></img>
           <i>
             <Link id="home" to={isAuthenticated ? "/profile" : "/"} className="text-left text-mainWhite font-extra-extrabold hover:underline mr-4" style={{fontStyle:"normal"}}>HOME</Link>
           </i>
