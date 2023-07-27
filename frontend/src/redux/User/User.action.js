@@ -42,7 +42,7 @@ export const loginThunk = (user) => {
 export const getUserThunk = (id) => {
     return async (dispatch) => {
         try {
-            axios.post('localhost:4100/auth/profile', id);
+            axios.post('localhost:4000/auth/profile', id);
         } catch (error) {
             console.log(error);
         }

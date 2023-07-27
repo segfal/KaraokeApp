@@ -7,7 +7,7 @@ const db = require('./db');
 const PORT = 4000; //Port number for socket
 
 const EXPPORT = 4100; //Port number for express
-const http = require('http').createServer(app);
+const http = require('http').Server(app);
 const cors = require('cors');
 // Note: when using credentials we cannot use '*', put the name of the domain on deployment
 const io = require('socket.io')(http, {
@@ -106,6 +106,7 @@ const configureApp = async (PORT) => {
 const roomParticipants = {};
 io.on('connection', (socket) => {
   var peerId;
+  var room;
   // Create room
   // console.log('SOCKET', socket.id);
   socket.on('create_room', (roomId, username) => {
@@ -119,6 +120,7 @@ io.on('connection', (socket) => {
     }
     roomParticipants[roomId].push({ name: username });
     socket.emit('existing-participants', roomParticipants[roomId]);
+    room = roomId;
   });
 
   // Join room
@@ -223,6 +225,23 @@ io.on('connection', (socket) => {
       roomId: data.roomId,
     });
   });
+
+  socket.on('leave_room', (id) => {
+    // This listener is dependent on the one who creates the room. The room id is from 'create_room' listener
+    console.log('ROOM', room);
+    console.log('id', id);
+    if (id === room) {
+      io.to(room).emit('leave_room', () => {
+        console.log('Emitting leave room everyone in room');
+      });
+      io.to(room).disconnectSockets();
+    } else {
+      socket.emit('leave_room');
+      socket.disconnect();
+    }
+
+    // console.log(`user ${id} has left room`);
+  });
   socket.on('send_message', (data) => {
     io.to(data.roomId).emit('receive_message', {
       message: data.message,
@@ -237,11 +256,11 @@ console.log('User Room', io.adapter.rooms);
 const syncDB = () => db.sync();
 
 // Start the server
-const runServer = () => {
-  app.listen(EXPPORT, () => {
-    console.log(`Live on port: ${EXPPORT}`);
-  });
-};
+// const runServer = () => {
+//   app.listen(EXPPORT, () => {
+//     console.log(`Live on port: ${EXPPORT}`);
+//   });
+// };
 
 const runHttp = () => {
   http.listen(PORT, () => {
@@ -255,7 +274,7 @@ app.get('/', (req, res) => {
 });
 
 syncDB();
-runServer();
+// runServer();
 runHttp();
 
 (module.exports = app), configureApp(PORT);

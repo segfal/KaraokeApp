@@ -47,7 +47,8 @@ router.post("/login", async(req, res, next) => {
 // auth/signup
 router.post("/signup", async(req, res, next) => {
     try {
-        const {email, password, firstName, lastName} = req.body;
+        const {email, password, firstName, lastName,profilePic} = req.body;
+        
         if (!email || !password || !firstName || !lastName) {
             return res.status(400).send("Required fields missing");
         }

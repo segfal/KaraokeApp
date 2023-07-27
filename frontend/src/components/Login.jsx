@@ -9,13 +9,13 @@ const Login = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const data = useSelector((state)=>state);
+    const data = useSelector((state) => state.user.singleUser)
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleSubmit = (e) =>{
         e.preventDefault();
-        axios.post(`http://localhost:4100/auth/login`,{email: email, password: password})
+        axios.post(`http://localhost:4000/auth/login`,{email: email, password: password})
         .then((user)=>{
             console.log("SUBMIT RES FOR USER: ", user);
             dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id}));
