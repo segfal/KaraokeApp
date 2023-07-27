@@ -25,7 +25,7 @@ const Room = () => {
   const room = location.state ? location.state : socket.id;
   const [isCopied, setIsCopied] = useState(false);
   // const [messages, setMessages] = useState([]);
-  
+
   const handleCopyId = () => {
     navigator.clipboard.writeText(socket.id).then(
       function () {
@@ -42,30 +42,28 @@ const Room = () => {
     );
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     socket.on('leave_room', () => {
       navigate('/');
       navigate(0);
-    })
+    });
     return () => socket.off('leave_room');
-  }, [])
+  }, []);
   const handleLeaveRoom = () => {
     socket.emit('leave_room', socket.id);
     // navigate('/');
     // navigate(0);
-  }
+  };
 
   // const emitLeaveRoom = () => {
   //   socket.emit('leave_room', socket.id);
 
-   
   // }
 
   return (
     <div>
       {/* <ShareButton/> */}
       {/* <Queue/> */}
-      {/* <Participants/>  */}
       <h1>Room</h1>
       <h2>Room ID: {room}</h2>
       <button onClick={handleCopyId}>Copy Room ID</button>
@@ -73,6 +71,7 @@ const Room = () => {
       <Search roomId={room} />
       <User />
       <ChatBox roomId={room} />
+      <Participants />
       <button onClick={handleLeaveRoom}>Leave Room</button>
     </div>
   );
