@@ -6,7 +6,7 @@ import ShareButton from '../../ShareButton/ShareButton';
 import Search from '../Search/Search';
 import ChatBox from '../ChatBox/ChatBox';
 import React, { useEffect, useState, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SocketContext } from '../../../context';
 import UserVideo from '../UserVideo/UserVideo';
 import User from '../UserVideo/User';
@@ -19,12 +19,13 @@ const Room = () => {
   // const room = location.state;
   // const roomId = location.state; // socket.id
   // const [room, setRoom] = useState('');
+  const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const location = useLocation();
   const room = location.state ? location.state : socket.id;
   const [isCopied, setIsCopied] = useState(false);
   // const [messages, setMessages] = useState([]);
-
+  
   const handleCopyId = () => {
     navigator.clipboard.writeText(socket.id).then(
       function () {
@@ -41,6 +42,25 @@ const Room = () => {
     );
   };
 
+  useEffect(()=> {
+    socket.on('leave_room', () => {
+      navigate('/');
+      navigate(0);
+    })
+    return () => socket.off('leave_room');
+  }, [])
+  const handleLeaveRoom = () => {
+    socket.emit('leave_room', socket.id);
+    // navigate('/');
+    // navigate(0);
+  }
+
+  // const emitLeaveRoom = () => {
+  //   socket.emit('leave_room', socket.id);
+
+   
+  // }
+
   return (
     <div>
       {/* <ShareButton/> */}
@@ -53,6 +73,7 @@ const Room = () => {
       <Search roomId={room} />
       <User />
       <ChatBox roomId={room} />
+      <button onClick={handleLeaveRoom}>Leave Room</button>
     </div>
   );
 };
