@@ -10,6 +10,7 @@ export default {
         mainGreen: '#004643',
         mainWhite: '#fffffe',
         mainYellow: '#f9bc60',
+        lightGreen: '#abd1c6',
       },
       fontWeight: {
         'extra-light': 100,
