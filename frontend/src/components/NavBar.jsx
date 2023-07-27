@@ -34,28 +34,19 @@ const Navbar = () => {
   return (
     <div>
       <nav>
-        <div className="fixed top-0 left-0 text-right bg-green-500">
+        <div className="bg-mainGreen">
           <i>
-            <Link id="home" to={isAuthenticated ? "/profile" : "/"} className="text-none">HOME</Link>
+            <Link id="home" to={isAuthenticated ? "/profile" : "/"} className="text-left text-mainWhite ">HOME</Link>
           </i>
           <i>
-            {isAuthenticated && (<button onClick={handleLogout}>LOG OUT</button>)}
+            {isAuthenticated && (<button onClick={handleLogout} className="text-right">LOG OUT</button>)}
           </i>
           <i>
-            {!isAuthenticated && (<button onClick={handleLogin}>LOG IN</button>)}
+            {!isAuthenticated && (<button onClick={handleLogin} className="text-right">LOG IN</button>)}
           </i>
-          {/* <li>
-            {!isAuthenticated && (<Link to="/login">LOG IN</Link>)}
-          </li> */}
-
           <i>
-            {!isAuthenticated && (<button onClick={handleSignup}>SIGN UP</button>)}
+            {!isAuthenticated && (<button onClick={handleSignup} className="text-right">SIGN UP</button>)}
           </i>
-
-
-          {/* <li>
-            <Link to="/karaoke">KARAOKE</Link>
-          </li> */}
         </div>
       </nav>
     </div>

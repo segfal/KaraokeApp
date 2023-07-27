@@ -12,8 +12,8 @@ const Home = () => {
   // }
 
   return (
-    <div className='bg-primary'>
-      <h1 className="text-center text-secondary">Home</h1>
+    <div className='bg-mainGreen'>
+      <h1 className="text-center text-mainWhite">Home</h1>
       {console.log("SOCKET ID: ", socket.id)}
       {/* <div>
         <button onClick={handleLogin}>Log In</button>

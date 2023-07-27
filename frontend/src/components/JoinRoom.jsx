@@ -29,7 +29,8 @@ const JoinRoom = () => {
   };
   
   return (
-    <div className='flex flex-col'>
+    <div>
+      <div className='text-center flex flex-col bg-mainGreen'>
         <input
             type="text"
             placeholder="Enter room ID"
@@ -45,6 +46,7 @@ const JoinRoom = () => {
         <Link to={`/karaoke/${room}`} state={room}>
             <button onClick={handleJoinRoom}>Join Room</button>
         </Link>
+      </div>
     </div>
   )
 }
