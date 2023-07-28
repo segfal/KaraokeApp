@@ -6,7 +6,7 @@ import Queue from "../Queue/queue";
 import { SocketContext } from '../../../context';
 import "./search.css";
 
-const Search = ({roomId}) => {
+const Search = () => {
   const [ keyword, setKeyword ] = useState("");
   const dispatch = useDispatch();
   const socket = useContext(SocketContext);
@@ -50,7 +50,7 @@ const Search = ({roomId}) => {
         </button>
       </div>
       <div>
-      <Video roomId={roomId}/>
+      {/* <Video /> */}
       <Queue/>
       </div>
     </div>

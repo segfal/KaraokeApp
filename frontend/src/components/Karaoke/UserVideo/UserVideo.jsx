@@ -1,8 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { SocketContext } from "../../../context.tsx";
-import { PeerContext } from "../../../PeerContext.tsx";
-
-
+import React, { useEffect, useRef, useState } from "react";
 import { SingleUserVideo } from "./SingleUserVideo.jsx";
 
 const UserVideo = ({socket, peer}) => {
@@ -131,3 +127,4 @@ const UserVideo = ({socket, peer}) => {
 };
 
 export default UserVideo;
+
