@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Navigate, redirect, useNavigate, Link } from 'react-router-dom';
+import { Navigate, redirect, useNavigate, Link, useLocation } from 'react-router-dom';
 import { SocketContext } from '../context';
 import { PeerContext } from '../PeerContext';
 import Peer from 'peerjs';
 
 const JoinRoom = () => {
+  const location = useLocation();
+  const isProfilePage = location.pathname.indexOf('/profile') > -1;
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const peer = useContext(PeerContext);
@@ -28,7 +30,7 @@ const JoinRoom = () => {
   };
 
   return (
-    <div className='flex flex-col justify-center items-center font-montserrat rounded-lg p-4 shadow w-1/2 mx-auto mt-20'>
+    <>
       <p className='text-mainWhite text-center text-bold'>Do you have a Room ID? Join your virtual karaoke room below</p>
       <div className='text-center flex items-center'>
         <input
@@ -51,10 +53,12 @@ const JoinRoom = () => {
           <button onClick={handleJoinRoom} className="text-right font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2">JOIN ROOM</button>
         </Link>
       </div>
-      <div className="mt-4">
-        <p><Link to={"/signup"} className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm">Or register an account to create a room of your own</Link></p>
-      </div>
-    </div>
+      {!isProfilePage &&
+        <div className="mt-4">
+          <p><Link to={"/signup"} className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm">Or register an account to create a room of your own</Link></p>
+        </div>
+      }
+    </>
   );
 };
 
