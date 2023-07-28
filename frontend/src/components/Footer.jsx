@@ -4,7 +4,7 @@ import logo from "../assets/logo-footer.png";
 
 const Footer = () => {
     const location = useLocation();
-    const isHomePage = location.pathname === "/";
+    const isHomePage = location.pathname === "/" || location.pathname.indexOf('/profile') > -1;
     const navigate = useNavigate();
 
     return (

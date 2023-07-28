@@ -13,6 +13,7 @@ const Navbar = ({ userId }) => {
 
   const handleLogout = async () => {
     //using try catch to handle errors
+
     try {
       //axios call to logout
       const res = await axios.post(
@@ -23,6 +24,7 @@ const Navbar = ({ userId }) => {
       navigate(`/`);
     } catch (err) {
       console.log('LOGOUT ERROR: ', err);
+
     }
   };
 
