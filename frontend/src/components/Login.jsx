@@ -9,6 +9,7 @@ const Login = ({ setUserId }) => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
   const data = useSelector((state) => state.user.singleUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,7 +19,10 @@ const Login = ({ setUserId }) => {
     axios
       .post(
         `https://karaoke-backend-exp-production.up.railway.app/auth/login`,
-        { email: email, password: password }
+        {
+          email: email,
+          password: password,
+        }
       )
       .then((user) => {
         console.log('SUBMIT RES FOR USER: ', user);
@@ -36,6 +40,8 @@ const Login = ({ setUserId }) => {
       })
       .catch((err) => {
         console.log('SUBMIT LOGIN ERROR: ', err);
+        setError(true);
+        setTimeout(() => setError(false), 3000);
       });
   };
 
@@ -52,6 +58,11 @@ const Login = ({ setUserId }) => {
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center justify-center">
+          {error && (
+            <p className="text-red-500 font-semibold text-2xl">
+              Invalid email or password
+            </p>
+          )}
           <input
             type="email"
             onChange={(e) => {
@@ -87,44 +98,3 @@ const Login = ({ setUserId }) => {
 };
 
 export default Login;
-
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { useNavigate, Link } from "react-router-dom";
-
-// const Login = () => {
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         // Do the login request here using axios or any other method you prefer
-//         // For example, using axios:
-//         axios.post('/auth/login', {
-//             email: email,
-//             password: password
-//         })
-//         .then((response) => {
-//             // Handle the login success if needed
-//         })
-//         .catch((error) => {
-//             // Handle login error if needed
-//         });
-//     };
-
-//     return (
-//         <div>
-//             <h1>LOG IN</h1>
-//             {/* /auth/login */}
-//             <form onSubmit={handleSubmit}>
-//                 <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" name="email" />
-//                 <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" name="password" />
-//                 <button type="submit">Log in</button>
-//             </form>
-//             <p>OR</p>
-//             <Link to="/signup">Create an account</Link>
-//         </div>
-//     );
-// };
-
-// export default Login;
