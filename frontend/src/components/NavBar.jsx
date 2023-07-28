@@ -14,7 +14,7 @@ const Navbar = () => {
     //using try catch to handle errors
     try{
         //axios call to logout
-        const res = await axios.post(`http://https://karaoke-backend-exp-production.up.railway.app/auth/logout`);
+        const res = await axios.post(`https://karaoke-backend-exp-production.up.railway.app/auth/logout`);
         console.log("LOGOUT RES: ", res);
         setIsAuthenticated(false);
         navigate(`/`);
