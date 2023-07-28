@@ -39,7 +39,7 @@ const MusicCard = ({video}) => {
         <div>
             {console.log("VIDEO: ", video)}
             
-            <h1>{video.title}</h1>
+            <h1 className=''>{video.title}</h1>
             <img src={video.thumbnail} alt={"No image"}/>
             {console.log("VIDEO LINK: ", video.link)}
             <button onClick={handleDelete}>

@@ -18,6 +18,7 @@ const Search = ({ roomId }) => {
   };
 
   const handleSearch = async (event) => {
+
     dispatch(getVideoThunk(keyword, socket, roomId));
   };
 
@@ -70,6 +71,7 @@ const Search = ({ roomId }) => {
         <Video roomId={roomId} />
         <Queue />
       </div>
+
     </div>
   );
 };
