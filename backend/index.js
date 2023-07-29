@@ -141,7 +141,7 @@ io.on('connection', (socket) => {
     }
     roomParticipants[data.room].push({ id: id, name: username });
 
-    socket.emit('existing-participants', roomParticipants[data.room]);
+    socket.to(room).emit('existing-participants', roomParticipants[data.room]);
   });
   //   socket.on('join_room', (roomId, userId) => {
   //     console.log(roomId, userId)

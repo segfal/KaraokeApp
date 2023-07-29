@@ -173,15 +173,15 @@ const UserVideo = ({ socket, peer }) => {
         //   );
         // });
 
-        peer.on("call", async (call) => {
+        peer.on("call", (call) => {
           // if (mediaReady) {
             try {
-              const stream = await navigator.mediaDevices.getUserMedia(
-                  {
-                      audio: true,
-                      video: true,
-                  });
-                  call.answer(stream);
+              // const stream = await navigator.mediaDevices.getUserMedia(
+              //     {
+              //         audio: true,
+              //         video: true,
+              //     });
+                  call.answer(mediaStream);
                   call.on("stream", (userVideoStream) => {
                     console.log("sending call")
                     console.log(" 2: hello")
@@ -229,7 +229,7 @@ const UserVideo = ({ socket, peer }) => {
       userStream?.getTracks().forEach((track) => track.stop());
       socket.off("user-connected");
     };
-  }, [socket, peer, mediaReady]);
+  }, [socket, peer]);
 
   useEffect(() => {
     const handleUserDisconnected = (userId) => {
@@ -251,29 +251,27 @@ const UserVideo = ({ socket, peer }) => {
   }, []);
 
   const handleMute = () => {
-    setMute(!mute);
-    userStream.getAudioTracks()[0].enabled = mute;
+    userStream.getAudioTracks()[0].enabled = !userStream.getAudioTracks()[0].enabled;
   };
 
   const handleVideo = () => {
-    setVideoView(!videoView);
-    userStream.getVideoTracks()[0].enabled = videoView;
+    userStream.getVideoTracks()[0].enabled = !userStream.getVideoTracks()[0].enabled;
   };
 
-  const handleLoad = () => {
-    console.log("Media is ready");
-    setTimeout(()=> {
-      setMediaReady(true);
-    }, 1000)
+  // const handleLoad = () => {
+  //   console.log("Media is ready");
+  //   setTimeout(()=> {
+  //     setMediaReady(true);
+  //   }, 1000)
     
-  }
+  // }
 
   console.log(peers);
 
   return (
     <div id="video-group">
       <div>Video</div>
-      <video className="user-vid" ref={video} autoPlay muted={true} onLoadedData={handleLoad}></video>
+      <video className="user-vid" ref={video} autoPlay muted={true} ></video>
       <button onClick={handleMute}>Mute Audio</button>
       <button onClick={handleVideo}>Start Video</button>
       {Object.keys(peers).map((peerId, i) => (
