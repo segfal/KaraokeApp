@@ -37,7 +37,7 @@ const Signup = () => {
             console.log("SUBMIT RES FOR USER: ", user);
             dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id,profilePic: user.data.profilePic}));
             setIsAuthenticated(true);
-            navigate(`/profile/${user.data.id}}`);
+            navigate(`/profile/${user.data.id}`);
         })
         .catch((err)=>{
             console.log(err);
@@ -45,7 +45,9 @@ const Signup = () => {
     }
 
     const handleFileChange = (e) =>{
+        e.preventDefault();
         setSelectedFile(e.target.files[0]);
+        
     }
     const handleUpload = (e) =>{
         const reader = new FileReader();
@@ -110,22 +112,36 @@ const Signup = () => {
     }, [image])
 
     return (
-        <div>
-            <h1>SIGN UP</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" onChange={(e)=>{setFirstname(e.target.value)}} placeholder="First name" name="firstname"></input>
-                <input type="text" onChange={(e)=>{setLastname(e.target.value)}} placeholder="Last name" name="lastname"></input>
-                <input type="email" onChange={(e)=>{setEmail(e.target.value)}} placeholder="Email" name="email"></input>
-                <input type="password" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" name="password"></input>
-                <input type="file" onChange={handleFileChange} name="image"></input>
-                {image && <img src={image} alt="preview"></img>}
-                <button onClick={handleUpload}>Upload</button> {/* For some reason this acts like a submit button, need to fix */}
-                <button type="submit">Sign up</button>
-            </form>
+        <div className='bg-lightGreen font-montserrat h-[calc(100vh-208px)] pt-16 flex flex-col items-center justify-center'>
+            <h1 className='text-4xl pb-12 font-extra-extrabold'>Welcome to the Serenade community!</h1>
+            <div className='flex flex-col justify-center items-center font-montserrat rounded-lg py-6 shadow px-10 mx-auto bg-mainGreen w-2/3'>
+                <h1 className='font-semi-bold text-mainWhite text-lg'>Create a new account</h1>
+                <form onSubmit={handleSubmit}  className="flex flex-col items-center justify-center">
+                    <div className='flex items-center justify-center mb-4'>
+                        <div className="flex flex-col">
+                            <input type="text" onChange={(e)=>{setFirstname(e.target.value)}} placeholder="First name" name="firstname" className="rounded p-2 mt-4 w-64"></input>
+                            <input type="text" onChange={(e)=>{setLastname(e.target.value)}} placeholder="Last name" name="lastname" className="rounded p-2 mt-4 w-64"></input>
+                            <input type="email" onChange={(e)=>{setEmail(e.target.value)}} placeholder="Email" name="email" className="rounded p-2 mt-4 w-64"></input>
+                            <input type="password" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" name="password" className="rounded p-2 mt-4 w-64"></input>
+                        </div>
+                        <div className='flex flex-col items-center justify-center ml-8'>
+                            <div className='bg-bgGreen rounded p-2 mb-2 w-64 flex flex-col items-center justify-center mt-4'>
+                                 <label className='text-gray-600'>Profile Picture</label>
+                                <input type="file" onChange={handleFileChange} name="image" className='w-64 flex text-center p-2'></input>
+                                <button type="button" onClick={handleUpload} className="underline">Upload to view a preview</button>
+                                {image && (
+                                    <div className="w-24 h-24 rounded-full overflow-hidden m-2">
+                                        <img src={image} alt="Preview" className="object-cover w-full h-full" />
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" className="text-right font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2">SIGN UP</button>
+                </form>
 
-            <p>OR</p>
-
-            <Link to="/login">Log in to an existing account</Link>
+                <Link to="/login" className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm mt-4">Log in to an existing account</Link>
+            </div>
         </div>
     )
 }

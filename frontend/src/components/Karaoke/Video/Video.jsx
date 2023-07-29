@@ -21,15 +21,9 @@ const Video = () => {
   //console.log("All Videos ", uniqueVideos);
   
   const [link, setLink] = useState(uniqueVideos[0] ? uniqueVideos[0] : "hello");
-  
   const roomId = socket.id;
-  
   const [playing, setPlaying] = useState(true);
   const [ended, setEnded] = useState(true);
-
-  
-
-
 
   useEffect(()=> {
     socket.on('sync_video', (link) => {
@@ -65,17 +59,8 @@ const Video = () => {
 
   // Setting the next video
   const handleEnd = () => {
-   
       setLink(uniqueVideos[0]);
- 
   };
-
-
-  
-  const nextVideo = () => {
-    setEnded(false)
-    
-  }
 
   // Pause useEffect
   useEffect(() => {
@@ -135,34 +120,47 @@ const Video = () => {
 
 
   if (!(video)  || link === undefined) {
-    return <div><h1>Add a video</h1></div>;
+    return (
+      <div className="relative mt-4" style={{ paddingTop: "56.25%" }}>
+        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black rounded-md">
+          <h1 className="font-extra-bold uppercase text-white text-2xl animate-pulse">Add a song</h1>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="video-responsive">
-      <ReactPlayer
-        url = {link}
-        playing={playing}
-        controls={true}
-        width="853px"
-        height="480px"
-        onPause={() => console.log("paused")}
-        onPlay={() => console.log("playing")}
-        onEnded={() => {
-          handleEnd();
-          endVideo();
-        }}
-        autoPlay={false}
-      />
-      
-      <div>
-        {playing ? (
-          <button onClick={pauseVideo}>Pause</button>
-        ) : (
-          <button onClick={resumeVideo}>Resume</button>
-        )}
-        <button onClick={nextVideo}>Next Song</button>
-        
+    <div className="video-responsive relative mt-4" style={{ paddingTop: "56.25%" }}>
+      <div className="absolute top-0 left-0 w-full h-full bg-black flex flex-col items-center justify-center rounded-md">
+        <ReactPlayer
+          url={link}
+          playing={playing}
+          controls={true}
+          onPause={() => console.log("paused")}
+          onPlay={() => console.log("playing")}
+          onEnded={() => {
+            handleEnd();
+            endVideo();
+          }}
+          autoPlay={false}
+          width="100%"
+          height="100%"
+        />
+        <div className="mt-4">
+          {playing ? (
+            <button onClick={pauseVideo} className="text-white font-extra-bold bg-red-600 rounded-md px-4 py-2 mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7.5 0A.75.75 0 0115 4.5h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H15a.75.75 0 01-.75-.75V5.25z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          ) : (
+            <button onClick={resumeVideo} className="text-white font-extra-bold bg-green-600 rounded-md px-4 py-2 mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd" d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
