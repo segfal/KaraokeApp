@@ -105,10 +105,10 @@ const configureApp = async (PORT) => {
 // ---------------------SOCKET CONNECTION---------------------
 
 const roomParticipants = {};
-var peerId;
 var room;
 io.on('connection', (socket) => {
-  
+  var peerId;
+
 
   // Create room
   // console.log('SOCKET', socket.id);

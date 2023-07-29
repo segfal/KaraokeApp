@@ -50,7 +50,7 @@ const Search = () => {
         </button>
       </div>
       <div>
-      {/* <Video /> */}
+      <Video />
       <Queue/>
       </div>
     </div>

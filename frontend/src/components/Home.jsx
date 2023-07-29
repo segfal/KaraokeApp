@@ -6,7 +6,10 @@ import logo from "../assets/logo-name.png";
 const Home = () => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
-  
+  const mediaStream = navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true,
+  });
   return (
     <div className='bg-mainGreen font-montserrat h-screen'>
       <div className="text-center text-mainWhite">
