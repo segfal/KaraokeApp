@@ -41,13 +41,15 @@ const Queue = () => {
   }, [])
 
   return (
-    <div>
-      <div>Queue</div>
+    <div className='bg-bgGreen p-3 mt-[69px] rounded overflow-y-auto h-[683px]'>
+      <h1 className='text-xl font-extra-black'>Up Next</h1>
 
       {console.log("QUEUE: ", vidInfo)}
       
       {vidInfo.map((video, index) => (
-        <MusicCard key={index} video={video}/>
+        <div key={index} className={index === 0 ? 'bg-red' : ''}>
+          <MusicCard video={video}/>
+        </div>
       ))}
     </div>
   )

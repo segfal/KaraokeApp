@@ -93,7 +93,6 @@ const UserVideo = ({ socket, peer }) => {
 
   return (
     <div id="video-group">
-      <div>Video</div>
       <video className="user-vid" ref={video} autoPlay muted={true} ></video>
       <button onClick={handleMute}>Mute Audio</button>
       <button onClick={handleVideo}>Start Video</button>
