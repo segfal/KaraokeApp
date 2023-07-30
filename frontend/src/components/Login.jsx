@@ -9,6 +9,7 @@ const Login = ({ setUserId }) => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
   const data = useSelector((state) => state.user.singleUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -18,7 +19,10 @@ const Login = ({ setUserId }) => {
     axios
       .post(
         `https://karaoke-backend-exp-production.up.railway.app/auth/login`,
-        { email: email, password: password }
+        {
+          email: email,
+          password: password,
+        }
       )
       .then((user) => {
         console.log('SUBMIT RES FOR USER: ', user);
@@ -36,6 +40,8 @@ const Login = ({ setUserId }) => {
       })
       .catch((err) => {
         console.log('SUBMIT LOGIN ERROR: ', err);
+        setError(true);
+        setTimeout(() => setError(false), 3000);
       });
   };
 
@@ -52,6 +58,11 @@ const Login = ({ setUserId }) => {
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center justify-center">
+          {error && (
+            <p className="text-red-500 font-semibold text-2xl">
+              Invalid email or password
+            </p>
+          )}
           <input
             type="email"
             onChange={(e) => {
@@ -87,4 +98,3 @@ const Login = ({ setUserId }) => {
 };
 
 export default Login;
-
