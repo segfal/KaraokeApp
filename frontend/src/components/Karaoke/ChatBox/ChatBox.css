@@ -1,9 +1,4 @@
-.chatbox-container {
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: 300px;
-  margin: 10px;
-}
+
 
 .message-list {
   max-height: 200px;

@@ -131,7 +131,7 @@ const Video = () => {
 
   return (
     <div className="video-responsive relative mt-4" style={{ paddingTop: "56.25%" }}>
-      <div className="absolute top-0 left-0 w-full h-full bg-black flex flex-col items-center justify-center rounded-md">
+      <div className="absolute top-0 left-0 w-full h-full bg-bgGreen flex flex-col items-center justify-center rounded-md p-3">
         <ReactPlayer
           url={link}
           playing={playing}
@@ -146,7 +146,7 @@ const Video = () => {
           width="100%"
           height="100%"
         />
-        <div className="mt-4">
+        <div className="mt-2">
           {playing ? (
             <button onClick={pauseVideo} className="text-white font-extra-bold bg-red-600 rounded-md px-4 py-2 mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
