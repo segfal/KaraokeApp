@@ -19,7 +19,7 @@ export const SingleUserVideo = ({ videoStream }) => {
         // };
       }
     };
-    console.log("video", video);
+    // console.log("video", video);
     setVideoStream();
 
     // return () => {
