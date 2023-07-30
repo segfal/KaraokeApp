@@ -36,7 +36,7 @@ const MusicCard = ({video}) => {
 
     
     return(
-        <div className='flex mt-3 w-full justify-between'>
+        <div className='flex w-full justify-between'>
             {console.log("VIDEO: ", video)}
             <div className='flex justify-items-start'>
                 <img src={video.thumbnail} alt={"No image"}/>

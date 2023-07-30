@@ -47,7 +47,7 @@ const Queue = () => {
       {console.log("QUEUE: ", vidInfo)}
       
       {vidInfo.map((video, index) => (
-        <div key={index} className={index === 0 ? "bg-red-400" : ''}>
+        <div key={index} className={index === 0 ? "bg-red-400 p-2 rounded mt-3" : 'mt-3'}>
           <MusicCard video={video}/>
         </div>
       ))}
