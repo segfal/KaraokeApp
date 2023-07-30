@@ -31,14 +31,14 @@ export const SingleUserVideo = ({ videoStream }) => {
   }, [videoStream]);
 
   return (
-    <div id="user-vid">
+    <div className="mr-4 bg-lightGreen rounded p-2 mb-8">
       {/* <div>SingleVid</div> */}
       {/* {video ? (
         <video className="user-vid" ref={video} autoPlay muted={false} />
       ) : (
         <h2>...Loading</h2>
       )} */}
-      <video className="user-vid" ref={video} autoPlay muted={false} />
+      <video className="w-[200px] h-[150px]" ref={video} autoPlay muted={false} />
     </div>
     
   );
