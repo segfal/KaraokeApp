@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { setUserThunk } from '../redux/User/User.action';
 import { useDispatch } from 'react-redux';
 import {S3Client, PutObjectCommand} from '@aws-sdk/client-s3';
-import data from '../creds.json'
+import data from '../creds.json';
 import { AuthContext } from '../App';
 
 const Signup = () => {
