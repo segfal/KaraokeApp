@@ -3,8 +3,8 @@ import { io, Socket } from 'socket.io-client';
 
 // const backend_url = import.meta.env.VITE_BACKEND_URL
 
-const socket = io("http://localhost:4000"),
-// const socket = io("https://karaoke-backend-exp-production.up.railway.app/"),
+
+const socket = io("https://karaoke-backend-exp-production.up.railway.app/"),
 SocketContext = createContext<Socket>(socket);
 
 socket.on('connect', () => console.log('connected to socket'));
