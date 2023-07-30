@@ -21,7 +21,6 @@ cd backend && npx nodemon index.js
 cd frontend && npm run dev
  ```
 
-[<img src="https://github.com/{{ contributor }}.png" width="60px;"/><br /><sub><ahref="https://github.com/{{ contributor }}">{{ contributor }}</a></sub>](https://github.com/{{ contributor }}/{{ repository }}
 
 
 
