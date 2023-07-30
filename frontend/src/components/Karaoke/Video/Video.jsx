@@ -27,7 +27,7 @@ const Video = () => {
 
   useEffect(()=> {
     socket.on('sync_video', (link) => {
-      console.log("FIRING SYNC_VIDEO IN USEEFFECT")
+      // console.log("FIRING SYNC_VIDEO IN USEEFFECT")
       dispatch(syncVideo(link))
   })
     // dispatch(syncVideo);

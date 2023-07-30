@@ -11,7 +11,7 @@ const UserVideo = ({ socket, peer }) => {
 
 
   useEffect(() => {
-    // console.log("Is media ready? ", mediaReady)
+//    // console.log("Is media ready? ", mediaReady)
     const getDeviceMedia = async () => {
       try {
         const mediaStream = await navigator.mediaDevices.getUserMedia({
@@ -27,25 +27,25 @@ const UserVideo = ({ socket, peer }) => {
             try {
                   call.answer(mediaStream);
                   call.on("stream", (userVideoStream) => {
-                    // console.log("sending call")
+//                    // console.log("sending call")
                     setPeers((prevPeers) => ({
                       ...prevPeers,
                       [call.peer]: userVideoStream,
                     }));
                   });
                 }catch (err) {
-                  console.log('*** ERROR returning the stream: ' + err);
+//                  console.log('*** ERROR returning the stream: ' + err);
                 };
-            // console.log("answering call")
+//            // console.log("answering call")
         });
 
         socket.on("user-connected", (userId) => {
-          console.log("Is media ready? ", mediaReady) 
+//          console.log("Is media ready? ", mediaReady) 
               setTimeout(() => {
-                // console.log("Executing peer call")
+//                // console.log("Executing peer call")
                 const call = peer.call(userId, mediaStream);
                 call.on("stream", (userVideoStream) => {
-                  // console.log("receiving call")
+//                  // console.log("receiving call")
                   setPeers((prevPeers) => ({
                     ...prevPeers,
                     [call.peer]: userVideoStream,
@@ -69,7 +69,7 @@ const UserVideo = ({ socket, peer }) => {
 
   useEffect(() => {
     const handleUserDisconnected = (userId) => {
-      alert(`${userId} has left`);
+      // alert(`${userId} has left`);
       setPeers((prevPeers) => {
         const newPeers = { ...prevPeers };
         delete newPeers[userId];
@@ -93,7 +93,7 @@ const UserVideo = ({ socket, peer }) => {
     !isVisible ? setIsVisible(true) : setIsVisible(false);
     userStream.getVideoTracks()[0].enabled = !userStream.getVideoTracks()[0].enabled;
   };
-  console.log(peers);
+//  console.log(peers);
 
   return (
     <div className="flex items-center justify-center pb-[8px]">
