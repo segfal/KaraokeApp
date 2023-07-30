@@ -37,7 +37,7 @@ const Signup = () => {
             console.log("SUBMIT RES FOR USER: ", user);
             dispatch(setUserThunk({firstName: user.data.firstName, lastName: user.data.lastName, email: user.data.email, id: user.data.id,profilePic: user.data.profilePic}));
             setIsAuthenticated(true);
-            navigate(`/profile/${user.data.id}}`);
+            navigate(`/profile/${user.data.id}`);
         })
         .catch((err)=>{
             console.log(err);
@@ -45,7 +45,9 @@ const Signup = () => {
     }
 
     const handleFileChange = (e) =>{
+        e.preventDefault();
         setSelectedFile(e.target.files[0]);
+        
     }
     const handleUpload = (e) =>{
         const reader = new FileReader();
@@ -126,7 +128,7 @@ const Signup = () => {
                             <div className='bg-bgGreen rounded p-2 mb-2 w-64 flex flex-col items-center justify-center mt-4'>
                                  <label className='text-gray-600'>Profile Picture</label>
                                 <input type="file" onChange={handleFileChange} name="image" className='w-64 flex text-center p-2'></input>
-                                <button onClick={handleUpload} className="underline">Upload to view a preview</button>
+                                <button type="button" onClick={handleUpload} className="underline">Upload to view a preview</button>
                                 {image && (
                                     <div className="w-24 h-24 rounded-full overflow-hidden m-2">
                                         <img src={image} alt="Preview" className="object-cover w-full h-full" />

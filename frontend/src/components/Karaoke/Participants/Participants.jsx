@@ -48,11 +48,10 @@ const Participants = () => {
 
   return (
     <div>
-      <h3>Participants</h3>
-      <div>
-        {participants.map((participant, index) => (
-          <div key={index}>{participant.name}</div>
-        ))}
+      <div className='border border-gray-300 p-[10px] w-[300px] m-[10px] h-[150px] overflow-y-auto'>
+          {participants.map((participant, index) => (
+            <div key={index} className="text-left">{participant.name}</div>
+          ))}
       </div>
     </div>
   );

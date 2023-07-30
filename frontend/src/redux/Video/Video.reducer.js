@@ -47,7 +47,7 @@ const VideoReducer = (state = initialState, action) => {
             }
         case VideoActionTypes.REMOVE_VIDEO:
 
-            console.log("In remove_video reducer")
+            
             
             return {
                 ...state,

@@ -13,6 +13,7 @@ const Navbar = ({ userId }) => {
 
   const handleLogout = async () => {
     //using try catch to handle errors
+
     try {
       //axios call to logout
       const res = await axios.post(
@@ -23,6 +24,7 @@ const Navbar = ({ userId }) => {
       navigate(`/`);
     } catch (err) {
       console.log('LOGOUT ERROR: ', err);
+
     }
   };
 
@@ -46,7 +48,7 @@ const Navbar = ({ userId }) => {
 
   return (
     <div>
-      <nav className="bg-mainGreen font-montserrat font-extra-bold px-4 py-3 flex justify-between items-center shadow-md fixed top-0 left-0 w-full">
+      <nav className="bg-mainGreen font-montserrat font-extra-bold px-4 py-3 flex justify-between items-center shadow-md fixed top-0 left-0 w-full z-10">
         <div className="flex items-center">
           <img src={logo} alt="Serenade" className="h-10 w-10 mr-4"></img>
           <i>

@@ -103,10 +103,13 @@ const configureApp = async (PORT) => {
 };
 
 // ---------------------SOCKET CONNECTION---------------------
+
 const roomParticipants = {};
+var room;
 io.on('connection', (socket) => {
   var peerId;
-  var room;
+
+
   // Create room
   // console.log('SOCKET', socket.id);
   socket.on('create_room', (roomId, username) => {
@@ -138,7 +141,7 @@ io.on('connection', (socket) => {
     }
     roomParticipants[data.room].push({ id: id, name: username });
 
-    socket.emit('existing-participants', roomParticipants[data.room]);
+    socket.to(room).emit('existing-participants', roomParticipants[data.room]);
   });
   //   socket.on('join_room', (roomId, userId) => {
   //     console.log(roomId, userId)
@@ -149,8 +152,9 @@ io.on('connection', (socket) => {
   // });
 
   socket.on('disconnect', () => {
+    console.log("What room I'm emitting to" , room)
     console.log('A user disconnected', peerId);
-    io.emit('user-disconnected', peerId);
+    io.to(room).emit('user-disconnected', peerId);
 
     // Remove the disconnected user from the room's participants list
     for (let room in roomParticipants) {
