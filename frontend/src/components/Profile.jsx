@@ -10,6 +10,7 @@ const Profile = () => {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.user.singleUser);
+  const [firstName, setFirstName] = useState('');
   console.log('USER INFO: ', userInfo);
 
   useEffect(() => {
