@@ -23,7 +23,7 @@ cd frontend && npm run dev
 
 
 
-
+```bash
 
 ├── README.md├── README.md
 ├── backend
@@ -218,3 +218,5 @@ cd frontend && npm run dev
 ├── package-lock.json
 ├── package.json
 └── run.sh
+
+```
