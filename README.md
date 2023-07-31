@@ -1,7 +1,7 @@
 <div style="text-align: center;">
 
 # Welcome To Serenade 🎤
-## An app where you can sing with you friends at home 🏠
+## A real-time virtual karaoke platform where you can sing and view along with anyone from the comfort of your own home ♪🏠
 
 ![singer](./sing.gif)
 </div>
