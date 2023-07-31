@@ -17,7 +17,7 @@ const Navbar = ({ userId }) => {
     try {
       //axios call to logout
       const res = await axios.post(
-        `http://https://karaoke-backend-exp-production.up.railway.app/auth/logout`
+        `https://karaoke-backend-exp-production.up.railway.app/auth/logout`
       );
       console.log('LOGOUT RES: ', res);
       setIsAuthenticated(false);

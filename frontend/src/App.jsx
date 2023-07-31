@@ -32,6 +32,8 @@ function App() {
   // };
 
   return (
+    <div>
+      <title className="text-mainWhite">Serenade</title>
     <SocketProvider>
       <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
         {' '}
@@ -59,6 +61,7 @@ function App() {
         </Router>
       </AuthContext.Provider>
     </SocketProvider>
+    </div>
   );
 }
 

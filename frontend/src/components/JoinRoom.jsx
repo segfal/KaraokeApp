@@ -30,35 +30,50 @@ const JoinRoom = () => {
   };
 
   return (
-    <>
-      <p className='text-mainWhite text-center text-bold'>Do you have a Room ID? Join your virtual karaoke room below</p>
-      <div className='text-center flex items-center'>
-        <input
-            type="text"
-            placeholder="Enter room ID"
-            value={room}
-            onChange={(event) => setRoom(event.target.value)}
-            className="rounded p-2 mr-4"
-        />
-        <input
-            type="text"
-            placeholder="Enter your name"
-            value={user}
-            onChange={(event) => setUser(event.target.value)}
-            className="rounded p-2 my-4"
-        />
-      </div>
-      <div>
-        <Link to={`/karaoke/${room}`} state={room}>
-          <button onClick={handleJoinRoom} className="text-right font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2">JOIN ROOM</button>
+<>
+  <p className="text-mainWhite text-center font-semibold">
+    Do you have a Room ID? Join your virtual karaoke room below
+  </p>
+  <div className="text-center flex flex-col items-center">
+    <input
+      type="text"
+      placeholder="Enter room ID"
+      value={room}
+      onChange={(event) => setRoom(event.target.value)}
+      className="rounded p-2 my-2 w-full max-w-xs mb-2"
+    />
+    <input
+      type="text"
+      placeholder="Enter your name"
+      value={user}
+      onChange={(event) => setUser(event.target.value)}
+      className="rounded p-2 my-2 w-full max-w-xs"
+    />
+  </div>
+  <div className="mt-4 text-center">
+    <Link to={`/karaoke/${room}`} state={room}>
+      <button
+        onClick={handleJoinRoom}
+        className="font-semibold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2 w-full max-w-xs"
+      >
+        JOIN ROOM
+      </button>
+    </Link>
+  </div>
+  {!isProfilePage && (
+    <div className="mt-4 text-center">
+      <p>
+        <Link
+          to={"/signup"}
+          className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm"
+        >
+          Or register an account to create a room of your own
         </Link>
-      </div>
-      {!isProfilePage &&
-        <div className="mt-4">
-          <p><Link to={"/signup"} className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm">Or register an account to create a room of your own</Link></p>
-        </div>
-      }
-    </>
+      </p>
+    </div>
+  )}
+</>
+
   );
 };
 
