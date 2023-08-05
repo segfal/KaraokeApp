@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { User } = require("../db/models")
 
+
 const bodyParser = require('body-parser');
 
 
@@ -10,31 +11,20 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 router.use(bodyParser.json());
 
-
-
-// router.get("/", (req, res, next) => {
-//     res.send("Hello World");
-// }
-// )
-
-
-
-
-
-
-
 // auth/login
 router.post("/login", async(req, res, next) => {
     try {
         console.log("REQ BODY: ", req.body);
+        console.log(User.findOne({where: {email: req.body.email}}));
         const user = await User.findOne({where: {email: req.body.email}});
         console.log("REQ BODY: ", req.body);
-        if (!user || !user.correctPassword(req.body.password)) {
+        if (!user || !(await user.correctPassword(req.body.password))) {
             console.log("invalid");
             res.status(401).send("Invalid login attempt");
         } else {
             // Log in with Passport.js
             console.log("success");
+            console.log("Correct pw", user.correctPassword(req.body.password));
             const userJ = JSON.stringify(user);
             console.log("USER: ", JSON.stringify(user));
             req.login(userJ, err => (err ? next(err) : res.status(200).json(user)));
