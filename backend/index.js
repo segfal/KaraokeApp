@@ -46,7 +46,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const User = require('./db/models/user');
+const { User } = require('./db/models/user');
 
 // Mount on API
 app.use('/api', require('./api'));
@@ -60,9 +60,10 @@ const serializeUser = (user, done) => {
   console.log('USER SESSION: ', user);
   done(null, user);
 };
-const deserializeUser = async (id, done) => {
+const deserializeUser = async (userInfo, done) => {
+  console.log('USER ID: ', userInfo)
   try {
-    const user = await db.models.User.findByPk(id);
+    const user = await db.models.User.findByPk(userInfo.id);
     done(null, user);
   } catch (error) {
     done(error);

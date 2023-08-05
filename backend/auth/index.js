@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { User } = require("../db/models")
 
+
 const bodyParser = require('body-parser');
 
 
@@ -10,17 +11,11 @@ router.use(bodyParser.urlencoded({ extended: true }));
 // parse application/json
 router.use(bodyParser.json());
 
-
-
-
-
-
-
-
 // auth/login
 router.post("/login", async(req, res, next) => {
     try {
         console.log("REQ BODY: ", req.body);
+        console.log(User.findOne({where: {email: req.body.email}}));
         const user = await User.findOne({where: {email: req.body.email}});
         console.log("REQ BODY: ", req.body);
         if (!user || !user.correctPassword(req.body.password)) {
