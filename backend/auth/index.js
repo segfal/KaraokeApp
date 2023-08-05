@@ -12,12 +12,6 @@ router.use(bodyParser.json());
 
 
 
-// router.get("/", (req, res, next) => {
-//     res.send("Hello World");
-// }
-// )
-
-
 
 
 
