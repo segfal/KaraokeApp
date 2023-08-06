@@ -12,7 +12,7 @@ const Home = () => {
   });
 
   useEffect(()=> {
-    console.log(socket)
+    // console.log(socket)
   }, [socket])
 
   return (
