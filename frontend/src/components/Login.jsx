@@ -58,11 +58,6 @@ const Login = ({ setUserId }) => {
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center justify-center">
-          {error && (
-            <p className="text-red-500 font-semibold text-2xl">
-              Invalid email or password
-            </p>
-          )}
           <input
             type="email"
             onChange={(e) => {
@@ -78,10 +73,17 @@ const Login = ({ setUserId }) => {
             }}
             placeholder="Password"
             name="password"
-            className="rounded p-2 my-4 w-64"></input>
+            className="rounded p-2 mt-4 w-64"></input>
+          {error && (
+            <div className='text-left'>
+              <p className="text-red-500 font-semibold text-left mt-4">
+                *Invalid email or password
+              </p>
+            </div>
+          )}
           <button
             type="submit"
-            className="text-right font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2">
+            className="font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2 mt-4">
             LOG IN
           </button>
         </form>
