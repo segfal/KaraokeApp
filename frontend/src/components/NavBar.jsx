@@ -1,15 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../App';
 import axios from 'axios';
 import logo from '../assets/logo.png';
 import { SocketContext } from '../context';
+
 // Logo and user profile is also supposed to display
 
 const Navbar = ({ userId }) => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
+
 
   const handleLogout = async () => {
     //using try catch to handle errors
@@ -38,11 +40,13 @@ const Navbar = ({ userId }) => {
 
   const handleHome = () => {
     if (isAuthenticated) {
-      socket.emit('leave_room', socket.id);
       navigate(`/profile/${userId}`);
+      socket.emit('leave_room', socket.id);
+      console.log(socket);
     } else {
       navigate('/');
-      socket.emit('leave_room', socket.id);
+      navigate(0);
+      // socket.emit('leave_room', socket.id);
     }
   };
 
