@@ -30,7 +30,7 @@ cd frontend && npm run dev
     <td align="center"><a href="https://github.com/huda-ayaz"><img src="https://avatars.githubusercontent.com/u/107296362?v=4" width="100px;" alt=""/><br /></td>
     <td align="center"><a href="https://github.com/vnoel02"><img src="https://avatars.githubusercontent.com/u/125239380?v=4" width="100px;" alt=""/><br /></td>
     <td align="center"><a href="https://github.com/Unknown-Pplayer"><img src="https://avatars.githubusercontent.com/u/88214188?v=4" width="100px;" alt=""/><br /></td>
-    <td align="center"><a href="https://github.com/anyichen212"><img src="https://avatars.githubusercontent.com/u/88214188?v=4" width="100px;" alt=""/><br /></td>
+    <td align="center"><a href="https://github.com/anyichen212"><img src="https://avatars.githubusercontent.com/u/55215189?v=4" width="100px;" alt=""/><br /></td>
     <td align="center"><a href="https://github.com/Jacky-Tung"><img src="https://avatars.githubusercontent.com/u/110960384?v=4" width="100px;" alt=""/><br /></td>
     <td align="center"><a href="https://github.com/dhungwt"><img src="https://avatars.githubusercontent.com/u/112122672?v=4" width="100px;" alt=""/><br /></td>
 
