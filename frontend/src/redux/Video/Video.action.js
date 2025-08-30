@@ -22,9 +22,43 @@ export const removeFromQueue = (payload) => ({
     payload
 })
 
+export const removeVideo = (videoLink, roomId) => ({
+    type: VideoActionTypes.REMOVE_FROM_QUEUE,
+    payload: videoLink
+})
+
 export const clearQueue = () => ({
     type: VideoActionTypes.CLEAR_QUEUE
 })
+
+export const syncVideo = (payload) => ({
+    type: VideoActionTypes.SYNC_VIDEO,
+    payload
+})
+
+export const syncVideoInfo = (payload) => ({
+    type: VideoActionTypes.SYNC_VIDEO,
+    payload
+})
+
+export const getVideoThunk = (keyword, socket, roomId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(`${backend_url}/api/video/addmusic/${keyword}`);
+            const videoData = {
+                link: response.data.link,
+                title: response.data.title,
+                thumbnail: response.data.thumbnail
+            };
+            
+            dispatch(addToQueue(videoData));
+            socket.emit('vid_info', { ...videoData, room: roomId });
+            socket.emit('add_to_queue', { roomId });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
 
 export const addVideoThunk = (keyword, socket, roomId) => {
     return async (dispatch) => {

@@ -1,52 +1,16 @@
-import React, { useContext, useState, useEffect} from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { AuthContext } from '../App';
-import axios from 'axios';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { SocketContext } from '../context';
 
-// Logo and user profile is also supposed to display
-
-const Navbar = ({ userId }) => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+const Navbar = () => {
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
 
-
-  const handleLogout = async () => {
-    //using try catch to handle errors
-
-    try {
-      //axios call to logout
-      const res = await axios.post(
-        `http://https://karaoke-backend-exp-production.up.railway.app/auth/logout`
-      );
-      console.log('LOGOUT RES: ', res);
-      setIsAuthenticated(false);
-      navigate(`/`);
-    } catch (err) {
-      console.log('LOGOUT ERROR: ', err);
-
-    }
-  };
-
-  const handleLogin = () => {
-    navigate('/login');
-  };
-
-  const handleSignup = () => {
-    navigate('/signup');
-  };
-
   const handleHome = () => {
-    if (isAuthenticated) {
-      navigate(`/profile/${userId}`);
+    navigate('/');
+    if (socket) {
       socket.emit('leave_room', socket.id);
-      console.log(socket);
-    } else {
-      navigate('/');
-      navigate(0);
-      // socket.emit('leave_room', socket.id);
     }
   };
 
@@ -58,7 +22,7 @@ const Navbar = ({ userId }) => {
           <i>
             <Link
               id="home"
-              to={isAuthenticated ? `/profile/${userId}` : '/'}
+              to="/"
               onClick={handleHome}
               className="text-left text-mainWhite font-extra-extrabold hover:underline mr-4"
               style={{ fontStyle: 'normal' }}>
@@ -67,33 +31,9 @@ const Navbar = ({ userId }) => {
           </i>
         </div>
         <div className="flex items-center">
-          {isAuthenticated && (
-            <i>
-              <button
-                onClick={handleLogout}
-                className="text-right font-extra-extrabold  hover:underline text-mainWhite p-2">
-                LOG OUT
-              </button>
-            </i>
-          )}
-          {!isAuthenticated && (
-            <>
-              <i>
-                <button
-                  onClick={handleLogin}
-                  className="text-right font-extra-extrabold hover:underline text-mainWhite p-2 mr-4">
-                  LOG IN
-                </button>
-              </i>
-              <i>
-                <button
-                  onClick={handleSignup}
-                  className="text-right font-extra-extrabold bg-mainYellow rounded-md hover:bg-mainWhite transition-colors duration-200 ease-in-out p-2">
-                  SIGN UP
-                </button>
-              </i>
-            </>
-          )}
+          <span className="text-mainWhite text-sm">
+            No login required - just join a room and start singing!
+          </span>
         </div>
       </nav>
     </div>

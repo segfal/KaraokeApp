@@ -21,32 +21,27 @@
 ## Outline of the project
 
 ```bash
-
-├── README.md├── README.md
+├── README.md
 ├── backend
 │   ├── api
 │   │   ├── index.js
 │   │   ├── room.js
-│   │   ├── user.js
 │   │   └── video.js
-│   ├── auth
-│   │   └── index.js
 │   ├── db
 │   │   ├── db.js
 │   │   ├── index.js
 │   │   └── models
 │   │       ├── index.js
 │   │       ├── room.js
-│   │       ├── user.js
 │   │       └── video.js
 │   ├── index.js
-│   ├── package-lock.json
+│   ├── index-original.js
+│   ├── index-simple.js
 │   ├── package.json
 │   └── seed.js
 ├── frontend
 │   ├── _redirects
 │   ├── index.html
-│   ├── package-lock.json
 │   ├── package.json
 │   ├── postcss.config.js
 │   ├── public
@@ -54,6 +49,8 @@
 │   ├── src
 │   │   ├── App.css
 │   │   ├── App.jsx
+│   │   ├── App-original.jsx
+│   │   ├── App-simple.jsx
 │   │   ├── Context.tsx
 │   │   ├── PeerContext.tsx
 │   │   ├── assets
@@ -88,26 +85,20 @@
 │   │   │   │   └── Video
 │   │   │   │       ├── Video.css
 │   │   │   │       └── Video.jsx
-│   │   │   ├── Login.jsx
 │   │   │   ├── NavBar.jsx
 │   │   │   ├── Profile.jsx
-│   │   │   ├── ShareButton
-│   │   │   │   ├── ShareButton.css
-│   │   │   │   └── ShareButton.jsx
-│   │   │   └── Signup.jsx
+│   │   │   └── SimpleHome.jsx
 │   │   ├── images
 │   │   │   └── share.png
 │   │   ├── index.css
 │   │   ├── main.jsx
+│   │   ├── main-original.jsx
+│   │   └── main-simple.jsx
 │   │   └── redux
 │   │       ├── Room
 │   │       │   ├── Room.actions.js
 │   │       │   ├── Room.reducer.js
 │   │       │   └── Room.types.js
-│   │       ├── User
-│   │       │   ├── User.action.js
-│   │       │   ├── User.reducer.js
-│   │       │   └── User.types.js
 │   │       ├── Video
 │   │       │   ├── Video.action.js
 │   │       │   ├── Video.reducer.js
@@ -116,104 +107,42 @@
 │   │       └── store.js
 │   ├── tailwind.config.js
 │   └── vite.config.js
-├── package-lock.json
+├── docs/
+│   ├── README.md
+│   ├── getting-started.md
+│   ├── optimization-notes.md
+│   ├── project-overview.md
+│   └── technical-details.md
+├── diagrams/
+│   ├── project-summary.md
+│   ├── redux-simplification.md
+│   ├── socket-optimization.md
+│   ├── system-cleanup.md
+│   └── webrtc-architecture.md
 ├── package.json
 └── run.sh
-├── backend
-│   ├── api
-│   │   ├── index.js
-│   │   ├── room.js
-│   │   ├── user.js
-│   │   └── video.js
-│   ├── auth
-│   │   └── index.js
-│   ├── db
-│   │   ├── db.js
-│   │   ├── index.js
-│   │   └── models
-│   │       ├── index.js
-│   │       ├── room.js
-│   │       ├── user.js
-│   │       └── video.js
-│   ├── index.js
-│   ├── package-lock.json
-│   ├── package.json
-│   └── seed.js
-├── frontend
-│   ├── _redirects
-│   ├── index.html
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.js
-│   ├── public
-│   │   └── vite.svg
-│   ├── src
-│   │   ├── App.css
-│   │   ├── App.jsx
-│   │   ├── Context.tsx
-│   │   ├── PeerContext.tsx
-│   │   ├── assets
-│   │   │   ├── logo-footer.png
-│   │   │   ├── logo-name.png
-│   │   │   ├── logo.png
-│   │   │   └── react.svg
-│   │   ├── components
-│   │   │   ├── Footer.jsx
-│   │   │   ├── Home.jsx
-│   │   │   ├── JoinRoom.jsx
-│   │   │   ├── Karaoke
-│   │   │   │   ├── ChatBox
-│   │   │   │   │   ├── ChatBox.css
-│   │   │   │   │   └── ChatBox.jsx
-│   │   │   │   ├── Participants
-│   │   │   │   │   └── Participants.jsx
-│   │   │   │   ├── Queue
-│   │   │   │   │   ├── MusicCard.jsx
-│   │   │   │   │   ├── Queue.css
-│   │   │   │   │   └── Queue.jsx
-│   │   │   │   ├── Room
-│   │   │   │   │   └── Room.jsx
-│   │   │   │   ├── Search
-│   │   │   │   │   ├── Search.css
-│   │   │   │   │   └── Search.jsx
-│   │   │   │   ├── UserVideo
-│   │   │   │   │   ├── SingleUserVideo.jsx
-│   │   │   │   │   ├── User.jsx
-│   │   │   │   │   ├── UserVideo.css
-│   │   │   │   │   └── UserVideo.jsx
-│   │   │   │   └── Video
-│   │   │   │       ├── Video.css
-│   │   │   │       └── Video.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── NavBar.jsx
-│   │   │   ├── Profile.jsx
-│   │   │   ├── ShareButton
-│   │   │   │   ├── ShareButton.css
-│   │   │   │   └── ShareButton.jsx
-│   │   │   └── Signup.jsx
-│   │   ├── images
-│   │   │   └── share.png
-│   │   ├── index.css
-│   │   ├── main.jsx
-│   │   └── redux
-│   │       ├── Room
-│   │       │   ├── Room.actions.js
-│   │       │   ├── Room.reducer.js
-│   │       │   └── Room.types.js
-│   │       ├── User
-│   │       │   ├── User.action.js
-│   │       │   ├── User.reducer.js
-│   │       │   └── User.types.js
-│   │       ├── Video
-│   │       │   ├── Video.action.js
-│   │       │   ├── Video.reducer.js
-│   │       │   └── Video.types.js
-│   │       ├── root-reducer.js
-│   │       └── store.js
-│   ├── tailwind.config.js
-│   └── vite.config.js
-├── package-lock.json
-├── package.json
-└── run.sh
-
 ```
+
+## Features
+
+- **Real-time Video Chat**: WebRTC-powered video communication
+- **Karaoke Queue**: Add and manage songs in a shared queue
+- **Chat System**: Real-time messaging between participants
+- **No Authentication Required**: Simply enter a room ID and start singing
+- **Responsive Design**: Works on desktop and mobile devices
+- **YouTube Integration**: Search and add songs from YouTube
+
+## Quick Start
+
+1. Clone the repository
+2. Run `./run.sh` to install dependencies
+3. Start the backend: `cd backend && npm run dev`
+4. Start the frontend: `cd frontend && npm run dev`
+5. Open your browser and join a room!
+
+## Technology Stack
+
+- **Frontend**: React, Redux, Socket.IO, WebRTC, Tailwind CSS
+- **Backend**: Node.js, Express, Socket.IO, Sequelize
+- **Database**: PostgreSQL
+- **Deployment**: Railway, Netlify

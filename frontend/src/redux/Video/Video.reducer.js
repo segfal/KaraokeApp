@@ -43,11 +43,15 @@ const VideoReducer = (state = initialState, action) => {
                 nowPlaying: null
             }
 
+        case VideoActionTypes.SYNC_VIDEO:
+            return {
+                ...state,
+                nowPlaying: action.payload
+            }
+
         default:
             return state;
     }
 }
-
-
 
 export default VideoReducer;

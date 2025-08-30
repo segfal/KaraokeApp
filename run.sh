@@ -1,1 +1,1 @@
-cd frontened && npm i && cd .. && cd backend && npm i && cd ..
+cd frontend && npm i && cd .. && cd backend && npm i && cd ..

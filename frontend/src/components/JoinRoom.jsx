@@ -55,7 +55,7 @@ const JoinRoom = () => {
       </div>
       {!isProfilePage &&
         <div className="mt-4">
-          <p><Link to={"/signup"} className="text-mainWhite hover:text-gray-500 hover:underline transition-all text-sm">Or register an account to create a room of your own</Link></p>
+          <p className="text-mainWhite text-sm">Just enter a room ID and your name to start singing!</p>
         </div>
       }
     </>

@@ -3,7 +3,8 @@ const VideoActionTypes = {
     SET_NOW_PLAYING: 'SET_NOW_PLAYING',
     ADVANCE_QUEUE: 'ADVANCE_QUEUE',
     REMOVE_FROM_QUEUE: 'REMOVE_FROM_QUEUE',
-    CLEAR_QUEUE: 'CLEAR_QUEUE'
+    CLEAR_QUEUE: 'CLEAR_QUEUE',
+    SYNC_VIDEO: 'SYNC_VIDEO'
 }
 
 export default VideoActionTypes;

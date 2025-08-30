@@ -15,8 +15,7 @@ const Footer = () => {
             </div>
             <div className={`${isHomePage ? "text-mainGreen" : "text-lightGreen"} flex items-center justify-center text-mainGreen`}>
                 <Link to="/" className={`${isHomePage ? "hover:text-black text-mainGreen" : "hover:text-mainWhite text-lightGreen"} mr-8 hover:underline`}>Home</Link>
-                <Link to="/login" className={`${isHomePage ? "hover:text-black text-mainGreen" : "hover:text-mainWhite text-lightGreen"} mr-8 hover:underline`}>Log In</Link>
-                <Link to="/signup" className={`${isHomePage ? "hover:text-black text-mainGreen" : "hover:text-mainWhite text-lightGreen"} hover:underline`}>Sign Up</Link>
+                <span className={`${isHomePage ? "text-mainGreen" : "text-lightGreen"} text-sm`}>No login required - just join a room and start singing!</span>
             </div>
         </footer>
     )
