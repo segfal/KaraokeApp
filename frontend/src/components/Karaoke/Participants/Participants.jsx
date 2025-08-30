@@ -8,7 +8,6 @@ const Participants = () => {
   useEffect(() => {
     const handleUserConnected = (userId, name) => {
       const participantInfo = { id: userId, name: name };
-      // console.log('participantInfo: ', participantInfo);
       setParticipants((prevParticipants) => [
         ...prevParticipants,
         participantInfo,

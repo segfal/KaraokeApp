@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
-const db = require('./db');
 const PORT = process.env.PORT || 4000;
-
 const http = require('http').Server(app);
 const cors = require('cors');
 const io = require('socket.io')(http, {
@@ -13,52 +11,31 @@ const io = require('socket.io')(http, {
 });
 
 app.use(cors());
-
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Mount on API
-app.use('/api', require('./api'));
-
-// ---------------------SOCKET CONNECTION---------------------
-
+// Simple in-memory storage for rooms
 const roomParticipants = {};
 const roomStates = {};
-var room;
-
-// Heartbeat system
-const heartbeatInterval = 30000;
-const reconnectBackoff = {
-  initial: 1000,
-  max: 30000,
-  multiplier: 1.5
-};
 
 io.on('connection', (socket) => {
   var peerId;
   let heartbeatTimer;
-  let reconnectAttempts = 0;
 
   // Start heartbeat
   const startHeartbeat = () => {
     heartbeatTimer = setInterval(() => {
       socket.emit('ping');
-    }, heartbeatInterval);
+    }, 30000);
   };
 
   socket.on('pong', () => {
-    reconnectAttempts = 0;
+    // Reset reconnect attempts
   });
 
   startHeartbeat();
 
-
   // Create room
-  // console.log('SOCKET', socket.id);
   socket.on('create_room', (roomId, username) => {
     socket.join(roomId);
     console.log(`User created room: ${roomId}`);
@@ -70,7 +47,6 @@ io.on('connection', (socket) => {
     }
     roomParticipants[roomId].push({ name: username });
     socket.emit('existing-participants', roomParticipants[roomId]);
-    room = roomId;
   });
 
   // Join room
@@ -98,7 +74,7 @@ io.on('connection', (socket) => {
     }
     roomStates[data.room].participants = roomParticipants[data.room];
 
-    socket.to(room).emit('existing-participants', roomParticipants[data.room]);
+    socket.to(data.room).emit('existing-participants', roomParticipants[data.room]);
   });
 
   // Request room state on reconnect
@@ -107,86 +83,39 @@ io.on('connection', (socket) => {
       socket.emit('room_state', roomStates[roomId]);
     }
   });
-  //   socket.on('join_room', (roomId, userId) => {
-  //     console.log(roomId, userId)
-  //     socket.join(roomId)
-  //     console.log(`${userId} has joined room ${roomId}`)
-  //     socket.to(roomId).emit('user-connected', userId)
-  //     peerId = userId;
-  // });
 
   socket.on('disconnect', () => {
     clearInterval(heartbeatTimer);
-    console.log("What room I'm emitting to" , room)
     console.log('A user disconnected', peerId);
-    io.to(room).emit('user-disconnected', peerId);
-
-    // Remove the disconnected user from the room's participants list
+    
+    // Remove the disconnected user from all rooms
     for (let roomId in roomParticipants) {
       roomParticipants[roomId] = roomParticipants[roomId].filter(
         (participant) => participant.id !== peerId
       );
-      // Update room state
       if (roomStates[roomId]) {
         roomStates[roomId].participants = roomParticipants[roomId];
       }
     }
   });
 
-  // Handle links
-  // socket.on('link', (data) => {
-  //   //console.log("data: ", data)
-  //   //console.log("socket.room: ", socket.rooms)
-
-  //   io.to(data.room).emit('link', data.link);
-  // });
-
-  // Debounced video controls
-  const pauseResumeDebounce = new Map();
-  
+  // Video controls
   socket.on('on_resume', (data) => {
-    const key = `${data.roomId}_resume`;
-    if (pauseResumeDebounce.has(key)) {
-      clearTimeout(pauseResumeDebounce.get(key));
-    }
-    
-    pauseResumeDebounce.set(key, setTimeout(() => {
-      console.log('data for resume: ', data.roomId);
-      io.to(data.roomId).emit('resume', data.roomId);
-      pauseResumeDebounce.delete(key);
-    }, 300));
+    console.log('data for resume: ', data.roomId);
+    io.to(data.roomId).emit('resume', data.roomId);
   });
 
   socket.on('on_pause', (data) => {
-    const key = `${data.roomId}_pause`;
-    if (pauseResumeDebounce.has(key)) {
-      clearTimeout(pauseResumeDebounce.get(key));
-    }
-    
-    pauseResumeDebounce.set(key, setTimeout(() => {
-      console.log('data for pause: ', data.roomId);
-      io.to(data.roomId).emit('pause', data.roomId);
-      pauseResumeDebounce.delete(key);
-    }, 300));
+    console.log('data for pause: ', data.roomId);
+    io.to(data.roomId).emit('pause', data.roomId);
   });
 
   socket.on('get_video', (data) => {
     console.log('data for get_video: ', data);
-    console.log('Listening for get_video');
-    console.log('IO ADAPTER ROOMS', io.sockets.adapter.rooms);
     io.to(data.room).emit('sync_video', data.link);
   });
 
-  // Throttled participant and queue updates
-  const updateThrottle = new Map();
-  
   socket.on('vid_info', (data) => {
-    const key = `${data.room}_vid_info`;
-    if (updateThrottle.has(key)) return;
-    
-    updateThrottle.set(key, true);
-    setTimeout(() => updateThrottle.delete(key), 1000);
-    
     io.to(data.room).emit('vid_info', {
       title: data.title,
       thumbnail: data.thumbnail,
@@ -210,23 +139,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add_to_queue', (data) => {
-    const key = `${data.roomId}_add_queue`;
-    if (updateThrottle.has(key)) return;
-    
-    updateThrottle.set(key, true);
-    setTimeout(() => updateThrottle.delete(key), 1000);
-    
     console.log('data for add_to_queue: ', data.roomId);
     io.to(data.roomId).emit('add_to_queue', data.roomId);
   });
 
   socket.on('remove_from_queue', (data) => {
-    const key = `${data.roomId}_remove_queue`;
-    if (updateThrottle.has(key)) return;
-    
-    updateThrottle.set(key, true);
-    setTimeout(() => updateThrottle.delete(key), 1000);
-    
     console.log('data for remove_from_queue: ', data.roomId);
     io.to(data.roomId).emit('remove_from_queue', data.roomId);
   });
@@ -239,22 +156,15 @@ io.on('connection', (socket) => {
   });
 
   socket.on('leave_room', (id) => {
-    // This listener is dependent on the one who creates the room. The room id is from 'create_room' listener
-    console.log('ROOM', room);
     console.log('id', id);
-    if (id === room) {
-      io.to(room).emit('leave_room', () => {
-        console.log('Emitting leave room everyone in room');
-      });
-      io.to(room).disconnectSockets();
-    } else {
-      socket.emit('leave_room');
-      socket.disconnect();
-    }
-
-    // console.log(`user ${id} has left room`);
+    socket.emit('leave_room');
+    socket.disconnect();
   });
+
+  // Chat message handling
   socket.on('send_message', (data) => {
+    console.log('Received message:', data);
+    console.log('Broadcasting to room:', data.roomId);
     io.to(data.roomId).emit('receive_message', {
       message: data.message,
       username: data.username,
@@ -262,30 +172,13 @@ io.on('connection', (socket) => {
   });
 });
 
-console.log('User Room', io.adapter.rooms);
-
-// Potential sync, place db.sync({force: true }) to nuke data
-const syncDB = () => db.sync();
-
-// Start the server
-// const runServer = () => {
-//   app.listen(EXPPORT, () => {
-//     console.log(`Live on port: ${EXPPORT}`);
-//   });
-// };
-
-const runHttp = () => {
-  http.listen(PORT, () => {
-    console.log(`Live on port: ${PORT}`);
-  });
-};
-
-/// root route
+// Root route
 app.get('/', (req, res) => {
-  res.send({ status: 200 });
+  res.send({ status: 200, message: 'Video Chat Server Running' });
 });
 
-syncDB();
-runHttp();
-
-module.exports = app;
+// Start the server
+http.listen(PORT, () => {
+  console.log(`Video Chat Server running on port: ${PORT}`);
+  console.log(`No database required - using in-memory storage`);
+});

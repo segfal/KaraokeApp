@@ -1,87 +1,68 @@
 import VideoActionTypes from "./Video.types";
 import axios from "axios";
-import { SocketContext } from "../../context";
-import { useContext } from "react";
-
 
 const backend_url = import.meta.env.VITE_BACKEND_URL
 
-export const getVideo = (payload) => ({
-    type: VideoActionTypes.GET_VIDEO,
+export const addToQueue = (payload) => ({
+    type: VideoActionTypes.ADD_TO_QUEUE,
     payload
 })
 
-export const syncVideo = (payload) => ({
-    type: VideoActionTypes.SYNC_VIDEO,
+export const setNowPlaying = (payload) => ({
+    type: VideoActionTypes.SET_NOW_PLAYING,
     payload
 })
 
+export const advanceQueue = () => ({
+    type: VideoActionTypes.ADVANCE_QUEUE
+})
 
-export const syncVideoInfo = (payload) => ({
-    type: VideoActionTypes.SYNC_VIDEO_INFO,
+export const removeFromQueue = (payload) => ({
+    type: VideoActionTypes.REMOVE_FROM_QUEUE,
     payload
 })
 
-export const endVideo = (payload) => ({
-    type: VideoActionTypes.END_VIDEO,
-    payload
+export const clearQueue = () => ({
+    type: VideoActionTypes.CLEAR_QUEUE
 })
 
-
-export const removeVideo = (payload) => ({
-    type: VideoActionTypes.REMOVE_VIDEO,
-    payload
-})
-
-
-
-
-
-
-export const getVideoThunk = (keyword,socket,roomId) => {
+export const addVideoThunk = (keyword, socket, roomId) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(`${backend_url}/api/video/addmusic/${keyword}`);
-            //console.log("RESPONSE DATA----: ", response.data);
-            socket.emit('get_video', { link: response.data.link, room: roomId});
-            socket.emit('vid_info', { link: response.data.link, title: response.data.title, thumbnail: response.data.thumbnail, room: roomId });
-            socket.emit('sync_video', {link: response.data.link});
-            dispatch(getVideo({
-                
-                link:response.data.link,
+            const videoData = {
+                link: response.data.link,
                 title: response.data.title,
                 thumbnail: response.data.thumbnail
-                
+            };
             
-            }));
-        }
-        catch (error) {
+            dispatch(addToQueue(videoData));
+            socket.emit('vid_info', { ...videoData, room: roomId });
+            socket.emit('add_to_queue', { roomId });
+        } catch (error) {
             console.log(error);
         }
     }
 }
 
-
-export const endVideoThunk = () => {
+export const playNextThunk = (socket, roomId) => {
     return async (dispatch) => {
         try {
-            dispatch(endVideo());
+            dispatch(advanceQueue());
+            socket.emit('queue_updated', { roomId });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 }
 
-
-export const removeVideoThunk = (video,socket) => {
+export const removeVideoThunk = (videoLink, socket, roomId) => {
     return async (dispatch) => {
         try {
-            console.log("REDUX socket: ", socket);
-            console.log("REMOVE VIDEO THUNK");
-            dispatch(removeVideo(video));
-            socket.emit('remove_from_queue', { link: video });
+            dispatch(removeFromQueue(videoLink));
+            socket.emit('remove_from_queue', { roomId });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 }

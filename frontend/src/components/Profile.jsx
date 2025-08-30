@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import JoinRoom from './JoinRoom';
 import { SocketContext } from '../context';
-import moment from "moment";
+
 
 const Profile = () => {
   const socket = useContext(SocketContext);
@@ -26,6 +26,7 @@ const Profile = () => {
   }, []);
 
   const handleCreateRoom = () => {
+   
     let username = userInfo.firstName + ' (Admin)';
     socket.emit('create_room', socket.id, username);
     // let username = userInfo.firstName + ' (Admin)';
@@ -50,7 +51,7 @@ const Profile = () => {
           </div>
         </div>
         <div>
-          <p className='text-mainWhite mt-2 ml-6'>Serenading since: {moment(userInfo.createdAt).format("MMMM Do, YYYY")}</p>
+          
         </div>
       </div>
       <div className='ml-20'>

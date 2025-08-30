@@ -69,7 +69,8 @@ const Search = ({ roomId }) => {
               </svg>
             </button>
           </div>
-          <Video roomId={roomId} />
+          {/* <Video roomId={roomId} /> */}
+          <Video/>
         </div>
         <div className="w-1/4 mx-3">
           <Queue />
